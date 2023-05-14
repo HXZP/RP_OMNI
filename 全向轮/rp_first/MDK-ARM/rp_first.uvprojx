@@ -960,6 +960,11 @@
               <FilePath>..\USER\RP_MODULES\center.c</FilePath>
             </File>
             <File>
+              <FileName>rifle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RP_MODULES\rifle.c</FilePath>
+            </File>
+            <File>
               <FileName>gimbal.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_MODULES\gimbal.c</FilePath>
@@ -968,11 +973,6 @@
               <FileName>chassis.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_MODULES\chassis.c</FilePath>
-            </File>
-            <File>
-              <FileName>rifle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\RP_MODULES\rifle.c</FilePath>
             </File>
           </Files>
         </Group>

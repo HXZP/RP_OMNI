@@ -117,6 +117,31 @@ motor_t motor[MOTOR_LIST] =
 		
 		.mec_info.mec_mid = MOTOR_PIT_MID,
 	},
+
+	[FRI_R] = {
+	
+		.id.drive_type = M_CAN2,
+		.id.motor_type = RM3508,
+		.id.rx_id      = 0x201,
+
+		.init = &motor_class_init,
+	},	
+	[FRI_L] = {
+	
+		.id.drive_type = M_CAN2,
+		.id.motor_type = RM3508,
+		.id.rx_id      = 0x202,
+
+		.init = &motor_class_init,
+	},	
+	[BOX] = {
+	
+		.id.drive_type = M_CAN2,
+		.id.motor_type = RM3508,
+		.id.rx_id      = 0x203,
+
+		.init = &motor_class_init,
+	},
 	
 	[MOTOR_TEST] = {
 	

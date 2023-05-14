@@ -16,6 +16,10 @@ typedef enum
 	GIMB_Y,
 	GIMB_P,
 
+	FRI_R,
+	FRI_L,
+	BOX,
+	
 	MOTOR_TEST,
 	
 	MOTOR_LIST,

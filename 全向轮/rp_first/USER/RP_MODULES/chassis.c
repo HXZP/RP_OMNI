@@ -219,7 +219,7 @@ void Chassis_Power_Limit(chassis *chas,int16_t *data)
 {
 	float buffer = judge.data.power_heat_data.chassis_power_buffer;
 	
-	float heat_rate,Limit_k, CHAS_LimitOutput, CHAS_TotalOutput;
+	float heat_rate, Limit_k, CHAS_LimitOutput, CHAS_TotalOutput;
 	
 	uint16_t OUT_MAX = 0;
 	

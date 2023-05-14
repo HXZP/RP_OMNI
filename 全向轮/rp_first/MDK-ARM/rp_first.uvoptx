@@ -1699,8 +1699,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\USER\RP_MODULES\gimbal.c</PathWithFileName>
-      <FilenameWithoutPath>gimbal.c</FilenameWithoutPath>
+      <PathWithFileName>..\USER\RP_MODULES\rifle.c</PathWithFileName>
+      <FilenameWithoutPath>rifle.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1711,8 +1711,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\USER\RP_MODULES\chassis.c</PathWithFileName>
-      <FilenameWithoutPath>chassis.c</FilenameWithoutPath>
+      <PathWithFileName>..\USER\RP_MODULES\gimbal.c</PathWithFileName>
+      <FilenameWithoutPath>gimbal.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1723,8 +1723,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\USER\RP_MODULES\rifle.c</PathWithFileName>
-      <FilenameWithoutPath>rifle.c</FilenameWithoutPath>
+      <PathWithFileName>..\USER\RP_MODULES\chassis.c</PathWithFileName>
+      <FilenameWithoutPath>chassis.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

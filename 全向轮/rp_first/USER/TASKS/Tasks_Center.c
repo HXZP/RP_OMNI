@@ -74,9 +74,9 @@ void StartCommunityTask(void const * argument)
 
 			imu.algo.KP = IMU_PID_KP_CONTROL;
 		}
-		//		cap.setdata(&cap,60,60,0,0,150);
-		CAN1_SendData(0x2E,cap.data.Buff0x2E);
-		CAN1_SendData(0x2F,cap.data.Buff0x2F);
+//		cap.setdata(&cap,60,60,0,0,150);
+//		CAN1_SendData(0x2E,cap.data.Buff0x2E);
+//		CAN1_SendData(0x2F,cap.data.Buff0x2F);
 		
 #endif		
 
