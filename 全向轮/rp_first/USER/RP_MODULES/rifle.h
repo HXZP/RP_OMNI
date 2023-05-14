@@ -30,6 +30,8 @@ typedef enum {
 	
 	RIFLE_SHOOT_STOP,
 	
+	RIFLE_SHOOT_STUCK,
+	
 	RIFLE_SHOOT_ONCE,
 	RIFLE_SHOOT_STAY,
 	RIFLE_SHOOT_7,	
@@ -50,7 +52,9 @@ typedef struct rifle_info_struct{
 	rifle_state  HeatEnable;
 	
 	rifle_state  ShootReady;
+	rifle_state  Shooting;	
 	
+	rifle_ShootType ShootType;
 //	rifle_state  SpeedRecordFlag;
 	
 }rifle_info;
