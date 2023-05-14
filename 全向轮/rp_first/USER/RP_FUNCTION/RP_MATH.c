@@ -42,7 +42,7 @@ float RP_LimitTarget(float tar,float range)
 
 
 
-float Half_Turn(float angle,float max)
+float RP_HalfTurn(float angle,float max)
 {
 	if(abs(angle) > (max/2))
 	{	
@@ -53,4 +53,24 @@ float Half_Turn(float angle,float max)
 	}
 	return angle;
 }
+
+
+//返回值是绝对值
+float RP_GetAbsoluteMax(float *data,uint16_t num)
+{
+	float max = 0;
+	
+	
+	for(uint16_t i = 0 ; i < num ; i++)
+	{
+		if(abs(data[i]) > max)max = abs(data[i]);		
+	}
+
+	return max;
+}
+
+
+
+
+
 

@@ -3,7 +3,7 @@
 
 #include "stm32f4xx_hal.h"
 
-
+#define pi 3.141592654
 
 /* ÊýÖµº¯Êý */
 #define constrain(x, min, max)	((x>max)?max:(x<min?min:x))
@@ -14,7 +14,7 @@
 int16_t RampInt(int16_t final, int16_t now, int16_t ramp);
 float RampFloat(float final, float now, float ramp);
 float DeathZoom(float input, float center, float death);
-
+float RP_GetAbsoluteMax(float *data,uint16_t num);
 #endif
 
 

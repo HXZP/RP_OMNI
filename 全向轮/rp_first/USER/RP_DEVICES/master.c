@@ -49,8 +49,12 @@ void master_updata(struct master_struct *self,uint8_t *buff,uint32_t canId)
 	
 	if(canId == 0x100){
 	
-		memcpy(&self->data.imu_q,buff,sizeof(self->data.imu_q));
-	
+		memcpy(&self->data.imuRPY,buff,sizeof(self->data.imuRPY));
+	  
+		self->data.chasRPY.x = ((float)self->data.imuRPY.x)/8;
+		self->data.chasRPY.y = ((float)self->data.imuRPY.y)/8;
+		self->data.chasRPY.z = ((float)self->data.imuRPY.z)/8;
+		
 		self->info.offline_cnt = 0;
 	}
 	
@@ -67,14 +71,14 @@ void MASTER_sendBuff(void)
 	
 	uint8_t buff[8];
 	
-	master[M1].data.imu_q.q0 = imu.data.q.q0*30000.f;
-	master[M1].data.imu_q.q1 = imu.data.q.q1*30000.f;
-	master[M1].data.imu_q.q2 = imu.data.q.q2*30000.f;
-	master[M1].data.imu_q.q3 = imu.data.q.q3*30000.f;
+	master[M1].data.imuRPY.x = imu.data.rpy.roll*8.f;
+	master[M1].data.imuRPY.y = imu.data.rpy.pitch*8.f;
+	master[M1].data.imuRPY.z = imu.data.rpy.yaw*8.f;
+
 	
-	memcpy(buff,&master[M1].data.imu_q,sizeof(master[M1].data.imu_q));
+	memcpy(buff,&master[M1].data.imuRPY,sizeof(master[M1].data.imuRPY));
 	
-	CAN_SendUint8(0x100,buff,2,8);
+	CAN_SendUint8(0x100,buff,2,6);
 	
 #endif
 

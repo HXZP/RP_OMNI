@@ -64,17 +64,20 @@ void StartCommunityTask(void const * argument)
   for(;;)
   {
 		imu.updata(&imu);
-		
+
 		MASTER_sendBuff();
 		
 #if MASTER == 0U
 
 		/*等待imu数据收敛切换更低的kp用于控制使用*/
 		if(HAL_GetTick() > 1000){
-		
+
 			imu.algo.KP = IMU_PID_KP_CONTROL;
 		}
-
+		//		cap.setdata(&cap,60,60,0,0,150);
+		CAN1_SendData(0x2E,cap.data.Buff0x2E);
+		CAN1_SendData(0x2F,cap.data.Buff0x2F);
+		
 #endif		
 
     osDelay(1);

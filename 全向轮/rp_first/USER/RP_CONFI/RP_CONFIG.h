@@ -2,35 +2,6 @@
 #define __RP_CONFIG_H
 
 /*--------------------------------------
-说明书：
-
-2023.4.29 HXZP 1324146673@qq.com
-
-驱动部分全是抄马哥的模板代码
-陀螺仪部分抄了一些陈子龙的算法
-
-马哥代码链接：
-https://gitee.com/HaveALitttleSao/RP2021_HAL_Template/tree/master/
-
---------------------------------------
-
-全局宏定义控制界面
-
-尽量不要在头文件里包含，要在c文件里包含，负责会造成编译过久
-
---------------------------------------
-
-DSP使用添加文件路径的方法，需要什么添加什么不要全部加进去，也不要勾选keil的DSP配置
-
-使用cube后，需要用user中的cmsis文件替换drives中的cmsis
-
---------------------------------------
-
-#define MASTER 1U
-
-主控选择，使能不同的主控，并且切换相匹配的配置以及程序
-
---------------------------------------
 
 陀螺仪坐标系：
 power为主控电源位置，按下图摆放找坐标系
@@ -51,17 +22,15 @@ power为主控电源位置，按下图摆放找坐标系
 |            |
 |            |
  ------------
+全向轮功能拓扑：
 
- 主控坐标绕（x,y,z）旋转angle（角度制）
- 	#define IMU_POSE_ANGLE 0 
-	
-	#define IMU_POSE_AX    1
-	#define IMU_POSE_AY    0
-	#define IMU_POSE_AZ    0
-	
-陀螺仪切换通信方式后必须断一次电
-主控卡死大概率是imu初始化不成功
-部分大主控无法实现SPI通信
+底盘云台：机械模式、imu模式、小陀螺、视觉
+
+发射：连发、单发、定数发射
+
+自瞄：手打、自动打
+
+
 
 -----------------------------------------*/
 
@@ -96,6 +65,16 @@ power为主控电源位置，按下图摆放找坐标系
 #endif
 
 
+
+
+/*数据*/
+#define MOTOR_YAW_MID 0
+#define MOTOR_PIT_MID 0
+
+
+
+
+
 /*Devices Frivers Enable*/
 #define BMI_ENABLE    1U		
 #define CAN_ENABLE    1U
@@ -108,12 +87,12 @@ power为主控电源位置，按下图摆放找坐标系
 /*Test Enable*/
 #define USART_TEST    0U //Enable Usart Test
 
-#define RM_MOTOR_TEST            1U //Enable Motor Test
+#define RM_MOTOR_TEST            0U //Enable Motor Test
 #define RM_MOTOR_CAN_TYPR_TEST   1U //1 CAN1 2 CAN2
 #define RM_MOTOR_CAN_ID_TEST     0x205U //id
 #define RM_MOTOR_TYPE_TEST       1U //1 6020 2 3508 3 2006
 
-
+/*键盘读取使能*/
 #define RC_KEY_MONITOR       1U 
 
 

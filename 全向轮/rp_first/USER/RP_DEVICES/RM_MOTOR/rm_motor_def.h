@@ -27,11 +27,6 @@ typedef enum
 	M_OFFLINE = 0,	
 	
 	M_ONLINE,
-
-	M_TYPE_ERR,
-	M_ID_ERR,
-	M_INIT_ERR,	
-	M_DATA_ERR,
 	
 }motor_state_e;
 

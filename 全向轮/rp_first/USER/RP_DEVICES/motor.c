@@ -103,6 +103,9 @@ motor_t motor[MOTOR_LIST] =
 		.id.rx_id      = 0x205,
 
 		.init = &motor_class_init,
+		
+		.mec_info.mec_mid = MOTOR_YAW_MID,
+		
 	},
 	[GIMB_P] = {
 	
@@ -111,6 +114,8 @@ motor_t motor[MOTOR_LIST] =
 		.id.rx_id      = 0x206,
 		
 		.init = &motor_class_init,
+		
+		.mec_info.mec_mid = MOTOR_PIT_MID,
 	},
 	
 	[MOTOR_TEST] = {
@@ -148,6 +153,9 @@ float yaw_imu_inn_pid_param[7] = {100,0.3,0,0,15000,20000,20000};
 float pit_imu_out_pid_param[7] = {20,0,0,0,0,15000,20000};
 float pit_imu_inn_pid_param[7] = {300,0.2,0,0,15000,20000,20000};
 
+float yaw_speed_pid_param[7] = {0,0,0,0,15000,20000,20000};
+float pit_speed_pid_param[7] = {0,0,0,0,15000,20000,20000};
+
 void RM_MotorInit(void)
 {
 	for(uint16_t i = 0;i < (uint16_t)MOTOR_LIST;i++)
@@ -164,9 +172,11 @@ void RM_MotorInit(void)
 	motor[CHAS_3].pid_init(&motor[CHAS_3].pid.speed,chassis_speed_pid_param);
 	motor[CHAS_4].pid_init(&motor[CHAS_4].pid.speed,chassis_speed_pid_param);
 	
+	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.speed,   yaw_imu_out_pid_param);
 	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_imu_out_pid_param);
 	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle_in,yaw_imu_inn_pid_param);	
 	
+	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.speed,   pit_imu_out_pid_param);
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_imu_out_pid_param);
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle_in,pit_imu_inn_pid_param);	
 }
@@ -203,12 +213,6 @@ void RM_MotorControl_Test(void)
 
 
 
-
-
-
-
-
-
 char RM_MotorHeartBeat(void)
 {
 	char offline_cnt = 0;
@@ -240,6 +244,9 @@ void RM_MotorCAN1(uint32_t canId, uint8_t *rxBuf)
 	{
 		motor[i].rx(&motor[i],rxBuf,canId,M_CAN1);
 	}
+	
+	motor[GIMB_Y].c_offset(&motor[GIMB_Y],8192);
+	motor[GIMB_P].c_offset(&motor[GIMB_P],8192);
 	
 }
 

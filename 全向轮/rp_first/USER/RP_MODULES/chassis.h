@@ -1,6 +1,17 @@
 #ifndef __CHASSIS_H
 #define __CHASSIS_H
 
+
+#include "RP_FUNCTION.h"
+
+typedef enum { 
+	
+	CHAS_OMNI,
+	CHAS_MECA,
+	CHAS_HELM,
+	
+} chassis_Type;
+
 typedef enum { 
 	
 	CHAS_LOCK,
@@ -10,17 +21,10 @@ typedef enum {
 
 typedef enum { 
 	
-	CHAS_MASTER,
-	CHAS_FOLLOW,
+	CHAS_ONLINE,
+	CHAS_ERR,
 	
-} chassis_CtrlMode;
-
-typedef enum { 
-	
-	CHAS_MOTOR_ONLINE,
-	CHAS_MOTOR_ERR,
-	
-} chassis_MotorState;
+} chassis_State;
 
 typedef enum { 
 	
@@ -41,8 +45,10 @@ typedef struct {
 
 typedef struct chassis_info_struct{
 
-	chassis_CtrlMode   CtrlMode;
-  chassis_MotorState MotorState;
+	chassis_Type       Type;
+	
+  chassis_State      MotorState;
+	
   chassis_Direction  Direction;
 	chassis_Lock       Lock;
 	
@@ -51,8 +57,16 @@ typedef struct chassis_info_struct{
 	float VehicleLength;
 	float VehicleWide;
 	
+//	float RotationRate;
+	
 }chassis_info;
 
+typedef struct chassis_time_struct{
+
+	uint32_t LockTime;
+	uint32_t unLockTime;
+
+}chassis_time;
 
 typedef struct chassis_data_struct{
 
@@ -64,6 +78,9 @@ typedef struct chassis_data_struct{
 	float       WheelSet[4];
 	float       WheelReal[4];
 
+	float       PowerLimit;
+	float       PowerBuff;
+	
 }chassis_data;
 
 
@@ -73,28 +90,24 @@ typedef struct chassis_struct{
 
 	chassis_info info;
 	chassis_data data;
+  chassis_time time;
 
+  void (*ModifyLock)(struct chassis_struct *chas,chassis_Lock type);
+  void (*ModifyrpmMax)(struct chassis_struct *chas,float max);
+	void (*Updata)(struct chassis_struct *chas);
+	void (*Resolving)(struct chassis_struct *chas,float setX,float setY,float setZ);
+	void (*Ctrl)(struct chassis_struct *chas);
 
-
-
+	
 }chassis;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+extern chassis omni;
 
 #endif
+
+
+
+
 
 
 

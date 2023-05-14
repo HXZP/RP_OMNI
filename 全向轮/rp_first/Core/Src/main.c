@@ -106,9 +106,9 @@ int main(void)
   MX_IWDG_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-
+	
 	RP_INIT();
-		
+	
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

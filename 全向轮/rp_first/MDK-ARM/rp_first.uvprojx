@@ -939,11 +939,6 @@
               <FileType>1</FileType>
               <FilePath>..\USER\RP_FUNCTION\RP_MATH.c</FilePath>
             </File>
-            <File>
-              <FileName>RP_MATH.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USER\RP_FUNCTION\RP_MATH.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -960,14 +955,24 @@
           <GroupName>USER/MODULES</GroupName>
           <Files>
             <File>
-              <FileName>chassis.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USER\RP_MODULES\chassis.h</FilePath>
+              <FileName>center.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RP_MODULES\center.c</FilePath>
+            </File>
+            <File>
+              <FileName>gimbal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RP_MODULES\gimbal.c</FilePath>
             </File>
             <File>
               <FileName>chassis.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_MODULES\chassis.c</FilePath>
+            </File>
+            <File>
+              <FileName>rifle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RP_MODULES\rifle.c</FilePath>
             </File>
           </Files>
         </Group>
