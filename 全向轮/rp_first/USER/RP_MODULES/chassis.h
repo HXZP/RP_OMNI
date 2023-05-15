@@ -94,8 +94,10 @@ typedef struct chassis_struct{
 
   void (*ModifyLock)(struct chassis_struct *chas,chassis_Lock type);
   void (*ModifyrpmMax)(struct chassis_struct *chas,float max);
+	void (*ModifyXYZSet)(struct chassis_struct *chas,float setX,float setY,float setZ);
+	
 	void (*Updata)(struct chassis_struct *chas);
-	void (*Resolving)(struct chassis_struct *chas,float setX,float setY,float setZ);
+	void (*Resolving)(struct chassis_struct *chas);
 	void (*Ctrl)(struct chassis_struct *chas);
 
 	

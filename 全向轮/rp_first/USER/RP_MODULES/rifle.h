@@ -32,9 +32,8 @@ typedef enum {
 	
 	RIFLE_SHOOT_STUCK,
 	
-	RIFLE_SHOOT_ONCE,
+	RIFLE_SHOOT_SET,
 	RIFLE_SHOOT_STAY,
-	RIFLE_SHOOT_7,	
 	
 } rifle_ShootType;
 
@@ -54,6 +53,8 @@ typedef struct rifle_info_struct{
 	rifle_state  ShootReady;
 	rifle_state  Shooting;	
 	
+	rifle_state  Magazine;
+	
 	rifle_ShootType ShootType;
 //	rifle_state  SpeedRecordFlag;
 	
@@ -65,7 +66,7 @@ typedef struct rifle_time_struct{
 	uint32_t LockTime;
 	uint32_t unLockTime;	
 	
-	uint32_t StuckTime;
+	uint32_t StuckTimeJudeg;
 	uint32_t StuckTimeStart;		
 
 	uint32_t FriEnableTime;
@@ -95,31 +96,33 @@ typedef struct rifle_data_struct{
 	float FriTempR;
 	float FriTempL;
 	
+	float BoxSpeed;
+	float BoxPosition;	
+	float BoxTorque;
+	
+	float BoxNumSet;
+	float BoxSpeedSet;
+	float BoxPositionSet;	
+	
 	int16_t SpeedLimit;
 	int16_t SpeedLimitPre;
 	
 	int16_t HeatLimit;
 	
-	float Heat;
-		
+	float Heat;	
 	float Speed;
 	float SpeedPre;
 	
-	float BoxSpeed;
-	float BoxPosition;	
+	uint16_t SpeedLowNum;
+	int16_t  SpeedHightCom;
 	
-	float BoxSpeedSet;
-	float BoxPositionSet;
+	uint16_t SpeedUpNum;
+	uint16_t SpeedDownNum;	
 	
-	int16_t SpeedLowNum;
-	int16_t SpeedHightCom;
-	
-	int16_t SpeedUpNum;
-	int16_t SpeedDownNum;	
-	
-	float BulletNum;
+	uint16_t BulletNum;
 
 	uint16_t HeatEnableNum;
+
 	
 }rifle_data;
 
@@ -133,7 +136,15 @@ typedef struct rifle_struct{
   rifle_time   time;
 	rifle_friSet friTable;
 	
-
+	void (*ModifyLock)(struct rifle_struct *self,rifle_Lock type);
+	void (*ModifyFri)(struct rifle_struct *self,rifle_state state);
+	void (*ModifyMagazine)(struct rifle_struct *self,rifle_state state);
+	void (*ModifyShootType)(struct rifle_struct *self,rifle_ShootType type,uint16_t number);
+	
+	void (*Updata)(struct rifle_struct *self);
+	void (*BoxCtrl)(struct rifle_struct *self);	
+	void (*FrictionCtrl)(struct rifle_struct *self);
+  void (*MagazineCtrl)(struct rifle_struct *self);
 }rifle;
 
 #endif

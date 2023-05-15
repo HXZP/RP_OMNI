@@ -16,9 +16,12 @@
 
 static void Chassis_ModifyLock(chassis *chas,chassis_Lock type);
 static void Chassis_ModifyrpmMax(chassis *chas,float max);
+static void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ);
+	
 static void Chassis_Updata(chassis *chas);
-static void Chassis_Resolving(chassis *chas,float setX,float setY,float setZ);
+static void Chassis_Resolving(chassis *chas);
 static void Chassis_Ctrl(chassis *chas);
+
 static void Chassis_Power_Limit(chassis *chas,int16_t *data);
 
 chassis omni = {
@@ -37,6 +40,8 @@ chassis omni = {
 	
 	.ModifyLock     = Chassis_ModifyLock,
 	.ModifyrpmMax   = Chassis_ModifyrpmMax,
+	.ModifyXYZSet   = Chassis_ModifyXYZSet,
+	
 	.Updata         = Chassis_Updata,
 	.Resolving      = Chassis_Resolving,
 	.Ctrl           = Chassis_Ctrl,
@@ -65,6 +70,8 @@ void Chassis_ModifyLock(chassis *chas,chassis_Lock type)
 	}	
 }
 
+
+
 /** @FUN  修改底盘最大速度
   * @velocity m/s
   */
@@ -73,6 +80,26 @@ void Chassis_ModifyrpmMax(chassis *chas,float max)
 	chas->data.WheelrpmMax = max;
 }
 
+
+
+/** @FUN  修改底盘速度目标
+  * @xyz -100~100
+  */
+void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
+{
+	if(chas->info.Direction == CHAS_BACKWARD){
+	
+		chas->data.VelocitySet.x = -setX;
+		chas->data.VelocitySet.y = -setY;
+		chas->data.VelocitySet.z =  setZ;
+	}
+	else{
+	
+		chas->data.VelocitySet.x = setX;
+		chas->data.VelocitySet.y = setY;
+		chas->data.VelocitySet.z = setZ;
+	}
+}
 
 /**
   * @xyz m/s
@@ -125,24 +152,11 @@ void Chassis_Updata(chassis *chas)
 
 
 /**
-  * 解算轮子的转速 @xyz -100~100
+  * 解算轮子的转速 
   */
-void Chassis_Resolving(chassis *chas,float setX,float setY,float setZ)
+void Chassis_Resolving(chassis *chas)
 {
 	float velocity[4],velocityAbsoluteMax;
-	
-	if(chas->info.Direction == CHAS_BACKWARD){
-	
-		chas->data.VelocitySet.x = -setX;
-		chas->data.VelocitySet.y = -setY;
-		chas->data.VelocitySet.z =  setZ;
-	}
-	else{
-	
-		chas->data.VelocitySet.x = setX;
-		chas->data.VelocitySet.y = setY;
-		chas->data.VelocitySet.z = setZ;
-	}
 	
 	if(chas->info.Type == CHAS_OMNI){
     
