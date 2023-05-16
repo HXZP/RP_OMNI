@@ -159,5 +159,15 @@ typedef struct rifle_struct{
   void (*MagazineCtrl)(struct rifle_struct *self);
 }rifle;
 
+
+
+extern rifle gun;
+
+
+
+
+
+
+
 #endif
 

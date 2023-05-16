@@ -91,6 +91,7 @@ rp_first\tasks_center.o: ../USER/RP_DEVICES/RP_IMU/bmi270/common.h
 rp_first\tasks_center.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rp_first\tasks_center.o: ../USER/RP_DRIVERS/iic_drv.h
 rp_first\tasks_center.o: ../USER/RP_DRIVERS/tick_drv.h
+rp_first\tasks_center.o: ../USER/RP_DEVICES/servo.h
 rp_first\tasks_center.o: ../USER/RP_DEVICES/motor.h
 rp_first\tasks_center.o: ../USER/RP_DRIVERS/DRIVERS.h
 rp_first\tasks_center.o: ../USER/RP_DRIVERS/spi_drv.h
@@ -103,6 +104,7 @@ rp_first\tasks_center.o: ../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h
 rp_first\tasks_center.o: ../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h
 rp_first\tasks_center.o: ../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h
 rp_first\tasks_center.o: ../USER/RP_DEVICES/master.h
-rp_first\tasks_center.o: ..\USER\RP_FUNCTION\RP_FUNCTION.h
-rp_first\tasks_center.o: ..\USER\RP_FUNCTION\rp_math.h
-rp_first\tasks_center.o: ..\USER\RP_FUNCTION\GimbalRotationOutput.h
+rp_first\tasks_center.o: ../USER/RP_FUNCTION/RP_FUNCTION.h
+rp_first\tasks_center.o: ../USER/RP_FUNCTION/rp_math.h
+rp_first\tasks_center.o: ../USER/RP_FUNCTION/GimbalRotationOutput.h
+rp_first\tasks_center.o: ../USER/RP_MODULES/center.h

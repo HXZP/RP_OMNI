@@ -30,6 +30,7 @@ void RP_INIT(void)
 	CAN2_Init();
 #endif	
 
+	magazine.weak(&magazine);
 	RM_MotorInit();
 	
 

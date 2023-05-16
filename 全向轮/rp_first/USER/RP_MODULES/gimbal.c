@@ -32,6 +32,9 @@ gimbal head = {
 	.info.elevation  = 45,
 	.info.depression = 25,
 	
+	.info.YReach = GIMB_NO,
+	.info.ZReach = GIMB_NO,
+	
 	.ModifyLock  = Gimbal_ModifyLock,
 	.ModifyXYZSet= Gimbal_ModifyXYZSet,
 	.ModifyRange = Gimbal_ModifyDataRange360,
@@ -120,6 +123,24 @@ void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,flo
 		gimb->info.MotorState = GIMB_MOTOR_ERR;
 	}
 
+	if(abs(motor[GIMB_P].pid.angle.info.err) < 5){
+	
+		gimb->info.YReach = GIMB_OK;
+	}
+	else{
+	
+		gimb->info.YReach = GIMB_NO;
+	}
+	
+	if(abs(motor[GIMB_Y].pid.angle.info.err) < 5){
+	
+		gimb->info.ZReach = GIMB_OK;
+	}		
+	else{
+	
+		gimb->info.ZReach = GIMB_NO;
+	}
+	
 	gimb->data.Angle.X = ax;
 	gimb->data.Angle.Y = ay;
   gimb->data.Angle.Z = az;

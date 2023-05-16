@@ -56,6 +56,7 @@ rp_first\rp_init.o: ../USER/RP_DEVICES/RP_IMU/bmi270/bmi2_defs.h
 rp_first\rp_init.o: ../USER/RP_DEVICES/RP_IMU/bmi270/bmi270.h
 rp_first\rp_init.o: ../USER/RP_DEVICES/RP_IMU/bmi270/common.h
 rp_first\rp_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+rp_first\rp_init.o: ../USER/RP_DEVICES/servo.h
 rp_first\rp_init.o: ../USER/RP_DEVICES/motor.h
 rp_first\rp_init.o: ../USER/RP_DRIVERS/DRIVERS.h
 rp_first\rp_init.o: ../USER/RP_DEVICES/RM_MOTOR/rm_motor.h

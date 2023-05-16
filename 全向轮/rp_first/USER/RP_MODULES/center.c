@@ -1,3 +1,30 @@
+
+
+
+
+/*
+
+
+
+
+
+
+目前没什么思路以下都是大便
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
 #include "center.h"
 
 #include "DEVICES.h"
@@ -9,8 +36,9 @@ void Center_ModifiyState(Center_State *self,Center_State state);
 void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state);
 void Center_ModifiyMoveMode(center *self,Center_MoveMode state);
 void Center_ModifiyRifleMode(center *self,Center_RifleMode state);
-void Center_Switch(void);
 
+void Center_Switch(void);
+void Center_Ctrl(void);
 
 center Center = {
 
@@ -21,12 +49,14 @@ center Center = {
   .modifyRifleMode = Center_ModifiyRifleMode,
 
 	.Switch = Center_Switch,
+	.Ctrl   = Center_Ctrl,
 };
 
 void Center_Switch(void)
 {
 	if(rc.info.state == RC_OFFLINE){
 		
+		gun.ModifyLock(&gun,RIFLE_LOCK);
 		head.ModifyLock(&head,GIMB_LOCK);
 		omni.ModifyLock(&omni,CHAS_LOCK);
 
@@ -65,7 +95,11 @@ void Center_Switch(void)
 
 void Center_Ctrl(void)
 {	
-
+	
+	
+	
+	
+	
 }
 
 

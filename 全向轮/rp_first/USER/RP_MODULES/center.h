@@ -83,8 +83,12 @@ typedef struct center_struct{
 	void (*modifyRifleMode)(struct center_struct *self,Center_RifleMode state);
 	
 	void (*Switch)(void);
+	void (*Ctrl)(void);
 	
 }center;
+
+extern center Center;
+
 
 #endif
 

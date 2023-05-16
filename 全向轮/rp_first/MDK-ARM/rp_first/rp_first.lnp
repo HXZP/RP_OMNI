@@ -119,6 +119,7 @@
 "rp_first\imu.o"
 "rp_first\motor.o"
 "rp_first\master.o"
+"rp_first\servo.o"
 "rp_first\can_potocal.o"
 "rp_first\usart_potocal.o"
 "rp_first\crc.o"

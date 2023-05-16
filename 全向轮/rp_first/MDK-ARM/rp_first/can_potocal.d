@@ -51,6 +51,7 @@ rp_first\can_potocal.o: ../USER/RP_DEVICES/RP_IMU/bmi270/common.h
 rp_first\can_potocal.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rp_first\can_potocal.o: ../USER/RP_DRIVERS/iic_drv.h
 rp_first\can_potocal.o: ../USER/RP_DRIVERS/tick_drv.h
+rp_first\can_potocal.o: ../USER/RP_DEVICES/servo.h
 rp_first\can_potocal.o: ../USER/RP_DEVICES/motor.h
 rp_first\can_potocal.o: ../USER/RP_DRIVERS/DRIVERS.h
 rp_first\can_potocal.o: ../USER/RP_DRIVERS/spi_drv.h

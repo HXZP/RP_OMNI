@@ -106,9 +106,11 @@ int main(void)
   MX_IWDG_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
+	HAL_IWDG_Refresh(&hiwdg);
 	
 	RP_INIT();
 	
+  HAL_IWDG_Refresh(&hiwdg);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

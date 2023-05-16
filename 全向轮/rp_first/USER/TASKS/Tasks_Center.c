@@ -16,7 +16,7 @@
 #include "DEVICES.h"
 #include "RP_FUNCTION.h"
 
-
+#include "center.h"
 
 
 extern IWDG_HandleTypeDef hiwdg;
@@ -47,8 +47,14 @@ void StartMonitorTask(void const * argument)
 #if (RC_KEY_MONITOR == 1)		
 		
 		rc.key(&rc);
-		
+
 #endif		
+
+#if (CENTER_GLOBAL == 1)		
+		
+		Center.Switch();
+
+#endif	
 
     osDelay(1);
   }
@@ -92,7 +98,6 @@ void StartCommunityTask(void const * argument)
 			  CAN1_SendData(0x2E,cap.data.Buff0x2E);
 			  CAN1_SendData(0x2F,cap.data.Buff0x2F);					
 			}
-
 		}
 		
 #endif		
@@ -112,6 +117,7 @@ void StartControlTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+//		magazine.modifyCCR(&magazine,127);
 		
 		HAL_IWDG_Refresh(&hiwdg);
 		
@@ -121,23 +127,18 @@ void StartControlTask(void const * argument)
 		
 #endif		
 
+		
+		
+		
 #if (RM_MOTOR_TEST == 0U)		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	#if (CENTER_GLOBAL == 1)		
+			
+			Center.Ctrl();
+			
+	#endif				
+
 		
 #endif		
 		

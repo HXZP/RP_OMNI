@@ -5,6 +5,13 @@
 
 typedef enum { 
 	
+	GIMB_NO,
+	GIMB_OK,
+	
+} gimbal_state;
+
+typedef enum { 
+	
 	GIMB_LOCK,
 	GIMB_UNLOCK,
 	
@@ -31,6 +38,9 @@ typedef struct gimbal_info_struct{
 
 	gimbal_MotorState MotorState;
   gimbal_Lock       Lock;	
+	
+	gimbal_state YReach;
+	gimbal_state ZReach;
 	
 	float elevation;
 	float depression;

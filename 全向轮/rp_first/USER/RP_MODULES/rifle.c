@@ -1,4 +1,9 @@
+/*
 
+	舵机目前使用PA8
+
+
+*/
 #include "DEVICES.h"
 #include "RP_FUNCTION.h"
 #include "rifle.h"
@@ -551,6 +556,9 @@ void Rifle_Ctrl(rifle *self)
 	
 	if(self->info.Lock == RIFLE_LOCK)
 	{
+		
+		magazine.sleep(&magazine);
+		
 		if(HAL_GetTick() - self->time.LockTime < 1000){
 		
 			Rifle_CANBuff[motor[FRI_R].id.buff_p] = motor[FRI_R].c_speed(&motor[FRI_R],0);
@@ -565,6 +573,9 @@ void Rifle_Ctrl(rifle *self)
 	}
 	else if(self->info.Lock == RIFLE_UNLOCK)
 	{
+		
+		magazine.weak(&magazine);
+		
 		Rifle_CANBuff[motor[FRI_R].id.buff_p] = motor[FRI_R].c_speed(&motor[FRI_R], self->data.FriSet);
 		Rifle_CANBuff[motor[FRI_L].id.buff_p] = motor[FRI_L].c_speed(&motor[FRI_L],-self->data.FriSet);
 		
@@ -592,12 +603,12 @@ void Rifle_MagazineCtrl(rifle *self)
 {
 	if(self->info.Magazine == RIFLE_OK){
 	
-		
+		magazine.modifyCCR(&magazine,48);
 		return;
 	}
 	else if(self->info.Magazine == RIFLE_NO){
 	
-		
+		magazine.modifyCCR(&magazine,127);
 		return;
 	}
 }

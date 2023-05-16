@@ -206,10 +206,12 @@ void RM_MotorInit(void)
 	motor[CHAS_4].pid_init(&motor[CHAS_4].pid.speed,chassis_speed_pid_param);
 	
 	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.speed,   yaw_imu_out_pid_param);
+	
 	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_imu_out_pid_param);
 	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle_in,yaw_imu_inn_pid_param);	
 	
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.speed,   pit_imu_out_pid_param);
+	
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_imu_out_pid_param);
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle_in,pit_imu_inn_pid_param);	
 	

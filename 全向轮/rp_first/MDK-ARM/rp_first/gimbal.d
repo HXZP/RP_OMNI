@@ -46,6 +46,6 @@ rp_first\gimbal.o: ../USER/RP_DRIVERS/can_drv.h
 rp_first\gimbal.o: ../USER/RP_DRIVERS/uart_drv.h
 rp_first\gimbal.o: ../USER/RP_DEVICES/RM_MOTOR/rm_motor.h
 rp_first\gimbal.o: ../USER/RP_DEVICES/RM_MOTOR/rm_motor_def.h
-rp_first\gimbal.o: ..\USER\RP_FUNCTION\RP_FUNCTION.h
-rp_first\gimbal.o: ..\USER\RP_FUNCTION\rp_math.h
-rp_first\gimbal.o: ..\USER\RP_FUNCTION\GimbalRotationOutput.h
+rp_first\gimbal.o: ../USER/RP_FUNCTION/RP_FUNCTION.h
+rp_first\gimbal.o: ../USER/RP_FUNCTION/rp_math.h
+rp_first\gimbal.o: ../USER/RP_FUNCTION/GimbalRotationOutput.h

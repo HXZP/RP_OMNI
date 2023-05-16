@@ -72,6 +72,8 @@ power为主控电源位置，按下图摆放找坐标系
 #define MOTOR_PIT_MID 0
 
 
+/*开启中心控制*/
+#define CENTER_GLOBAL 1U 
 
 
 
