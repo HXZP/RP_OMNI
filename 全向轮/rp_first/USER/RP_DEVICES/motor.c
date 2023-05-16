@@ -178,8 +178,16 @@ float yaw_imu_inn_pid_param[7] = {100,0.3,0,0,15000,20000,20000};
 float pit_imu_out_pid_param[7] = {20,0,0,0,0,15000,20000};
 float pit_imu_inn_pid_param[7] = {300,0.2,0,0,15000,20000,20000};
 
-float yaw_speed_pid_param[7] = {0,0,0,0,15000,20000,20000};
-float pit_speed_pid_param[7] = {0,0,0,0,15000,20000,20000};
+float yaw_speed_pid_param[7] = {4,0,0,0,15000,20000,20000};
+float pit_speed_pid_param[7] = {4,0,0,0,15000,20000,20000};
+
+float fri_speed_pid_param[7] = {8,0.5,0,0,1000,2000,12000};
+
+float box_speed_pid_param[7] = {6,0.8,0,0,5000,5000,10000};
+
+float box_posit_out_pid_param[7] = {0.28,0,0,0,1000,10000,10000};
+float box_posit_inn_pid_param[7] = {3,0.5,0,0,5000,5000,10000};
+
 
 void RM_MotorInit(void)
 {
@@ -204,6 +212,12 @@ void RM_MotorInit(void)
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.speed,   pit_imu_out_pid_param);
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_imu_out_pid_param);
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle_in,pit_imu_inn_pid_param);	
+	
+	motor[FRI_L].pid_init(&motor[FRI_L].pid.speed,fri_speed_pid_param);
+	motor[FRI_R].pid_init(&motor[FRI_R].pid.speed,fri_speed_pid_param);
+	
+	motor[BOX].pid_init(&motor[FRI_R].pid.position,   box_posit_out_pid_param);
+	motor[BOX].pid_init(&motor[FRI_R].pid.position_in,box_posit_inn_pid_param);	
 }
 
 

@@ -82,6 +82,7 @@ typedef struct center_struct{
 	void (*modifyMoveMode)(struct center_struct *self,Center_MoveMode state);
 	void (*modifyRifleMode)(struct center_struct *self,Center_RifleMode state);
 	
+	void (*Switch)(void);
 	
 }center;
 

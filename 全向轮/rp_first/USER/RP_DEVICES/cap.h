@@ -79,8 +79,9 @@ typedef struct cap_struct{
 
 	cap_data_t data;
 	cap_info_t info;
-	
-	void				(*setdata)(struct cap_struct *self,float powerBuff,float powerLimit,float volt,float current,float outLimit);
+
+	void				(*modifyLimit)(struct cap_struct *self,float out,float in);	
+	void				(*setdata)(struct cap_struct *self,float powerBuff,float powerLimit,float volt,float current);
 	void				(*updata)(struct cap_struct *self,uint32_t canId, uint8_t *rxBuf);
 	void				(*heart_beat)(struct cap_struct *self);
 	

@@ -6,12 +6,11 @@
 其中一个是数据包一个是控制包，控制的频率自己斟酌
 */
 
-#define CAP_OUTPUT_LIMIT 150
 
-static void CAP_setMessage(cap_t *self,float powerBuff,float powerLimit,float volt,float current,float outLimit);
+static void CAP_setMessage(cap_t *self,float powerBuff,float powerLimit,float volt,float current);
 static void CAP_rxMessage(cap_t *self,uint32_t canId, uint8_t *rxBuf);
-static void cap_heart_beat(cap_t *self);
-
+static void CAP_heart_beat(cap_t *self);
+static void CAP_ModifyOutInLimit(cap_t *self,float out,float in);
 cap_t cap = {
 
 	.info.canId = 0x30,
@@ -20,12 +19,16 @@ cap_t cap = {
 	.info.offline_cnt = 0,
 	.info.state = CAP_OFFLINE,
 
-	.updata     = CAP_rxMessage,
-	.setdata    = CAP_setMessage,
-	.heart_beat = cap_heart_beat,
+	.data.tx.output_power_limit = 150,
+	.data.tx.input_power_limit  = 150,
+
+	.modifyLimit = CAP_ModifyOutInLimit,
+	.updata      = CAP_rxMessage,
+	.setdata     = CAP_setMessage,
+	.heart_beat  = CAP_heart_beat,
 };
 
-static void cap_heart_beat(cap_t *self)
+static void CAP_heart_beat(cap_t *self)
 {
 	cap_info_t *info = &self->info;
 
@@ -75,14 +78,18 @@ void CAP_setBuff0x2F(cap_t *self)
 
 }
 
-void CAP_setMessage(cap_t *self,float powerBuff,float powerLimit,float volt,float current,float outLimit)
+void CAP_ModifyOutInLimit(cap_t *self,float out,float in)
+{
+	self->data.tx.input_power_limit = in;
+	self->data.tx.input_power_limit = out;
+}
+
+void CAP_setMessage(cap_t *self,float powerBuff,float powerLimit,float volt,float current)
 {
     self->data.tx.chassis_power_buffer = powerBuff;
     self->data.tx.chassis_power_limit  = powerLimit;
     self->data.tx.chassis_volt         = volt;
     self->data.tx.chassis_current      = current;
-		self->data.tx.output_power_limit   = outLimit;
-    self->data.tx.input_power_limit    = 150;
 	
     self->data.tx.cap_control.bit.cap_switch = 1;
     self->data.tx.cap_control.bit.cap_record = 0;

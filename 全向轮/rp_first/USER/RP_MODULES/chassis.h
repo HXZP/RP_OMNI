@@ -57,6 +57,8 @@ typedef struct chassis_info_struct{
 	float VehicleLength;
 	float VehicleWide;
 	
+	float OriginAngle;
+		
 //	float RotationRate;
 	
 }chassis_info;
@@ -81,6 +83,8 @@ typedef struct chassis_data_struct{
 	float       PowerLimit;
 	float       PowerBuff;
 	
+	float       DirAngle;
+	
 }chassis_data;
 
 
@@ -95,7 +99,8 @@ typedef struct chassis_struct{
   void (*ModifyLock)(struct chassis_struct *chas,chassis_Lock type);
   void (*ModifyrpmMax)(struct chassis_struct *chas,float max);
 	void (*ModifyXYZSet)(struct chassis_struct *chas,float setX,float setY,float setZ);
-	
+	void (*ModifyOriginAngle)(struct chassis_struct *chas,float angle);
+
 	void (*Updata)(struct chassis_struct *chas);
 	void (*Resolving)(struct chassis_struct *chas);
 	void (*Ctrl)(struct chassis_struct *chas);

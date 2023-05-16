@@ -28,9 +28,9 @@ float RP_JudgeNull(float last, float now)
 /*
 		限制目标值 防止超过
 */
-float RP_LimitTarget(float tar,float range)
+float RP_Limit(float tar,float range)
 {
-	if(abs(tar) > range){
+	while(abs(tar) > range){
 	
 		if(tar < 0)          tar += range;
 		else if(tar >=range) tar -= range;	

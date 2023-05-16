@@ -11,11 +11,12 @@
 
 #include "DEVICES.h"
 #include "chassis.h"
-
+#include "arm_math.h"
 
 
 static void Chassis_ModifyLock(chassis *chas,chassis_Lock type);
 static void Chassis_ModifyrpmMax(chassis *chas,float max);
+static void Chassis_ModifyOriginAngle(chassis *chas,float angle);
 static void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ);
 	
 static void Chassis_Updata(chassis *chas);
@@ -38,9 +39,12 @@ chassis omni = {
 	.info.VehicleLength  = 1,
 	.info.VehicleWide    = 1,
 	
-	.ModifyLock     = Chassis_ModifyLock,
-	.ModifyrpmMax   = Chassis_ModifyrpmMax,
-	.ModifyXYZSet   = Chassis_ModifyXYZSet,
+	.info.OriginAngle = 0,
+	
+	.ModifyLock        = Chassis_ModifyLock,
+	.ModifyrpmMax      = Chassis_ModifyrpmMax,
+	.ModifyXYZSet      = Chassis_ModifyXYZSet,
+	.ModifyOriginAngle = Chassis_ModifyOriginAngle,
 	
 	.Updata         = Chassis_Updata,
 	.Resolving      = Chassis_Resolving,
@@ -81,12 +85,24 @@ void Chassis_ModifyrpmMax(chassis *chas,float max)
 }
 
 
+/** @FUN  修改底盘原点角度最大速度
+  * @velocity m/s
+  */
+void Chassis_ModifyOriginAngle(chassis *chas,float angle)
+{
+	chas->info.OriginAngle = angle;
+}
+
 
 /** @FUN  修改底盘速度目标
   * @xyz -100~100
   */
 void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 {
+	chassis_xyz temp;
+	float angle = chas->data.DirAngle;
+
+	
 	if(chas->info.Direction == CHAS_BACKWARD){
 	
 		chas->data.VelocitySet.x = -setX;
@@ -99,7 +115,18 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 		chas->data.VelocitySet.y = setY;
 		chas->data.VelocitySet.z = setZ;
 	}
+	
+	temp.x = chas->data.VelocitySet.x;
+	temp.y = chas->data.VelocitySet.y;
+	temp.z = chas->data.VelocitySet.z;
+	
+	chas->data.VelocitySet.x = temp.x * cos(angle) - temp.y * sin(angle);
+	chas->data.VelocitySet.y = temp.x * sin(angle) + temp.y * cos(angle);
+	
 }
+
+
+
 
 /**
   * @xyz m/s
@@ -107,7 +134,7 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
   */
 void Chassis_Updata(chassis *chas)
 {
-	int16_t position;
+	float position;
 	
 	//底盘电机失联判断
 	if(motor[CHAS_1].state.work_state && motor[CHAS_2].state.work_state
@@ -121,17 +148,27 @@ void Chassis_Updata(chassis *chas)
 	}
 	
 	
-	//底盘方向判断
-	position = motor[GIMB_Y].rx_info.angle;
+	//底盘方向判断 0-360
+	position = ((float)motor[GIMB_Y].rx_info.angle)/22.5f;
 	
-	if(abs(position - 180) < 90)
-	{
+	if(abs(position - 180) < 90){
+		
 		chas->info.Direction = CHAS_BACKWARD;
+		position = RP_Limit(position - 180 - chas->info.OriginAngle,360);
+		chas->data.DirAngle = position;
 	}
-	else 
-	{
+	else{
+		
 		chas->info.Direction = CHAS_FORWARD;
+		position = RP_Limit(position - chas->info.OriginAngle,360);
+		chas->data.DirAngle = position;
 	}	
+	
+	
+	
+	
+	
+	
 	
 	//底盘轮子最大速度计算
 	chas->data.VelocityMax = chas->data.WheelrpmMax/chas->info.ReductionRatio/60.0f

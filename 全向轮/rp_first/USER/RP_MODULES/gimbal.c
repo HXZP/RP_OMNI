@@ -14,11 +14,14 @@
 #include "RP_FUNCTION.h"
 #include "GimbalRotationOutput.h"
 
-void Gimbal_ModifyLock(gimbal *gimb,gimbal_Lock type);
-void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz);
-void Gimbal_Resolving(gimbal* gimb,float *setX,float *setY,float *setZ);
-void Gimbal_Translation(gimbal* gimb,float chasX,float chasY,float chasZ);
-void Gimbal_Ctrl(gimbal *gimb);
+static void Gimbal_ModifyLock(gimbal *gimb,gimbal_Lock type);
+static void Gimbal_ModifyXYZSet(gimbal *gimb,float *setX,float *setY,float *setZ);
+static float Gimbal_ModifyDataRange360(float data,float min,float max);
+
+static void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz);
+static void Gimbal_Resolving(gimbal* gimb);
+static void Gimbal_Translation(gimbal* gimb,float chasX,float chasY,float chasZ);
+static void Gimbal_Ctrl(gimbal *gimb);
 
 
 gimbal head = {
@@ -26,10 +29,13 @@ gimbal head = {
 	.info.MotorState = GIMB_MOTOR_ONLINE,
   .info.Lock       = GIMB_UNLOCK,	
 
-	.info.elevation  = 30,
-	.info.depression = 30,
+	.info.elevation  = 45,
+	.info.depression = 25,
 	
 	.ModifyLock  = Gimbal_ModifyLock,
+	.ModifyXYZSet= Gimbal_ModifyXYZSet,
+	.ModifyRange = Gimbal_ModifyDataRange360,
+	
 	.Updata      = Gimbal_Updata,
 	.Resolving   = Gimbal_Resolving,
 	.Translation = Gimbal_Translation,
@@ -63,8 +69,43 @@ void Gimbal_ModifyLock(gimbal *gimb,gimbal_Lock type)
 	}	
 }
 
+
+/** @FUN  修改数据
+  * 
+  */
+float Gimbal_ModifyDataRange360(float data,float min,float max)
+{
+	data = data + (max - min);
+	data = data/(max - min) * 360.f;
+
+	if(data > 360.f){
+	
+		data = data - 360;
+	}
+	
+	return data;
+}
+
+
+/** @FUN  修改云台目标
+  * @xyz  0~360
+  */
+void Gimbal_ModifyXYZSet(gimbal *gimb,float *setX,float *setY,float *setZ)
+{
+	*setY = anti_constrain(*setY,gimb->info.depression,360-gimb->info.elevation);
+	
+	gimb->data.AngleSet.X = *setX;
+	gimb->data.AngleSet.Y = *setY;
+	gimb->data.AngleSet.Z = *setZ;
+
+}
+
+
+
+
+
 /** @FUN  更新云台信息
-  * @ax   角度 0-360
+  * @ax   角度 0~360
   * @rx   速度 不限单位
   */
 void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz)
@@ -89,14 +130,14 @@ void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,flo
 
 }
 
+
 /** @FUN  pid解算扭矩
   * @set  角度 360
   * 
   */
-void Gimbal_Resolving(gimbal* gimb,float *setX,float *setY,float *setZ)
+void Gimbal_Resolving(gimbal* gimb)
 {
-	*setY = anti_constrain(*setY,gimb->info.depression,360-gimb->info.elevation);
-	
+
 	//pid计算
 	gimb->data.Torque.X = 0;
 														 
@@ -105,14 +146,14 @@ void Gimbal_Resolving(gimbal* gimb,float *setX,float *setY,float *setZ)
 											 &motor[GIMB_P].pid.angle_in,
 											 gimb->data.Angle.Y,
 											 gimb->data.Speed.Y,
-											 *setY,1);		
+											 gimb->data.AngleSet.Y,1);		
 	
 	gimb->data.Torque.Z = 
 	motor[GIMB_Y].c_pid2(&motor[GIMB_Y].pid.angle,
 											 &motor[GIMB_Y].pid.angle_in,
 											 gimb->data.Angle.Z,
 											 gimb->data.Speed.Z,
-											 *setZ,1);
+											 gimb->data.AngleSet.Z,1);
 
 }
 

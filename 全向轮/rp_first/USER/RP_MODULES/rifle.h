@@ -37,6 +37,16 @@ typedef enum {
 	
 } rifle_ShootType;
 
+
+typedef enum { 
+	
+	RIFLE_POSITION,
+	
+	RIFLE_SPEED,
+	
+} rifle_BoxType;
+
+
 typedef struct rifle_info_struct{
 
 	rifle_MotorState MotorState;
@@ -56,6 +66,7 @@ typedef struct rifle_info_struct{
 	rifle_state  Magazine;
 	
 	rifle_ShootType ShootType;
+	rifle_BoxType   BoxType; 
 //	rifle_state  SpeedRecordFlag;
 	
 }rifle_info;
@@ -65,9 +76,10 @@ typedef struct rifle_time_struct{
 
 	uint32_t LockTime;
 	uint32_t unLockTime;	
-	
-	uint32_t StuckTimeJudeg;
-	uint32_t StuckTimeStart;		
+
+	uint32_t StuckJudegStart;	
+
+	uint32_t StuckStart;
 
 	uint32_t FriEnableTime;
 		

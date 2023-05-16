@@ -9,6 +9,7 @@ void Center_ModifiyState(Center_State *self,Center_State state);
 void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state);
 void Center_ModifiyMoveMode(center *self,Center_MoveMode state);
 void Center_ModifiyRifleMode(center *self,Center_RifleMode state);
+void Center_Switch(void);
 
 
 center Center = {
@@ -19,6 +20,7 @@ center Center = {
 	.modifyMoveMode  = Center_ModifiyMoveMode,
   .modifyRifleMode = Center_ModifiyRifleMode,
 
+	.Switch = Center_Switch,
 };
 
 void Center_Switch(void)

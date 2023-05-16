@@ -63,6 +63,10 @@ void StartCommunityTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+		static uint32_t communityCnt = 0;
+		
+		communityCnt++;
+		
 		imu.updata(&imu);
 
 		MASTER_sendBuff();
@@ -74,9 +78,22 @@ void StartCommunityTask(void const * argument)
 
 			imu.algo.KP = IMU_PID_KP_CONTROL;
 		}
-//		cap.setdata(&cap,60,60,0,0,150);
-//		CAN1_SendData(0x2E,cap.data.Buff0x2E);
-//		CAN1_SendData(0x2F,cap.data.Buff0x2F);
+		
+		/*电容数据通信 5ms */
+		if(!communityCnt%5){
+		
+			if(judge.info.state == JUDGE_ONLINE){
+			
+				cap.setdata(&cap,judge.data.power_heat_data.chassis_power_buffer,
+												 judge.data.game_robot_status.chassis_power_limit,
+												 judge.data.power_heat_data.chassis_volt,
+												 judge.data.power_heat_data.chassis_current);
+				
+			  CAN1_SendData(0x2E,cap.data.Buff0x2E);
+			  CAN1_SendData(0x2F,cap.data.Buff0x2F);					
+			}
+
+		}
 		
 #endif		
 

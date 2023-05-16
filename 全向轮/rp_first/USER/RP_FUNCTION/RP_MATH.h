@@ -15,6 +15,7 @@ int16_t RampInt(int16_t final, int16_t now, int16_t ramp);
 float RampFloat(float final, float now, float ramp);
 float DeathZoom(float input, float center, float death);
 float RP_GetAbsoluteMax(float *data,uint16_t num);
+float RP_Limit(float tar,float range);
 #endif
 
 

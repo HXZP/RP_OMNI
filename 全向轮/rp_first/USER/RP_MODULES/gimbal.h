@@ -50,7 +50,8 @@ typedef struct gimbal_data_struct{
 	gimbal_xyz Speed;
 	gimbal_xyz Torque;
 	
- 
+	gimbal_xyz AngleSet;
+	
 }gimbal_data;
 
 
@@ -61,8 +62,11 @@ typedef struct gimbal_struct{
   gimbal_time time;
 	
   void (*ModifyLock)(struct gimbal_struct *gimb,gimbal_Lock type);
+	void (*ModifyXYZSet)(struct gimbal_struct *gimb,float *setX,float *setY,float *setZ);	
+	float(*ModifyRange)(float data,float min,float max);
+	
 	void (*Updata)(struct gimbal_struct *gimb,float ax,float ay,float az,float rx,float ry,float rz);
-	void (*Resolving)(struct gimbal_struct *gimb,float *setX,float *setY,float *setZ);
+	void (*Resolving)(struct gimbal_struct *gimb);
 	void (*Translation)(struct gimbal_struct *gimb,float chasX,float chasY,float chasZ);
 	void (*Ctrl)(struct gimbal_struct *gimb);
 	
