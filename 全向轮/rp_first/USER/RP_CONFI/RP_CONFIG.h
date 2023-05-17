@@ -39,7 +39,7 @@ power为主控电源位置，按下图摆放找坐标系
 /* 0上主控 1下主控  */
 /*MASTER SERIAL NUMBER*/
 
-#define MASTER 0U
+#define MASTER 1U
 
 /* imu 装配姿态  */
 #if MASTER == 0U

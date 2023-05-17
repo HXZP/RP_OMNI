@@ -100,6 +100,7 @@ void Chassis_ModifyOriginAngle(chassis *chas,float angle)
 void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 {
 	chassis_xyz temp;
+	
 	float angle = chas->data.DirAngle;
 
 	
@@ -148,7 +149,7 @@ void Chassis_Updata(chassis *chas)
 	}
 	
 	
-	//底盘方向判断 0-360
+	//底盘方向判断 0-360 获取和原点的方向夹角
 	position = ((float)motor[GIMB_Y].rx_info.angle)/22.5f;
 	
 	if(abs(position - 180) < 90){
@@ -162,13 +163,9 @@ void Chassis_Updata(chassis *chas)
 		chas->info.Direction = CHAS_FORWARD;
 		position = RP_Limit(position - chas->info.OriginAngle,360);
 		chas->data.DirAngle = position;
-	}	
+	}
 	
-	
-	
-	
-	
-	
+
 	
 	//底盘轮子最大速度计算
 	chas->data.VelocityMax = chas->data.WheelrpmMax/chas->info.ReductionRatio/60.0f

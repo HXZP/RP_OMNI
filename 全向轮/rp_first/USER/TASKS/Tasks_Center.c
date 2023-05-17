@@ -44,18 +44,21 @@ void StartMonitorTask(void const * argument)
 		
 		MASTER_HeartBeat();
 		
-#if (RC_KEY_MONITOR == 1)		
-		
-		rc.key(&rc);
+#if (MASTER == 0)		
+	#if (RC_KEY_MONITOR == 1)		
+			
+			rc.key(&rc);
 
-#endif		
+	#endif		
 
-#if (CENTER_GLOBAL == 1)		
-		
-		Center.Switch(&Center);
-
-#endif	
-
+	#if (CENTER_GLOBAL == 1)		
+			
+			Center.Switch(&Center);
+			Center.Updata(&Center);
+			
+	#endif
+	
+#endif
     osDelay(1);
   }
   /* USER CODE END 5 */
@@ -66,10 +69,12 @@ void StartMonitorTask(void const * argument)
 void StartCommunityTask(void const * argument)
 {
   /* USER CODE BEGIN StartImuTask */
+	static uint32_t communityCnt = 0;
+	
   /* Infinite loop */
   for(;;)
   {
-		static uint32_t communityCnt = 0;
+		
 		
 		communityCnt++;
 		
@@ -77,7 +82,7 @@ void StartCommunityTask(void const * argument)
 
 		MASTER_sendBuff();
 		
-#if MASTER == 0U
+#if (MASTER == 0U)
 		
 		/*电容数据通信 5ms */
 		if(!communityCnt%5){
@@ -125,13 +130,13 @@ void StartControlTask(void const * argument)
 		
 #if (RM_MOTOR_TEST == 0U)		
 		
-		
-	#if (CENTER_GLOBAL == 1)		
-			
-			Center.Ctrl(&Center);
-			
-	#endif				
-
+	#if (MASTER == 0U)	
+		#if (CENTER_GLOBAL == 1)		
+				
+				Center.Ctrl(&Center);
+				
+		#endif				
+  #endif	
 		
 #endif		
 		

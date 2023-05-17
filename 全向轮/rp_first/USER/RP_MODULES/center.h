@@ -3,6 +3,10 @@
 
 #include "type.h"
 
+
+
+
+
 typedef enum { 
 	
 	RP_NO,
@@ -35,10 +39,12 @@ typedef enum {
 	
 	RIFLE_STOP,
 	
-	RIFLE_SET,
+	RIFLE_SET1,
+	RIFLE_SET6,	
+	
 	RIFLE_STAY,
 	
-	RIFLE_MODE3,
+
 	
 } Center_RifleMode;
 
@@ -67,19 +73,19 @@ typedef struct center_info_struct{
 	Center_State    FrictionSwitch;
 	Center_State    MagazineSwitch;
 	
+	Center_State    RotateSwitch;
 	
-	Center_CtrlMode  CtrlMode;	
-	Center_MoveMode  MoveMode;
-	Center_RifleMode RifleMode;
+	Center_CtrlMode   CtrlMode;	
+	Center_MoveMode   MoveMode;
+	Center_RifleMode  RifleMode;
   Center_VisionMode VisionMode;	
 	
 }center_info;
 
 typedef struct center_time_struct{
 
-	uint32_t InitTimeUse;
+	uint32_t AimEnterTimeStart;
 	uint32_t InitTimeStart;	
-	uint32_t InitTimeEnd;	
 	
 }center_time;
 
@@ -87,6 +93,16 @@ typedef struct center_data_struct{
 
 	float GimbYawTarget;
 	float GimbPitTarget;
+	
+	float VelocityX;
+	float VelocityY;
+	float VelocityZ;
+	
+	float Channel[4];
+		
+//	float MasterDire;
+	
+	float RotateVelocity;
 	
 }center_data;
 
@@ -102,8 +118,10 @@ typedef struct center_struct{
 	void (*modifyCtrlMode)(struct center_struct *self,Center_CtrlMode state);
 	void (*modifyMoveMode)(struct center_struct *self,Center_MoveMode state);
 	void (*modifyRifleMode)(struct center_struct *self,Center_RifleMode state);
+	void (*modifyVisionMode)(struct center_struct *self,Center_VisionMode state);
 	
 	void (*Switch)(struct center_struct *self);
+	void (*Updata)(struct center_struct *self);
 	void (*Ctrl)(struct center_struct *self);
 	
 }center;

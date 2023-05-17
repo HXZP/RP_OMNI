@@ -1,3 +1,8 @@
+/*
+ *
+ *@note 先初始化设备再初始化中断
+ *
+**/
 #include "RP_INIT.h"
 #include "RP_CONFIG.h"
 
@@ -11,7 +16,11 @@ void RP_INIT(void)
 #if (BMI_ENABLE == 1U)		
 	RP_IMU_INIT();//must first
 #endif
-	
+	RM_MotorInit();	
+	rc.init(&rc);
+	judge.init(&judge);
+	vision.init(&vision);	
+	magazine.weak(&magazine);	
 	
 #if (USART_ENABLE == 1U)		
 	USART1_Init();
@@ -21,17 +30,13 @@ void RP_INIT(void)
 	USART5_Init();
 #endif
 	
-	rc.init(&rc);
-	judge.init(&judge);
-	vision.init(&vision);
-	
 #if (CAN_ENABLE == 1U)
 	CAN1_Init();
 	CAN2_Init();
 #endif	
 
-	magazine.weak(&magazine);
-	RM_MotorInit();
+
+
 	
 
 }

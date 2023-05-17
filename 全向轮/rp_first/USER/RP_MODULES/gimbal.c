@@ -35,6 +35,10 @@ gimbal head = {
 	.info.YReach = GIMB_NO,
 	.info.ZReach = GIMB_NO,
 	
+	.info.AssemblyVector.X = 1,
+	.info.AssemblyVector.Y = 1,
+	.info.AssemblyVector.Z = 1,
+	
 	.ModifyLock  = Gimbal_ModifyLock,
 	.ModifyXYZSet= Gimbal_ModifyXYZSet,
 	.ModifyRange = Gimbal_ModifyDataRange360,
@@ -163,13 +167,15 @@ void Gimbal_Resolving(gimbal* gimb)
 	gimb->data.Torque.X = 0;
 														 
 	gimb->data.Torque.Y = 
+	gimb->info.AssemblyVector.Y*
 	motor[GIMB_P].c_pid2(&motor[GIMB_P].pid.angle,
 											 &motor[GIMB_P].pid.angle_in,
 											 gimb->data.Angle.Y,
 											 gimb->data.Speed.Y,
-											 gimb->data.AngleSet.Y,1);		
+											 gimb->data.AngleSet.Y,1);
 	
 	gimb->data.Torque.Z = 
+	gimb->info.AssemblyVector.Z*
 	motor[GIMB_Y].c_pid2(&motor[GIMB_Y].pid.angle,
 											 &motor[GIMB_Y].pid.angle_in,
 											 gimb->data.Angle.Z,
@@ -216,7 +222,7 @@ void Gimbal_Ctrl(gimbal *gimb)
 		Gimbal_CANBuff[motor[GIMB_Y].id.buff_p] = gimb->data.Torque.Z;
 		Gimbal_CANBuff[motor[GIMB_P].id.buff_p] = gimb->data.Torque.Y;
 
-		motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);	
+		motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);
 	}	
 
 }

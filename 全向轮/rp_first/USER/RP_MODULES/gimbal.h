@@ -45,6 +45,8 @@ typedef struct gimbal_info_struct{
 	float elevation;
 	float depression;
 	
+	gimbal_xyz AssemblyVector;
+	
 }gimbal_info;
 
 typedef struct gimbal_time_struct{
