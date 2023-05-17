@@ -52,7 +52,7 @@ void StartMonitorTask(void const * argument)
 
 #if (CENTER_GLOBAL == 1)		
 		
-		Center.Switch();
+		Center.Switch(&Center);
 
 #endif	
 
@@ -78,12 +78,6 @@ void StartCommunityTask(void const * argument)
 		MASTER_sendBuff();
 		
 #if MASTER == 0U
-
-		/*等待imu数据收敛切换更低的kp用于控制使用*/
-		if(HAL_GetTick() > 1000){
-
-			imu.algo.KP = IMU_PID_KP_CONTROL;
-		}
 		
 		/*电容数据通信 5ms */
 		if(!communityCnt%5){
@@ -117,8 +111,7 @@ void StartControlTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-//		magazine.modifyCCR(&magazine,127);
-		
+
 		HAL_IWDG_Refresh(&hiwdg);
 		
 #if (RM_MOTOR_TEST == 1U)		
@@ -135,7 +128,7 @@ void StartControlTask(void const * argument)
 		
 	#if (CENTER_GLOBAL == 1)		
 			
-			Center.Ctrl();
+			Center.Ctrl(&Center);
 			
 	#endif				
 

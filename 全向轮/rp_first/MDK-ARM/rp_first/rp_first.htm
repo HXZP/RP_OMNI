@@ -3,7 +3,7 @@
 <title>Static Call Graph - [rp_first\rp_first.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image rp_first\rp_first.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue May 16 17:51:44 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Wed May 17 14:05:15 2023
 <BR><P>
 <H3>Maximum Stack Usage =        440 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -235,11 +235,9 @@ Global Symbols
 
 <P><STRONG><a name="[21c]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry9a.o(.ARM.Collect$$$$0000000B))
 
-<P><STRONG><a name="[21d]"></a>__rt_lib_shutdown_fini</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry12b.o(.ARM.Collect$$$$0000000E))
+<P><STRONG><a name="[21d]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000D))
 
-<P><STRONG><a name="[21e]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000F))
-
-<P><STRONG><a name="[21f]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$00000011))
+<P><STRONG><a name="[21e]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
 
 <P><STRONG><a name="[40]"></a>SVC_Handler</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, port.o(.emb_text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
@@ -473,13 +471,13 @@ Global Symbols
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 
-<P><STRONG><a name="[220]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
+<P><STRONG><a name="[21f]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
 
 <P><STRONG><a name="[c5]"></a>__aeabi_lasr</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, llsshr.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
 
-<P><STRONG><a name="[221]"></a>_ll_sshift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
+<P><STRONG><a name="[220]"></a>_ll_sshift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
 
 <P><STRONG><a name="[1e0]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vision_update
@@ -492,16 +490,16 @@ Global Symbols
 <LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_FREERTOS_Init
 </UL>
 
-<P><STRONG><a name="[222]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
+<P><STRONG><a name="[221]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
 
 <P><STRONG><a name="[c2]"></a>__aeabi_memset</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, memseta.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memset
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
 
-<P><STRONG><a name="[223]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[222]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
-<P><STRONG><a name="[224]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[223]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[c1]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
@@ -510,11 +508,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[103]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[170]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC_ResetData
+<BR><BR>[Called By]<UL><LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
+<LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
+<LI><a href="#[170]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC_ResetData
 <LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rc_init
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_class_pid_init
-<LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
-<LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
 <LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_MspInit
@@ -524,7 +522,7 @@ Global Symbols
 <LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
 
-<P><STRONG><a name="[225]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[224]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[c3]"></a>memset</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
@@ -608,15 +606,15 @@ Global Symbols
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
 </UL>
 
-<P><STRONG><a name="[226]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
+<P><STRONG><a name="[225]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
 
-<P><STRONG><a name="[227]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, iusefp.o(.text), UNUSED)
+<P><STRONG><a name="[226]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, iusefp.o(.text), UNUSED)
 
 <P><STRONG><a name="[cc]"></a>_float_round</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, fepilogue.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 </UL>
 
-<P><STRONG><a name="[228]"></a>_float_epilogue</STRONG> (Thumb, 92 bytes, Stack size 4 bytes, fepilogue.o(.text), UNUSED)
+<P><STRONG><a name="[227]"></a>_float_epilogue</STRONG> (Thumb, 92 bytes, Stack size 4 bytes, fepilogue.o(.text), UNUSED)
 
 <P><STRONG><a name="[c7]"></a>_double_round</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, depilogue.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = _double_round
@@ -670,7 +668,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
 </UL>
 
-<P><STRONG><a name="[229]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+<P><STRONG><a name="[228]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
 <P><STRONG><a name="[d1]"></a>__aeabi_ui2d</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, dfltui.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = __aeabi_ui2d &rArr; _double_epilogue &rArr; _double_round
@@ -680,9 +678,9 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee754_rem_pio2
 </UL>
 
-<P><STRONG><a name="[22a]"></a>__decompress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+<P><STRONG><a name="[229]"></a>__decompress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
 
-<P><STRONG><a name="[22b]"></a>__decompress1</STRONG> (Thumb, 86 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+<P><STRONG><a name="[22a]"></a>__decompress1</STRONG> (Thumb, 86 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
 
 <P><STRONG><a name="[3e]"></a>BusFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.BusFault_Handler))
 <BR><BR>[Calls]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BusFault_Handler
@@ -714,8 +712,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_SendData
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rm_motor_tx
-<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCommunityTask
+<BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCommunityTask
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rm_motor_tx
 </UL>
 
 <P><STRONG><a name="[dc]"></a>CAN1_rxDataHandler</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, can_potocal.o(i.CAN1_rxDataHandler))
@@ -765,8 +763,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_AddTxMessage
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
+<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
 </UL>
 
 <P><STRONG><a name="[e6]"></a>CAP_setBuff0x2E</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, cap.o(i.CAP_setBuff0x2E))
@@ -777,23 +775,27 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAP_setMessage
 </UL>
 
-<P><STRONG><a name="[6]"></a>Center_Ctrl</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, center.o(i.Center_Ctrl))
+<P><STRONG><a name="[6]"></a>Center_Ctrl</STRONG> (Thumb, 202 bytes, Stack size 24 bytes, center.o(i.Center_Ctrl))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Center_Ctrl
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> center.o(.data)
 </UL>
-<P><STRONG><a name="[2]"></a>Center_ModifiyCtrlMode</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, center.o(i.Center_ModifiyCtrlMode))
+<P><STRONG><a name="[2]"></a>Center_ModifiyCtrlMode</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, center.o(i.Center_ModifiyCtrlMode))
 <BR>[Address Reference Count : 1]<UL><LI> center.o(.data)
 </UL>
-<P><STRONG><a name="[3]"></a>Center_ModifiyMoveMode</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, center.o(i.Center_ModifiyMoveMode))
+<P><STRONG><a name="[3]"></a>Center_ModifiyMoveMode</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, center.o(i.Center_ModifiyMoveMode))
 <BR>[Address Reference Count : 1]<UL><LI> center.o(.data)
 </UL>
-<P><STRONG><a name="[4]"></a>Center_ModifiyRifleMode</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, center.o(i.Center_ModifiyRifleMode))
+<P><STRONG><a name="[4]"></a>Center_ModifiyRifleMode</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, center.o(i.Center_ModifiyRifleMode))
 <BR>[Address Reference Count : 1]<UL><LI> center.o(.data)
 </UL>
 <P><STRONG><a name="[1]"></a>Center_ModifiyState</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, center.o(i.Center_ModifiyState))
 <BR>[Address Reference Count : 1]<UL><LI> center.o(.data)
 </UL>
-<P><STRONG><a name="[5]"></a>Center_Switch</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, center.o(i.Center_Switch))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Center_Switch
+<P><STRONG><a name="[5]"></a>Center_Switch</STRONG> (Thumb, 202 bytes, Stack size 24 bytes, center.o(i.Center_Switch))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Center_Switch
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> center.o(.data)
 </UL>
@@ -917,7 +919,7 @@ Global Symbols
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_Init
 </UL>
 
-<P><STRONG><a name="[e4]"></a>HAL_CAN_AddTxMessage</STRONG> (Thumb, 220 bytes, Stack size 20 bytes, stm32f4xx_hal_can.o(i.HAL_CAN_AddTxMessage))
+<P><STRONG><a name="[e4]"></a>HAL_CAN_AddTxMessage</STRONG> (Thumb, 200 bytes, Stack size 20 bytes, stm32f4xx_hal_can.o(i.HAL_CAN_AddTxMessage))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_CAN_AddTxMessage
 </UL>
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_SendData
@@ -964,7 +966,7 @@ Global Symbols
 <P><STRONG><a name="[101]"></a>HAL_CAN_Init</STRONG> (Thumb, 282 bytes, Stack size 16 bytes, stm32f4xx_hal_can.o(i.HAL_CAN_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = HAL_CAN_Init &rArr; HAL_CAN_MspInit &rArr; HAL_GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_MspInit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_CAN2_Init
@@ -1009,7 +1011,7 @@ Global Symbols
 <P><STRONG><a name="[d8]"></a>HAL_CAN_Start</STRONG> (Thumb, 88 bytes, Stack size 16 bytes, stm32f4xx_hal_can.o(i.HAL_CAN_Start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_CAN_Start
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_Init
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_Init
@@ -1046,7 +1048,7 @@ Global Symbols
 <P><STRONG><a name="[107]"></a>HAL_DMA_Abort</STRONG> (Thumb, 146 bytes, Stack size 24 bytes, stm32f4xx_hal_dma.o(i.HAL_DMA_Abort))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_DMA_Abort
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
@@ -1072,7 +1074,7 @@ Global Symbols
 <P><STRONG><a name="[108]"></a>HAL_DMA_Init</STRONG> (Thumb, 206 bytes, Stack size 24 bytes, stm32f4xx_hal_dma.o(i.HAL_DMA_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = HAL_DMA_Init &rArr; DMA_CheckFifoParam
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_CheckFifoParam
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_CalcBaseAndBitshift
 </UL>
@@ -1090,7 +1092,7 @@ Global Symbols
 <P><STRONG><a name="[10d]"></a>HAL_Delay</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, stm32f4xx_hal.o(i.HAL_Delay))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
 </UL>
@@ -1112,31 +1114,31 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[14c]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f4xx_hal_gpio.o(i.HAL_GPIO_WritePin))
-<BR><BR>[Called By]<UL><LI><a href="#[1dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_spi_get_data
+<BR><BR>[Called By]<UL><LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
+<LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
+<LI><a href="#[1dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_spi_get_data
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Led_Running
 <LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Led_All_Light
-<LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
-<LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
 <LI><a href="#[15f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_spi_write
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_spi_read
 </UL>
 
-<P><STRONG><a name="[e9]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_hal.o(i.HAL_GetTick))
-<BR><BR>[Called By]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Transmit
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Receive
-<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Start
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-<LI><a href="#[1c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;micros
-<LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_ModifyLock
+<P><STRONG><a name="[e8]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_hal.o(i.HAL_GetTick))
+<BR><BR>[Called By]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_ModifyLock
 <LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_Ctrl
 <LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gimbal_ModifyLock
 <LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gimbal_Ctrl
 <LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rifle_Updata
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rifle_ModifyLock
 <LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rifle_ModifyFri
-<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCommunityTask
+<LI><a href="#[6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Center_Ctrl
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Transmit
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Receive
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
+<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Start
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[1c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;micros
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Init
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_IWDG_Init
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Init
@@ -1151,7 +1153,7 @@ Global Symbols
 <P><STRONG><a name="[10e]"></a>HAL_IWDG_Init</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, stm32f4xx_hal_iwdg.o(i.HAL_IWDG_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_IWDG_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_IWDG_Init
 </UL>
@@ -1225,7 +1227,7 @@ Global Symbols
 <P><STRONG><a name="[118]"></a>HAL_RCC_ClockConfig</STRONG> (Thumb, 288 bytes, Stack size 32 bytes, stm32f4xx_hal_rcc.o(i.HAL_RCC_ClockConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = HAL_RCC_ClockConfig &rArr; HAL_InitTick &rArr; HAL_TIM_Base_Init &rArr; HAL_TIM_Base_MspInit &rArr; HAL_NVIC_SetPriority
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 </UL>
@@ -1256,7 +1258,7 @@ Global Symbols
 <P><STRONG><a name="[11a]"></a>HAL_RCC_OscConfig</STRONG> (Thumb, 856 bytes, Stack size 40 bytes, stm32f4xx_hal_rcc.o(i.HAL_RCC_OscConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_RCC_OscConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
@@ -1281,7 +1283,7 @@ Global Symbols
 <P><STRONG><a name="[11d]"></a>HAL_SPI_Receive</STRONG> (Thumb, 346 bytes, Stack size 40 bytes, stm32f4xx_hal_spi.o(i.HAL_SPI_Receive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = HAL_SPI_Receive &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_EndRxTransaction
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_TransmitReceive
 </UL>
@@ -1292,7 +1294,7 @@ Global Symbols
 <P><STRONG><a name="[120]"></a>HAL_SPI_Transmit</STRONG> (Thumb, 358 bytes, Stack size 40 bytes, stm32f4xx_hal_spi.o(i.HAL_SPI_Transmit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HAL_SPI_Transmit &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_EndRxTxTransaction
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_spi_get_data
@@ -1303,7 +1305,7 @@ Global Symbols
 <P><STRONG><a name="[11e]"></a>HAL_SPI_TransmitReceive</STRONG> (Thumb, 482 bytes, Stack size 40 bytes, stm32f4xx_hal_spi.o(i.HAL_SPI_TransmitReceive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_EndRxTxTransaction
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Receive
@@ -1960,14 +1962,14 @@ Global Symbols
 <P><STRONG><a name="[8]"></a>Rifle_ModifyFri</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, rifle.o(i.Rifle_ModifyFri))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Rifle_ModifyFri
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rifle.o(.data)
 </UL>
 <P><STRONG><a name="[7]"></a>Rifle_ModifyLock</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, rifle.o(i.Rifle_ModifyLock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Rifle_ModifyLock
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rifle.o(.data)
 </UL>
@@ -1980,7 +1982,7 @@ Global Symbols
 <P><STRONG><a name="[b]"></a>Rifle_Updata</STRONG> (Thumb, 710 bytes, Stack size 24 bytes, rifle.o(i.Rifle_Updata))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Rifle_Updata
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rifle.o(.data)
 </UL>
@@ -1988,17 +1990,16 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[16c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC_Key2Channel
 </UL>
 
-<P><STRONG><a name="[b9]"></a>StartCommunityTask</STRONG> (Thumb, 162 bytes, Stack size 0 bytes, tasks_center.o(i.StartCommunityTask))
+<P><STRONG><a name="[b9]"></a>StartCommunityTask</STRONG> (Thumb, 134 bytes, Stack size 0 bytes, tasks_center.o(i.StartCommunityTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = StartCommunityTask &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MASTER_sendBuff
-<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
-<P><STRONG><a name="[ba]"></a>StartControlTask</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, tasks_center.o(i.StartControlTask))
+<P><STRONG><a name="[ba]"></a>StartControlTask</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, tasks_center.o(i.StartControlTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = StartControlTask &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
@@ -2006,7 +2007,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
-<P><STRONG><a name="[b8]"></a>StartMonitorTask</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, tasks_center.o(i.StartMonitorTask))
+<P><STRONG><a name="[b8]"></a>StartMonitorTask</STRONG> (Thumb, 96 bytes, Stack size 0 bytes, tasks_center.o(i.StartMonitorTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = StartMonitorTask &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
@@ -2322,11 +2323,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_sin
 </UL>
 
-<P><STRONG><a name="[22c]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<P><STRONG><a name="[22b]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
 
-<P><STRONG><a name="[22d]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+<P><STRONG><a name="[22c]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
 
-<P><STRONG><a name="[22e]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P><STRONG><a name="[22d]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
 <P><STRONG><a name="[193]"></a>__set_errno</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, errno.o(i.__set_errno))
 <BR><BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
@@ -2340,13 +2341,13 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[174]"></a>arm_cos_f32</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, arm_cos_f32.o(i.arm_cos_f32))
-<BR><BR>[Called By]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
-<LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
+<BR><BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
 </UL>
 
 <P><STRONG><a name="[175]"></a>arm_sin_f32</STRONG> (Thumb, 114 bytes, Stack size 0 bytes, arm_sin_f32.o(i.arm_sin_f32))
-<BR><BR>[Called By]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
-<LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
+<BR><BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
 </UL>
 
 <P><STRONG><a name="[19d]"></a>bmi270_get_sensor_config</STRONG> (Thumb, 134 bytes, Stack size 24 bytes, bmi270.o(i.bmi270_get_sensor_config))
@@ -2504,8 +2505,8 @@ Global Symbols
 <P><STRONG><a name="[1b3]"></a>bmi2_get_internal_status</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, bmi2.o(i.bmi2_get_internal_status))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = bmi2_get_internal_status &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_write_config_file
 </UL>
@@ -2515,8 +2516,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_map_data_int
-<LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_main_sensors
+<BR>[Called By]<UL><LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_main_sensors
 <LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_soft_reset
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_adv_power_save
 <LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_sec_init
@@ -2531,6 +2531,7 @@ Global Symbols
 <LI><a href="#[1b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_accel_config
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;config_aux_interface
 <LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cfg_error_status
+<LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_map_data_int
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> imu.o(i.imu_init)
 </UL>
@@ -2550,8 +2551,8 @@ Global Symbols
 <P><STRONG><a name="[1b8]"></a>bmi2_get_status</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, bmi2.o(i.bmi2_get_status))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = bmi2_get_status &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;config_aux_interface
 </UL>
@@ -2597,7 +2598,7 @@ Global Symbols
 <P><STRONG><a name="[1ad]"></a>bmi2_micros</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, common.o(i.bmi2_micros))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = bmi2_micros
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_delay_us
 </UL>
@@ -2605,9 +2606,9 @@ Global Symbols
 <P><STRONG><a name="[1a3]"></a>bmi2_sec_init</STRONG> (Thumb, 114 bytes, Stack size 24 bytes, bmi2.o(i.bmi2_sec_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = bmi2_sec_init &rArr; bmi2_soft_reset &rArr; bmi2_write_config_file &rArr; write_config_file &rArr; bmi2_set_adv_power_save &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_soft_reset
+<BR>[Calls]<UL><LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_soft_reset
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_init
 </UL>
@@ -2615,17 +2616,17 @@ Global Symbols
 <P><STRONG><a name="[1a0]"></a>bmi2_set_adv_power_save</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, bmi2.o(i.bmi2_set_adv_power_save))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = bmi2_set_adv_power_save &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
+<BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_set_sensor_config
-<LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_sensor_enable
-<LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_get_sensor_config
-<LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_sensor_config
+<BR>[Called By]<UL><LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_sensor_config
 <LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_sensor_config
 <LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feature_data
 <LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_config_file
+<LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_set_sensor_config
+<LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_sensor_enable
+<LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_get_sensor_config
 </UL>
 
 <P><STRONG><a name="[a6]"></a>bmi2_set_regs</STRONG> (Thumb, 108 bytes, Stack size 24 bytes, bmi2.o(i.bmi2_set_regs))
@@ -2633,8 +2634,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_map_data_int
-<LI><a href="#[20a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_wrist_wear_wake_up_config
+<BR>[Called By]<UL><LI><a href="#[20a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_wrist_wear_wake_up_config
 <LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_wrist_wear_wake_up
 <LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_wrist_gesture
 <LI><a href="#[209]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_wrist_gest_config
@@ -2662,6 +2662,7 @@ Global Symbols
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_aux_config
 <LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_accel_config
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;config_aux_interface
+<LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_map_data_int
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> imu.o(i.imu_init)
 </UL>
@@ -2681,10 +2682,10 @@ Global Symbols
 <P><STRONG><a name="[1bb]"></a>bmi2_soft_reset</STRONG> (Thumb, 104 bytes, Stack size 24 bytes, bmi2.o(i.bmi2_soft_reset))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = bmi2_soft_reset &rArr; bmi2_write_config_file &rArr; write_config_file &rArr; bmi2_set_adv_power_save &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_write_config_file
+<BR>[Calls]<UL><LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_write_config_file
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_sec_init
 </UL>
@@ -2809,7 +2810,7 @@ Global Symbols
 <P><STRONG><a name="[1c5]"></a>micros</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, tick_drv.o(i.micros))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = micros
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[14a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 </UL>
@@ -2967,10 +2968,10 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> rm_motor.o(i.get_rm_can_drvie)
 </UL>
 <P><STRONG><a name="[a4]"></a>rm_motor_tx</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, rm_motor.o(i.rm_motor_tx))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = rm_motor_tx &rArr; CAN2_SendData &rArr; CAN_SendData &rArr; HAL_CAN_AddTxMessage
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = rm_motor_tx &rArr; CAN1_SendData &rArr; CAN_SendData &rArr; HAL_CAN_AddTxMessage
 </UL>
-<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
+<BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rm_motor.o(i.get_rm_can_drvie)
 </UL>
@@ -3160,7 +3161,7 @@ Local Symbols
 <P><STRONG><a name="[15]"></a>Gimbal_Ctrl</STRONG> (Thumb, 166 bytes, Stack size 40 bytes, gimbal.o(i.Gimbal_Ctrl))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = Gimbal_Ctrl
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gimbal.o(.data)
 </UL>
@@ -3170,7 +3171,7 @@ Local Symbols
 <P><STRONG><a name="[f]"></a>Gimbal_ModifyLock</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, gimbal.o(i.Gimbal_ModifyLock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Gimbal_ModifyLock
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> gimbal.o(.data)
 </UL>
@@ -3197,15 +3198,15 @@ Local Symbols
 <P><STRONG><a name="[1c]"></a>Chassis_Ctrl</STRONG> (Thumb, 288 bytes, Stack size 48 bytes, chassis.o(i.Chassis_Ctrl))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Chassis_Ctrl &rArr; Chassis_Power_Limit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_Power_Limit
-<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_Power_Limit
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> chassis.o(.data)
 </UL>
 <P><STRONG><a name="[16]"></a>Chassis_ModifyLock</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, chassis.o(i.Chassis_ModifyLock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Chassis_ModifyLock
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> chassis.o(.data)
 </UL>
@@ -3228,7 +3229,7 @@ Local Symbols
 <P><STRONG><a name="[17]"></a>Chassis_ModifyrpmMax</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, chassis.o(i.Chassis_ModifyrpmMax))
 <BR>[Address Reference Count : 1]<UL><LI> chassis.o(.data)
 </UL>
-<P><STRONG><a name="[e8]"></a>Chassis_Power_Limit</STRONG> (Thumb, 208 bytes, Stack size 8 bytes, chassis.o(i.Chassis_Power_Limit))
+<P><STRONG><a name="[e9]"></a>Chassis_Power_Limit</STRONG> (Thumb, 208 bytes, Stack size 8 bytes, chassis.o(i.Chassis_Power_Limit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Chassis_Power_Limit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_Ctrl
@@ -3404,8 +3405,8 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sin_f32
 <LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_cos_f32
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inVSqrt
-<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> imu.o(.data)
 </UL>
@@ -3547,9 +3548,9 @@ Local Symbols
 <P><STRONG><a name="[1c4]"></a>config_aux_interface</STRONG> (Thumb, 220 bytes, Stack size 32 bytes, bmi2.o(i.config_aux_interface))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = config_aux_interface &rArr; bmi2_get_status &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
+<BR>[Calls]<UL><LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_status
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_status
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_aux_config
 </UL>
@@ -3564,8 +3565,8 @@ Local Symbols
 <P><STRONG><a name="[1b4]"></a>get_accel_config</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, bmi2.o(i.get_accel_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = get_accel_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_sensor_config
 </UL>
@@ -3573,8 +3574,8 @@ Local Symbols
 <P><STRONG><a name="[1b6]"></a>get_aux_config</STRONG> (Thumb, 170 bytes, Stack size 16 bytes, bmi2.o(i.get_aux_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = get_aux_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_sensor_config
 </UL>
@@ -3582,8 +3583,8 @@ Local Symbols
 <P><STRONG><a name="[1b5]"></a>get_gyro_config</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, bmi2.o(i.get_gyro_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = get_gyro_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;null_ptr_check
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[19f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_sensor_config
 </UL>
@@ -3591,9 +3592,9 @@ Local Symbols
 <P><STRONG><a name="[1b1]"></a>get_gyro_cross_sense</STRONG> (Thumb, 114 bytes, Stack size 40 bytes, bmi2.o(i.get_gyro_cross_sense))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = get_gyro_cross_sense &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;extract_output_feat_config
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feature_data
 </UL>
@@ -3617,9 +3618,7 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[1b0]"></a>null_ptr_check</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, bmi2.o(i.null_ptr_check))
-<BR><BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_write_config_file
+<BR><BR>[Called By]<UL><LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_write_config_file
 <LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_soft_reset
 <LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_sensor_config
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_adv_power_save
@@ -3632,14 +3631,16 @@ Local Symbols
 <LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_gyro_config
 <LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_aux_config
 <LI><a href="#[1b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_accel_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 
 <P><STRONG><a name="[1bc]"></a>set_accel_config</STRONG> (Thumb, 152 bytes, Stack size 24 bytes, bmi2.o(i.set_accel_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = set_accel_config &rArr; cfg_error_status &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_boundary_val
+<BR>[Calls]<UL><LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_boundary_val
 <LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cfg_error_status
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_sensor_config
 </UL>
@@ -3647,10 +3648,10 @@ Local Symbols
 <P><STRONG><a name="[1be]"></a>set_aux_config</STRONG> (Thumb, 144 bytes, Stack size 24 bytes, bmi2.o(i.set_aux_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_aux_config &rArr; config_aux_interface &rArr; bmi2_get_status &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
-<LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;config_aux_interface
+<BR>[Calls]<UL><LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;config_aux_interface
 <LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_boundary_val
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_sensor_config
 </UL>
@@ -3667,9 +3668,9 @@ Local Symbols
 <P><STRONG><a name="[1bd]"></a>set_gyro_config</STRONG> (Thumb, 172 bytes, Stack size 16 bytes, bmi2.o(i.set_gyro_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = set_gyro_config &rArr; cfg_error_status &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_boundary_val
+<BR>[Calls]<UL><LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_boundary_val
 <LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cfg_error_status
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_sensor_config
 </UL>
@@ -3677,9 +3678,9 @@ Local Symbols
 <P><STRONG><a name="[1bf]"></a>set_gyro_user_gain_config</STRONG> (Thumb, 162 bytes, Stack size 40 bytes, bmi2.o(i.set_gyro_user_gain_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = set_gyro_user_gain_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_sensor_config
 </UL>
@@ -3812,7 +3813,7 @@ Local Symbols
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_get_sensor_config
 </UL>
 
-<P><STRONG><a name="[1a6]"></a>select_sensor</STRONG> (Thumb, 192 bytes, Stack size 16 bytes, bmi270.o(i.select_sensor))
+<P><STRONG><a name="[1a6]"></a>select_sensor</STRONG> (Thumb, 190 bytes, Stack size 16 bytes, bmi270.o(i.select_sensor))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = select_sensor
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi270_sensor_enable
@@ -3821,9 +3822,9 @@ Local Symbols
 <P><STRONG><a name="[1c8]"></a>set_any_motion</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, bmi270.o(i.set_any_motion))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_any_motion &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3831,9 +3832,9 @@ Local Symbols
 <P><STRONG><a name="[203]"></a>set_any_motion_config</STRONG> (Thumb, 174 bytes, Stack size 40 bytes, bmi270.o(i.set_any_motion_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = set_any_motion_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_feat_config
 </UL>
@@ -3855,9 +3856,9 @@ Local Symbols
 <P><STRONG><a name="[1ce]"></a>set_gyro_self_offset_corr</STRONG> (Thumb, 108 bytes, Stack size 32 bytes, bmi270.o(i.set_gyro_self_offset_corr))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_gyro_self_offset_corr &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3865,9 +3866,9 @@ Local Symbols
 <P><STRONG><a name="[1cd]"></a>set_gyro_user_gain</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, bmi270.o(i.set_gyro_user_gain))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_gyro_user_gain &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3875,9 +3876,9 @@ Local Symbols
 <P><STRONG><a name="[1c9]"></a>set_no_motion</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, bmi270.o(i.set_no_motion))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_no_motion &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3885,9 +3886,9 @@ Local Symbols
 <P><STRONG><a name="[205]"></a>set_no_motion_config</STRONG> (Thumb, 174 bytes, Stack size 40 bytes, bmi270.o(i.set_no_motion_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = set_no_motion_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_feat_config
 </UL>
@@ -3895,9 +3896,9 @@ Local Symbols
 <P><STRONG><a name="[1c7]"></a>set_sig_motion</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, bmi270.o(i.set_sig_motion))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_sig_motion &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3905,9 +3906,9 @@ Local Symbols
 <P><STRONG><a name="[206]"></a>set_sig_motion_config</STRONG> (Thumb, 158 bytes, Stack size 40 bytes, bmi270.o(i.set_sig_motion_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = set_sig_motion_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_feat_config
 </UL>
@@ -3915,9 +3916,9 @@ Local Symbols
 <P><STRONG><a name="[1cc]"></a>set_step_activity</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, bmi270.o(i.set_step_activity))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_step_activity &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3925,9 +3926,9 @@ Local Symbols
 <P><STRONG><a name="[208]"></a>set_step_config</STRONG> (Thumb, 138 bytes, Stack size 40 bytes, bmi270.o(i.set_step_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = set_step_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_feat_config
 </UL>
@@ -3935,9 +3936,9 @@ Local Symbols
 <P><STRONG><a name="[207]"></a>set_step_count_params_config</STRONG> (Thumb, 212 bytes, Stack size 72 bytes, bmi270.o(i.set_step_count_params_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 272<LI>Call Chain = set_step_count_params_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_feat_config
 </UL>
@@ -3945,9 +3946,9 @@ Local Symbols
 <P><STRONG><a name="[1cb]"></a>set_step_counter</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, bmi270.o(i.set_step_counter))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_step_counter &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3955,9 +3956,9 @@ Local Symbols
 <P><STRONG><a name="[1ca]"></a>set_step_detector</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, bmi270.o(i.set_step_detector))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_step_detector &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3965,9 +3966,9 @@ Local Symbols
 <P><STRONG><a name="[209]"></a>set_wrist_gest_config</STRONG> (Thumb, 156 bytes, Stack size 40 bytes, bmi270.o(i.set_wrist_gest_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = set_wrist_gest_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_feat_config
 </UL>
@@ -3975,9 +3976,9 @@ Local Symbols
 <P><STRONG><a name="[1cf]"></a>set_wrist_gesture</STRONG> (Thumb, 108 bytes, Stack size 32 bytes, bmi270.o(i.set_wrist_gesture))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_wrist_gesture &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3985,9 +3986,9 @@ Local Symbols
 <P><STRONG><a name="[1d0]"></a>set_wrist_wear_wake_up</STRONG> (Thumb, 108 bytes, Stack size 32 bytes, bmi270.o(i.set_wrist_wear_wake_up))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = set_wrist_wear_wake_up &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enable_sensor_features
 </UL>
@@ -3995,9 +3996,9 @@ Local Symbols
 <P><STRONG><a name="[20a]"></a>set_wrist_wear_wake_up_config</STRONG> (Thumb, 172 bytes, Stack size 40 bytes, bmi270.o(i.set_wrist_wear_wake_up_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = set_wrist_wear_wake_up_config &rArr; bmi2_get_feat_config &rArr; bmi2_get_regs
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_get_feat_config
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_extract_input_feat_config
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_set_regs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_feat_config
 </UL>
@@ -4042,7 +4043,7 @@ Local Symbols
 <P><STRONG><a name="[180]"></a>SPI_WaitFlagStateUntilTimeout</STRONG> (Thumb, 180 bytes, Stack size 32 bytes, stm32f4xx_hal_spi.o(i.SPI_WaitFlagStateUntilTimeout))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_EndRxTxTransaction
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_EndRxTransaction

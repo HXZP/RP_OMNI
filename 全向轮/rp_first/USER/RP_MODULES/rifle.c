@@ -334,108 +334,6 @@ void Rifle_FrictionCtrl(rifle *self)
 	}
 }
 
-
-#if 0
-
-/** @FUN  发射模式设置 指定数量 连射
-  * @number 连射时是拨盘速度 指定数量时是子弹数 
-  * @note 优先级：堵转 位置 速度
-  *       位置控制结束后要手动将状态改为停止状态才能进行下一次射击
-  */
-void Rifle_ShootSet(rifle *self,rifle_ShootType type,uint16_t number)
-{
-
-	//堵转处理中，优先处理
-	if(self->info.BoxStucking == RIFLE_ING){
-	
-		if(abs(self->data.BoxPositionSet - self->data.BoxPosition) < 100){
-		
-			self->info.BoxStucking = RIFLE_NO;
-		}
-		
-		return;
-	}
-	
-	//发生堵转，设定位置
-	if(self->info.BoxStucking == RIFLE_OK){
-	
-		self->info.Shooting = RIFLE_NO;
-		
-		if(self->data.BoxPositionSet < 0 || self->data.BoxSpeedSet < 0){
-		
-			self->data.BoxPositionSet = self->data.BoxPosition + 8191 * 4.5f;
-		}
-		else if(self->data.BoxPositionSet > 0 || self->data.BoxSpeedSet > 0){
-		
-			self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f;
-		}
-		self->info.BoxStucking = RIFLE_ING;
-		
-		self->info.ShootType = RIFLE_SHOOT_STUCK;
-		
-		return;
-	}
-	
-	//不发生堵转情况，正常运行
-	
-	//不满足控制条件 已完成射击 立刻停止
-	if(self->info.ShootReady == RIFLE_NO || self->info.Shooting == RIFLE_OK){
-	
-		type = RIFLE_SHOOT_STOP;
-		
-	}
-
-	//满足控制条件
-
-	//处于位置发射状态 禁止打断 
-	if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_ING){
-	
-		if(abs(self->data.BoxPositionSet - self->data.BoxPosition) < 100){
-		
-			self->info.Shooting = RIFLE_OK;
-		}		
-		return;
-	}
-
-	//不处于位置发射状态
-
-	//控制类型：停止
-	if(type == RIFLE_SHOOT_STOP){
-	
-		self->data.BoxSpeedSet = 0;
-		self->info.Shooting = RIFLE_NO;
-
-		self->info.ShootType = RIFLE_SHOOT_STOP;
-	}
-	else{
-
-		//1、速度控制
-		if(type == RIFLE_SHOOT_STAY){
-
-			self->info.Shooting = RIFLE_ING;
-
-			self->data.BoxSpeedSet = -number;
-			
-			self->info.ShootType = RIFLE_SHOOT_STAY;
-
-			return;
-		}
-
-
-		//2、位置控制
-		if(type == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_NO){
-			
-			self->info.Shooting = RIFLE_ING;
-			
-			self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f * number;
-
-			self->info.ShootType = RIFLE_SHOOT_SET;
-			
-		}	
-	}
-}
-#endif
-
 /** @FUN  发射模式
   * @note 优先级：堵转 位置 速度
   *       
@@ -617,5 +515,107 @@ void Rifle_MagazineCtrl(rifle *self)
 
 
 
+
+
+#if 0
+
+/** @FUN  发射模式设置 指定数量 连射
+  * @number 连射时是拨盘速度 指定数量时是子弹数 
+  * @note 优先级：堵转 位置 速度
+  *       位置控制结束后要手动将状态改为停止状态才能进行下一次射击
+  */
+void Rifle_ShootSet(rifle *self,rifle_ShootType type,uint16_t number)
+{
+
+	//堵转处理中，优先处理
+	if(self->info.BoxStucking == RIFLE_ING){
+	
+		if(abs(self->data.BoxPositionSet - self->data.BoxPosition) < 100){
+		
+			self->info.BoxStucking = RIFLE_NO;
+		}
+		
+		return;
+	}
+	
+	//发生堵转，设定位置
+	if(self->info.BoxStucking == RIFLE_OK){
+	
+		self->info.Shooting = RIFLE_NO;
+		
+		if(self->data.BoxPositionSet < 0 || self->data.BoxSpeedSet < 0){
+		
+			self->data.BoxPositionSet = self->data.BoxPosition + 8191 * 4.5f;
+		}
+		else if(self->data.BoxPositionSet > 0 || self->data.BoxSpeedSet > 0){
+		
+			self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f;
+		}
+		self->info.BoxStucking = RIFLE_ING;
+		
+		self->info.ShootType = RIFLE_SHOOT_STUCK;
+		
+		return;
+	}
+	
+	//不发生堵转情况，正常运行
+	
+	//不满足控制条件 已完成射击 立刻停止
+	if(self->info.ShootReady == RIFLE_NO || self->info.Shooting == RIFLE_OK){
+	
+		type = RIFLE_SHOOT_STOP;
+		
+	}
+
+	//满足控制条件
+
+	//处于位置发射状态 禁止打断 
+	if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_ING){
+	
+		if(abs(self->data.BoxPositionSet - self->data.BoxPosition) < 100){
+		
+			self->info.Shooting = RIFLE_OK;
+		}		
+		return;
+	}
+
+	//不处于位置发射状态
+
+	//控制类型：停止
+	if(type == RIFLE_SHOOT_STOP){
+	
+		self->data.BoxSpeedSet = 0;
+		self->info.Shooting = RIFLE_NO;
+
+		self->info.ShootType = RIFLE_SHOOT_STOP;
+	}
+	else{
+
+		//1、速度控制
+		if(type == RIFLE_SHOOT_STAY){
+
+			self->info.Shooting = RIFLE_ING;
+
+			self->data.BoxSpeedSet = -number;
+			
+			self->info.ShootType = RIFLE_SHOOT_STAY;
+
+			return;
+		}
+
+
+		//2、位置控制
+		if(type == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_NO){
+			
+			self->info.Shooting = RIFLE_ING;
+			
+			self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f * number;
+
+			self->info.ShootType = RIFLE_SHOOT_SET;
+			
+		}	
+	}
+}
+#endif
 
 

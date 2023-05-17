@@ -59,6 +59,7 @@ typedef struct{
 	
 } MASTER_pack1_solve_t;
 
+
 typedef struct master_data_struct {
 	
 	MASTER_pack1_t       imuRPY;

@@ -79,6 +79,15 @@ void MASTER_sendBuff(void)
 	memcpy(buff,&master[M1].data.imuRPY,sizeof(master[M1].data.imuRPY));
 	
 	CAN_SendUint8(0x100,buff,2,6);
+
+	master[M1].data.imuRPY.x = imu.data.rpy.roll*8.f;
+	master[M1].data.imuRPY.y = imu.data.rpy.pitch*8.f;
+	master[M1].data.imuRPY.z = imu.data.rpy.yaw*8.f;
+
+	
+	memcpy(buff,&master[M1].data.imuRPY,sizeof(master[M1].data.imuRPY));
+	
+	CAN_SendUint8(0x101,buff,2,8);
 	
 #endif
 

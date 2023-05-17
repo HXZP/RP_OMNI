@@ -26,7 +26,6 @@ typedef enum {
 	
 	MOVE_MASTER,
 	MOVE_FOLLOW,
-	MOVE_VISION,
 	
 } Center_MoveMode;
 
@@ -36,8 +35,9 @@ typedef enum {
 	
 	RIFLE_STOP,
 	
-	RIFLE_MODE1,
-	RIFLE_MODE2,
+	RIFLE_SET,
+	RIFLE_STAY,
+	
 	RIFLE_MODE3,
 	
 } Center_RifleMode;
@@ -50,9 +50,17 @@ typedef struct center_info_struct{
 	Center_State    MoveInit;	
   Center_State    RifleInit;
 	
+	Center_State    RifleLock;
+	
+	Center_State    VisionSwitch;
+	Center_State    FrictionSwitch;
+	Center_State    MagazineSwitch;
+	
+	
 	Center_CtrlMode  CtrlMode;	
 	Center_MoveMode  MoveMode;
 	Center_RifleMode RifleMode;
+	
 }center_info;
 
 typedef struct center_time_struct{
@@ -78,12 +86,13 @@ typedef struct center_struct{
 	
 	
 	void (*modifyState)(Center_State *self,Center_State state);
+	
 	void (*modifyCtrlMode)(struct center_struct *self,Center_CtrlMode state);
 	void (*modifyMoveMode)(struct center_struct *self,Center_MoveMode state);
 	void (*modifyRifleMode)(struct center_struct *self,Center_RifleMode state);
 	
-	void (*Switch)(void);
-	void (*Ctrl)(void);
+	void (*Switch)(struct center_struct *self);
+	void (*Ctrl)(struct center_struct *self);
 	
 }center;
 
