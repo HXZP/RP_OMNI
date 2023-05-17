@@ -31,6 +31,11 @@ power为主控电源位置，按下图摆放找坐标系
 自瞄：手打、自动打
 
 
+代码思路：
+文件从下到上层层包含
+上面的文件、变量不出现在下层
+上层控制下层数据不进行直接控制，使用接口函数
+
 
 -----------------------------------------*/
 
@@ -39,10 +44,13 @@ power为主控电源位置，按下图摆放找坐标系
 /* 0上主控 1下主控  */
 /*MASTER SERIAL NUMBER*/
 
-#define MASTER 1U
+#define MASTER 0U
 
 /* imu 装配姿态  */
 #if MASTER == 0U
+
+	#define RP_CENTER 1
+
 	#define IMU_POSE_ANGLE 0
 	#define IMU_POSE_AX    1
 	#define IMU_POSE_AY    0

@@ -74,15 +74,14 @@ void StartCommunityTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-		
-		
+
 		communityCnt++;
 		
 		imu.updata(&imu);
 
 		MASTER_sendBuff();
 		
-#if (MASTER == 0U)
+#if (MASTER == 1U)
 		
 		/*电容数据通信 5ms */
 		if(!communityCnt%5){

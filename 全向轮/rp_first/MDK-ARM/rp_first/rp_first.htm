@@ -3,7 +3,7 @@
 <title>Static Call Graph - [rp_first\rp_first.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image rp_first\rp_first.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Wed May 17 21:00:51 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Wed May 17 21:54:44 2023
 <BR><P>
 <H3>Maximum Stack Usage =        440 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -510,11 +510,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[10a]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
-<LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
-<LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC_ResetData
+<BR><BR>[Called By]<UL><LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC_ResetData
 <LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rc_init
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_class_pid_init
+<LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
+<LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
 <LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
 <LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_MspPostInit
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_MspInit
@@ -714,8 +714,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_SendData
 </UL>
-<BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCommunityTask
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rm_motor_tx
+<BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rm_motor_tx
 </UL>
 
 <P><STRONG><a name="[de]"></a>CAN1_rxDataHandler</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, can_potocal.o(i.CAN1_rxDataHandler))
@@ -765,8 +764,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_AddTxMessage
 </UL>
-<BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
+<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
 </UL>
 
 <P><STRONG><a name="[e8]"></a>CAP_setBuff0x2E</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, cap.o(i.CAP_setBuff0x2E))
@@ -1158,18 +1157,24 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[153]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f4xx_hal_gpio.o(i.HAL_GPIO_WritePin))
-<BR><BR>[Called By]<UL><LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
-<LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
-<LI><a href="#[1e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_spi_get_data
+<BR><BR>[Called By]<UL><LI><a href="#[1e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_spi_get_data
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Led_Running
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Led_All_Light
+<LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Imu_SPI_Init
+<LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Init
 <LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_spi_write
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bmi2_spi_read
 </UL>
 
 <P><STRONG><a name="[ea]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_hal.o(i.HAL_GetTick))
-<BR><BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_ModifyLock
+<BR><BR>[Called By]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Transmit
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Receive
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Start
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;micros
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_ModifyLock
 <LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_Ctrl
 <LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gimbal_ModifyLock
 <LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gimbal_Ctrl
@@ -1179,12 +1184,6 @@ Global Symbols
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Remote_Ctrl
 <LI><a href="#[6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Center_Switch
 <LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Center_Ctrl
-<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Transmit
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_Receive
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Start
-<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-<LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;micros
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Init
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_IWDG_Init
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Init
@@ -1717,7 +1716,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> led.o(.data)
 </UL>
-<P><STRONG><a name="[18c]"></a>MASTER_HeartBeat</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, master.o(i.MASTER_HeartBeat))
+<P><STRONG><a name="[18c]"></a>MASTER_HeartBeat</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, master.o(i.MASTER_HeartBeat))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = MASTER_HeartBeat
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartMonitorTask
@@ -2049,12 +2048,11 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC_Key2Channel
 </UL>
 
-<P><STRONG><a name="[bb]"></a>StartCommunityTask</STRONG> (Thumb, 134 bytes, Stack size 0 bytes, tasks_center.o(i.StartCommunityTask))
+<P><STRONG><a name="[bb]"></a>StartCommunityTask</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, tasks_center.o(i.StartCommunityTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = StartCommunityTask &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[189]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MASTER_sendBuff
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
@@ -2400,13 +2398,13 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[17b]"></a>arm_cos_f32</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, arm_cos_f32.o(i.arm_cos_f32))
-<BR><BR>[Called By]<UL><LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
+<BR><BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
+<LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
 </UL>
 
 <P><STRONG><a name="[17c]"></a>arm_sin_f32</STRONG> (Thumb, 114 bytes, Stack size 0 bytes, arm_sin_f32.o(i.arm_sin_f32))
-<BR><BR>[Called By]<UL><LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
+<BR><BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
+<LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RP_EulerAngle_2_Quaternion
 </UL>
 
 <P><STRONG><a name="[1a4]"></a>bmi270_get_sensor_config</STRONG> (Thumb, 134 bytes, Stack size 24 bytes, bmi270.o(i.bmi270_get_sensor_config))
@@ -3027,10 +3025,10 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> rm_motor.o(i.get_rm_can_drvie)
 </UL>
 <P><STRONG><a name="[a6]"></a>rm_motor_tx</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, rm_motor.o(i.rm_motor_tx))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = rm_motor_tx &rArr; CAN1_SendData &rArr; CAN_SendData &rArr; HAL_CAN_AddTxMessage
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = rm_motor_tx &rArr; CAN2_SendData &rArr; CAN_SendData &rArr; HAL_CAN_AddTxMessage
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
+<BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN2_SendData
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_SendData
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rm_motor.o(i.get_rm_can_drvie)
 </UL>
@@ -3464,8 +3462,8 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sin_f32
 <LI><a href="#[17b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_cos_f32
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inVSqrt
+<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> imu.o(.data)
 </UL>
@@ -3505,7 +3503,9 @@ Local Symbols
 <P><STRONG><a name="[30]"></a>master_heart_beat</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, master.o(i.master_heart_beat))
 <BR>[Address Reference Count : 1]<UL><LI> master.o(.data)
 </UL>
-<P><STRONG><a name="[2f]"></a>master_updata</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, master.o(i.master_updata))
+<P><STRONG><a name="[2f]"></a>master_updata</STRONG> (Thumb, 152 bytes, Stack size 12 bytes, master.o(i.master_updata))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = master_updata
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> master.o(.data)
 </UL>
 <P><STRONG><a name="[33]"></a>Servo_ModifyCCR</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, servo.o(i.Servo_ModifyCCR))

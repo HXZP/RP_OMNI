@@ -59,12 +59,34 @@ typedef struct{
 	
 } MASTER_pack1_solve_t;
 
+typedef struct{
+	
+	uint16_t coolingLimit;
+	
+	uint16_t speedLimit;
+	
+	uint8_t  robot_id;
+	
+} MASTER_pack2_t;
+
+typedef struct{
+	
+	uint16_t cooling_heat;
+
+	uint16_t buffer;
+	
+
+	
+} MASTER_pack3_t;
+
 
 typedef struct master_data_struct {
 	
 	MASTER_pack1_t       imuRPY;
   MASTER_pack1_solve_t chasRPY;
 	
+	MASTER_pack2_t judge1;
+	MASTER_pack3_t judge2;
 	
 } MASTER_data_t;
 

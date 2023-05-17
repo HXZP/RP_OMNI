@@ -1354,7 +1354,7 @@ I (../Drivers/CMSIS/DSP/Include/arm_math_memory.h)(0x64645CD6)
 I (../Drivers/CMSIS/DSP/Include/dsp/none.h)(0x64645CD6)
 I (../Drivers/CMSIS/DSP/Include/dsp/utils.h)(0x64645CD6)
 F (..\USER\RP_CONFI\THE_BEST_BLESS_FOR_RPers.h)(0x64645CF7)()
-F (..\USER\RP_CONFI\RP_CONFIG.h)(0x6464D113)()
+F (..\USER\RP_CONFI\RP_CONFIG.h)(0x6464DCA0)()
 F (..\USER\RP_CONFI\RP_INIT.c)(0x6464C9FB)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\rp_init.o --omf_browse rp_first\rp_init.crf --depend rp_first\rp_init.d)
 I (..\USER\RP_CONFI\RP_INIT.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/DRIVERS.h)(0x64645CF7)
@@ -1420,8 +1420,8 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
-I (..\USER\RP_CONFI\RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
+I (..\USER\RP_CONFI\RP_CONFIG.h)(0x6464DCA0)
 F (..\USER\log.txt)(0x64645CF7)()
 F (..\USER\RP_FUNCTION\RP_FUNCTION.h)(0x64645CF7)()
 F (..\USER\RP_FUNCTION\GimbalRotationOutput.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\gimbalrotationoutput.o --omf_browse rp_first\gimbalrotationoutput.crf --depend rp_first\gimbalrotationoutput.d)
@@ -1489,7 +1489,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x64645CE8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x64645CE8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x64645CE8)
 I (../USER/RP_DRIVERS/type.h)(0x64645CF7)
-F (..\USER\TASKS\Tasks_Center.c)(0x6464C356)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\tasks_center.o --omf_browse rp_first\tasks_center.crf --depend rp_first\tasks_center.d)
+F (..\USER\TASKS\Tasks_Center.c)(0x6464D7B0)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\tasks_center.o --omf_browse rp_first\tasks_center.crf --depend rp_first\tasks_center.d)
 I (D:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x6110C0C0)
 I (D:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x6110C0C0)
 I (D:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\core_cm4.h)(0x626F4ADE)
@@ -1563,7 +1563,7 @@ I (../Drivers/CMSIS/DSP/Include/dsp/transform_functions.h)(0x64645CD6)
 I (../Drivers/CMSIS/DSP/Include/dsp/filtering_functions.h)(0x64645CD6)
 I (../Drivers/CMSIS/DSP/Include/dsp/quaternion_math_functions.h)(0x64645CD6)
 I (..\USER\TASKS\Tasks_Center.h)(0x64645CF7)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (../USER/RP_DEVICES/DEVICES.h)(0x64645CF7)
 I (../USER/RP_DEVICES/led.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/gpio_drv.h)(0x64645CF7)
@@ -1593,12 +1593,12 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
 I (../USER/RP_FUNCTION/RP_FUNCTION.h)(0x64645CF7)
 I (../USER/RP_FUNCTION/rp_math.h)(0x6464B68C)
 I (../USER/RP_FUNCTION/GimbalRotationOutput.h)(0x64645CF7)
 I (../USER/RP_MODULES/center.h)(0x6464CD81)
-F (..\USER\RP_MODULES\center.c)(0x6464CFF9)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\center.o --omf_browse rp_first\center.crf --depend rp_first\center.d)
+F (..\USER\RP_MODULES\center.c)(0x6464DCA0)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\center.o --omf_browse rp_first\center.crf --depend rp_first\center.d)
 I (..\USER\RP_MODULES\center.h)(0x6464CD81)
 I (../USER/RP_DRIVERS/type.h)(0x64645CF7)
 I (../USER/RP_DEVICES/DEVICES.h)(0x64645CF7)
@@ -1663,8 +1663,8 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (..\USER\RP_MODULES\chassis.h)(0x64645CF7)
 I (../USER/RP_FUNCTION/RP_FUNCTION.h)(0x64645CF7)
 I (../USER/RP_FUNCTION/rp_math.h)(0x6464B68C)
@@ -1736,7 +1736,7 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
 I (../USER/RP_FUNCTION/RP_FUNCTION.h)(0x64645CF7)
 I (../USER/RP_FUNCTION/rp_math.h)(0x6464B68C)
 I (../USER/RP_FUNCTION/GimbalRotationOutput.h)(0x64645CF7)
@@ -1855,7 +1855,7 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
 I (..\USER\RP_MODULES\chassis.h)(0x64645CF7)
 I (../USER/RP_FUNCTION/RP_FUNCTION.h)(0x64645CF7)
 I (../USER/RP_FUNCTION/rp_math.h)(0x6464B68C)
@@ -2152,7 +2152,7 @@ F (..\USER\RP_DEVICES\cap.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICR
 I (..\USER\RP_DEVICES\cap.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/type.h)(0x64645CF7)
 F (..\USER\RP_DEVICES\imu.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\imu.o --omf_browse rp_first\imu.crf --depend rp_first\imu.d)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (..\USER\RP_DEVICES\imu.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RP_IMU/bmi270/BMI.h)(0x64645CF7)
 I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x56FE42DE)
@@ -2224,7 +2224,7 @@ I (../Drivers/CMSIS/DSP/Include/dsp/transform_functions.h)(0x64645CD6)
 I (../Drivers/CMSIS/DSP/Include/dsp/filtering_functions.h)(0x64645CD6)
 I (../Drivers/CMSIS/DSP/Include/dsp/quaternion_math_functions.h)(0x64645CD6)
 F (..\USER\RP_DEVICES\motor.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\motor.o --omf_browse rp_first\motor.crf --depend rp_first\motor.d)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (..\USER\RP_DEVICES\motor.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/DRIVERS.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/gpio_drv.h)(0x64645CF7)
@@ -2270,8 +2270,8 @@ I (../USER/RP_DRIVERS/can_drv.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/uart_drv.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_MOTOR/rm_motor.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_MOTOR/rm_motor_def.h)(0x64645CF7)
-F (..\USER\RP_DEVICES\master.c)(0x64645DBB)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\master.o --omf_browse rp_first\master.crf --depend rp_first\master.d)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+F (..\USER\RP_DEVICES\master.c)(0x6464DC6F)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\master.o --omf_browse rp_first\master.crf --depend rp_first\master.d)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (..\USER\RP_DEVICES\DEVICES.h)(0x64645CF7)
 I (..\USER\RP_DEVICES\led.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/gpio_drv.h)(0x64645CF7)
@@ -2335,7 +2335,7 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (..\USER\RP_DEVICES\master.h)(0x64645DBB)
+I (..\USER\RP_DEVICES\master.h)(0x6464D99F)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x56FE42DE)
 F (..\USER\RP_DEVICES\servo.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\servo.o --omf_browse rp_first\servo.crf --depend rp_first\servo.d)
 I (..\USER\RP_DEVICES\servo.h)(0x64645CF7)
@@ -2438,10 +2438,10 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
 I (..\USER\POTOCAL_PORT\can_potocal.h)(0x64645CF7)
 F (..\USER\POTOCAL_PORT\usart_potocal.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\usart_potocal.o --omf_browse rp_first\usart_potocal.crf --depend rp_first\usart_potocal.d)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (../USER/RP_DEVICES/DEVICES.h)(0x64645CF7)
 I (../USER/RP_DEVICES/led.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/gpio_drv.h)(0x64645CF7)
@@ -2505,7 +2505,7 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
 I (..\USER\POTOCAL_PORT\usart_potocal.h)(0x64645CF7)
 F (..\USER\RP_DEVICES\RM_JUDGE_VISION\crc.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\crc.o --omf_browse rp_first\crc.crf --depend rp_first\crc.d)
 I (..\USER\RP_DEVICES\RM_JUDGE_VISION\crc.h)(0x64645CF7)
@@ -2544,7 +2544,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x64645CE8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x64645CE8)
 I (D:\MDK\ARM\ARMCC\include\stdbool.h)(0x56FE42DC)
 F (..\USER\RP_DEVICES\RM_JUDGE_VISION\judge.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\judge.o --omf_browse rp_first\judge.crf --depend rp_first\judge.d)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (..\USER\RP_DEVICES\RM_JUDGE_VISION\judge.h)(0x64645CF7)
 I (..\USER\RP_DEVICES\RM_JUDGE_VISION\judge_def.h)(0x64645CF7)
 I (../USER/RP_DRIVERS/type.h)(0x64645CF7)
@@ -2586,7 +2586,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x64645CE8)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x56FE42DE)
 I (../USER/RP_DRIVERS/uart_drv.h)(0x64645CF7)
 F (..\USER\RP_DEVICES\RM_JUDGE_VISION\vision.c)(0x64645CF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\vision.o --omf_browse rp_first\vision.crf --depend rp_first\vision.d)
-I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464D113)
+I (../USER/RP_CONFI/RP_CONFIG.h)(0x6464DCA0)
 I (..\USER\RP_DEVICES\RM_JUDGE_VISION\vision.h)(0x64645CF7)
 I (D:\MDK\ARM\ARMCC\include\stdbool.h)(0x56FE42DC)
 I (../USER/RP_DRIVERS/type.h)(0x64645CF7)
@@ -2868,7 +2868,7 @@ I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h)(0x64645CF7)
 I (../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h)(0x64645CF7)
-I (../USER/RP_DEVICES/master.h)(0x64645DBB)
+I (../USER/RP_DEVICES/master.h)(0x6464D99F)
 F (../Core/Src/gpio.c)(0x64645CD6)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../USER -I ../USER/RP_DEVICES -I ../USER/RP_DEVICES/RM_MOTOR -I ../USER/RP_DEVICES/RP_IMU -I ../USER/RP_DEVICES/RP_IMU/bmi270 -I ../USER/RP_DRIVERS -I ../USER/TASKS -I ../USER/RP_CONFI -I ../USER/RP_DEVICES/RM_JUDGE_VISION -I ../USER/POTOCAL_PORT -I ../USER/DSP -I ../USER/CMSIS/DSP/Include/dsp -I ../Drivers/CMSIS/DSP/Include -I ../Drivers/STM32F4xx_HAL_Driver -I ../USER/RP_FUNCTION -I ../USER/RP_MODULES-I.\RTE\_rp_first-ID:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\MDK\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP -DARM_MATH_CM4 -DARM_MATH_LOOPUNROLL-o rp_first\gpio.o --omf_browse rp_first\gpio.crf --depend rp_first\gpio.d)
 I (../Core/Inc/gpio.h)(0x64645CD6)
 I (../Core/Inc/main.h)(0x64645CD6)

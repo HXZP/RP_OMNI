@@ -57,6 +57,29 @@ void master_updata(struct master_struct *self,uint8_t *buff,uint32_t canId)
 		
 		self->info.offline_cnt = 0;
 	}
+
+	if(canId == 0x101){
+	
+		memcpy(&self->data.judge1,buff,sizeof(self->data.judge1));
+	  
+		judge.data.game_robot_status.shooter_id1_17mm_cooling_limit = self->data.judge1.coolingLimit;
+		judge.data.game_robot_status.shooter_id1_17mm_speed_limit = self->data.judge1.speedLimit;
+		judge.data.game_robot_status.robot_id = self->data.judge1.robot_id;
+		
+		judge.info.offline_cnt = 0;
+		self->info.offline_cnt = 0;
+	}
+	
+	if(canId == 0x102){
+	
+		memcpy(&self->data.judge2,buff,sizeof(self->data.judge2));
+		
+		judge.data.power_heat_data.chassis_power_buffer = self->data.judge2.buffer;
+		judge.data.power_heat_data.shooter_id1_17mm_cooling_heat = self->data.judge2.cooling_heat;
+		
+		judge.info.offline_cnt = 0;
+		self->info.offline_cnt = 0;
+	}
 	
 #endif
 
@@ -74,20 +97,34 @@ void MASTER_sendBuff(void)
 	master[M1].data.imuRPY.x = imu.data.rpy.roll*8.f;
 	master[M1].data.imuRPY.y = imu.data.rpy.pitch*8.f;
 	master[M1].data.imuRPY.z = imu.data.rpy.yaw*8.f;
-
 	
 	memcpy(buff,&master[M1].data.imuRPY,sizeof(master[M1].data.imuRPY));
 	
 	CAN_SendUint8(0x100,buff,2,6);
 
-	master[M1].data.imuRPY.x = imu.data.rpy.roll*8.f;
-	master[M1].data.imuRPY.y = imu.data.rpy.pitch*8.f;
-	master[M1].data.imuRPY.z = imu.data.rpy.yaw*8.f;
+	if(judge.info.state == JUDGE_ONLINE){
+	
+		master[M1].data.judge1.coolingLimit = judge.data.game_robot_status.shooter_id1_17mm_cooling_limit;
+		master[M1].data.judge1.speedLimit   = judge.data.game_robot_status.shooter_id1_17mm_speed_limit;
+		master[M1].data.judge1.robot_id     = judge.data.game_robot_status.robot_id;
+		
+		memcpy(buff,&master[M1].data.judge1,sizeof(master[M1].data.judge1));
+		
+		CAN_SendUint8(0x101,buff,2,5);
+		
+		master[M1].data.judge2.cooling_heat = judge.data.power_heat_data.shooter_id1_17mm_cooling_heat;
+		master[M1].data.judge2.buffer       = judge.data.power_heat_data.chassis_power_buffer;
+
+
+		memcpy(buff,&master[M1].data.judge2,sizeof(master[M1].data.judge2));
+		
+		CAN_SendUint8(0x102,buff,2,4);		
+	
+	}
+	
 
 	
-	memcpy(buff,&master[M1].data.imuRPY,sizeof(master[M1].data.imuRPY));
 	
-	CAN_SendUint8(0x101,buff,2,8);
 	
 #endif
 

@@ -1,12 +1,4 @@
-
-
-
-
 /*
-
-
-目前没什么思路以下都是大便
-
 
 遥控器控制：
 sw1
@@ -110,7 +102,7 @@ center Center = {
 };
 
 
-
+#if (RP_CENTER == 1)
 
 /*============================================================================*/
 
@@ -729,7 +721,7 @@ void Center_ModifiyVisionMode(center *self,Center_VisionMode state)
 
 
 
-
+#endif
 
 
 
