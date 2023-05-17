@@ -65,10 +65,11 @@ rp_first\center.o: ../USER/RP_DEVICES/RM_JUDGE_VISION/judge_def.h
 rp_first\center.o: ../USER/RP_DEVICES/RM_JUDGE_VISION/crc.h
 rp_first\center.o: ../USER/RP_DEVICES/RM_JUDGE_VISION/vision.h
 rp_first\center.o: ../USER/RP_DEVICES/master.h
+rp_first\center.o: ../USER/RP_CONFI/RP_CONFIG.h
 rp_first\center.o: ..\USER\RP_MODULES\chassis.h
 rp_first\center.o: ../USER/RP_FUNCTION/RP_FUNCTION.h
 rp_first\center.o: ../USER/RP_FUNCTION/rp_math.h
 rp_first\center.o: ../USER/RP_FUNCTION/GimbalRotationOutput.h
 rp_first\center.o: ..\USER\RP_MODULES\gimbal.h
 rp_first\center.o: ..\USER\RP_MODULES\rifle.h
-rp_first\center.o: ../USER/RP_CONFI/RP_CONFIG.h
+rp_first\center.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

@@ -31,7 +31,7 @@ void IIC_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 	
   HAL_GPIO_WritePin(GPIOB,BMI_CS_Pin, GPIO_PIN_SET);	
-	HAL_GPIO_WritePin(GPIOB,IIC_CS_Pin, GPIO_PIN_SET);	
+	HAL_GPIO_WritePin(GPIOB,IIC_CS_Pin, GPIO_PIN_SET);
 }
 
 

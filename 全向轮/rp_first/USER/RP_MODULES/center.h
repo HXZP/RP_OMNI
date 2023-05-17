@@ -42,6 +42,17 @@ typedef enum {
 	
 } Center_RifleMode;
 
+typedef enum { 
+	
+	VISION_NULL,
+	
+	VISION_AIM,
+	
+	VISION_BIG_BUFF,
+	VISION_MIN_BUFF,
+	
+} Center_VisionMode;
+
 typedef struct center_info_struct{
 
   Center_State    SysInit;
@@ -49,10 +60,10 @@ typedef struct center_info_struct{
 	Center_State    CtrlInit;
 	Center_State    MoveInit;	
   Center_State    RifleInit;
+  Center_State    VisionInit;	
 	
 	Center_State    RifleLock;
-	
-	Center_State    VisionSwitch;
+
 	Center_State    FrictionSwitch;
 	Center_State    MagazineSwitch;
 	
@@ -60,6 +71,7 @@ typedef struct center_info_struct{
 	Center_CtrlMode  CtrlMode;	
 	Center_MoveMode  MoveMode;
 	Center_RifleMode RifleMode;
+  Center_VisionMode VisionMode;	
 	
 }center_info;
 

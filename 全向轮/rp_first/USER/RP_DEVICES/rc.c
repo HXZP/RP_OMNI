@@ -8,9 +8,10 @@ rc_wake：拨杆安全标志位，全部拨杆归位后才可以使用
 
 tw从上到下对应序号：
 		0
-		1
+		1		
 		3
 		2
+
 
 *
 */
@@ -27,6 +28,7 @@ void RC_ResetData(rc_t *self);
 bool RC_ResetJudge(rc_t *self);
 void RC_Mouse_Speed(rc_t *self);
 void RC_KeyMouseReceive(rc_t *self);
+
 rc_t rc = {
 
   .init       = rc_init,
