@@ -22,7 +22,7 @@ master_t master[MASTER_LIST] = {
 		
 		.info.state = MASTER_OFFLINE,	
 		.info.offline_max_cnt = 100,	
-		
+		.info.offline_cnt = 100,	
 		.updata     = &master_updata,
 		.heart_beat = &master_heart_beat,
 	},
@@ -33,7 +33,7 @@ master_t master[MASTER_LIST] = {
 		
 		.info.state = MASTER_OFFLINE,	
 		.info.offline_max_cnt = 100,	
-		
+		.info.offline_cnt = 100,			
 		.updata     = &master_updata,
 		.heart_beat = &master_heart_beat,
 	},

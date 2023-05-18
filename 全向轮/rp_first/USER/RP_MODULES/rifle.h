@@ -65,8 +65,13 @@ typedef struct rifle_info_struct{
 	
 	rifle_state  Magazine;
 	
+	rifle_state  IgnoreHeat;
+	
 	rifle_ShootType ShootType;
 	rifle_BoxType   BoxType; 
+	
+	
+	
 //	rifle_state  SpeedRecordFlag;
 	
 }rifle_info;
@@ -149,6 +154,8 @@ typedef struct rifle_struct{
 	rifle_friSet friTable;
 	
 	void (*ModifyLock)(struct rifle_struct *self,rifle_Lock type);
+	void (*ModifyState)(rifle_state *self,rifle_state type);
+
 	void (*ModifyFri)(struct rifle_struct *self,rifle_state state);
 	void (*ModifyMagazine)(struct rifle_struct *self,rifle_state state);
 	void (*ModifyShootType)(struct rifle_struct *self,rifle_ShootType type,uint16_t number);

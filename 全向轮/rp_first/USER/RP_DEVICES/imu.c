@@ -119,7 +119,7 @@ imu_t imu = {
 	.bmi = &bmi_client,
 	
 	.info.state = IMU_OFFLINE,	
-	.info.init_flag       = 0,
+	.info.init_flag       = 50,
 	.info.offline_max_cnt = 50,	
 	
 	//通信方式选择

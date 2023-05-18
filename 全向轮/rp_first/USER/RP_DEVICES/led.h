@@ -4,15 +4,16 @@
 #include "gpio_drv.h"
 #include "stdbool.h"
 
-void Led_All_Light(void);
-void Led_All_Shine(uint16_t time);
-void Led_Running(uint16_t time);
-void Led_Breath(uint16_t time);
 
 typedef struct led_struct {
 	
 	void (*allLight)(void);
-	void (*allShine)(uint16_t time);
+	void (*allShine)(uint16_t time);	
+	
+	void (*Light)(char num);
+	void (*DeLight)(char num);	
+	void (*Shine)(char num,uint16_t time);
+
 	void (*running)(uint16_t time);
 //	void (*breath)(uint16_t time);
 	

@@ -49,10 +49,8 @@ sw2
 
 //0-100
 #define ROTATE_VELOCITY_DEFUALT 50
-
-#define IMU_ROLL imu.data.rpy.roll
-#define IMU_PITCH imu.data.rpy.pitch
-#define IMU_YAW imu.data.rpy.yaw
+#define IMU_INIT_TIME 2000
+#define CENTER_INIT_OUT_TIME 3000
 
 
 void Center_ModifiyState(Center_State *self,Center_State state);
@@ -87,6 +85,10 @@ center Center = {
 	.info.RifleMode  = RIFLE_NULL,	
 	.info.VisionMode = VISION_NULL,
 	
+	.time.InitTimeStart = 0,
+	.time.AimEnterTimeStart = 0,
+	.time.CenterStartTime = 0,
+	
 	.data.RotateVelocity = ROTATE_VELOCITY_DEFUALT,
 	
 	.modifyState = Center_ModifiyState,
@@ -109,6 +111,49 @@ center Center = {
 /*
  *@note 初始化表
 **/
+void Center_SysInit(center *self){
+
+	/*等待imu数据收敛切换更低的kp用于控制使用*/
+	if(HAL_GetTick() - self->time.CenterStartTime > IMU_INIT_TIME){
+
+		imu.algo.KP = IMU_PID_KP_CONTROL;
+
+	}
+
+	gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);
+	gun.ModifyMagazine(&gun,RIFLE_OK);
+	gun.ModifyFri(&gun,RIFLE_NO);
+	
+	//头部复位
+	head.ModifyLock(&head,GIMB_UNLOCK);
+	
+	self->info.MoveMode = MOVE_FOLLOW;
+	
+	head.ModifyXYZSet(&head,0,0,0);
+	
+	if(head.info.YReach == GIMB_OK && head.info.YReach == GIMB_OK){
+
+		gun.ModifyLock(&gun,RIFLE_UNLOCK);
+		omni.ModifyLock(&omni,CHAS_UNLOCK);
+		
+		self->info.MoveMode = MOVE_NULL;
+		self->info.SysInit = RP_OK;		
+	}
+	
+	
+	//超时强制复位
+	if(HAL_GetTick() - self->time.InitTimeStart > CENTER_INIT_OUT_TIME){
+		
+		gun.ModifyLock(&gun,RIFLE_UNLOCK);
+		omni.ModifyLock(&omni,CHAS_UNLOCK);				
+		
+		self->info.MoveMode = MOVE_NULL;
+		self->info.SysInit = RP_OK;
+	}
+}
+
+
+
 void Center_CtrlModeInit(center *self,Center_CtrlMode state)
 {
 	rc.data.tw_step[0] = 0;
@@ -116,7 +161,8 @@ void Center_CtrlModeInit(center *self,Center_CtrlMode state)
   rc.data.tw_step[2] = 0;
   rc.data.tw_step[3] = 0;
 	
-	self->modifyMoveMode(self,MOVE_NULL);
+	self->modifyMoveMode(self,MOVE_MASTER);
+	
 	self->modifyRifleMode(self,RIFLE_NULL);	
 	self->modifyVisionMode(self,VISION_NULL);
 	
@@ -131,6 +177,11 @@ void Center_CtrlModeInit(center *self,Center_CtrlMode state)
 
 void Center_MoveModeInit(center *self,Center_MoveMode state)
 {
+	rc.data.tw_step[0] = 0;
+  rc.data.tw_step[1] = 0;
+  rc.data.tw_step[2] = 0;
+  rc.data.tw_step[3] = 0;
+	
 	if(state == MOVE_MASTER){
 	
 		self->data.GimbPitTarget = imu.data.rpy.pitch;
@@ -188,9 +239,22 @@ void Center_VisionModeInit(center *self,Center_VisionMode state)
 **/
 void Center_Switch(center *self)
 {
+	
+	if(self->time.CenterStartTime == 0){
+	
+		self->time.CenterStartTime = HAL_GetTick()+1;
+	}
+	
+	
 	if(rc.info.state == RC_OFFLINE){
 		
 		self->time.InitTimeStart = HAL_GetTick();
+		
+		self->info.SysInit = RP_NO;
+		self->info.CtrlInit = RP_NO;
+		self->info.MoveInit = RP_NO;		
+		self->info.RifleInit = RP_NO;
+		self->info.VisionInit = RP_NO;
 		
 		self->info.RifleLock = RP_NO;
 		
@@ -209,9 +273,9 @@ void Center_Switch(center *self)
 	else{
 		
 		
-		if(self->info.RifleLock == RP_NO){
+		if(self->info.SysInit == RP_NO){
 		
-			self->info.RifleLock = RP_ING;
+			self->info.SysInit = RP_ING;
 		}
 		
 		/* 控制模式 */
@@ -294,7 +358,7 @@ void Remote_Ctrl(center *self)
 
 			self->modifyVisionMode(self,VISION_BIG_BUFF);
 		}				
-		else if(rc.data.thumbwheel < 0 && rc.data.thumbwheel > -300){
+		else if(rc.data.thumbwheel < 20 && rc.data.thumbwheel > -300){
 		
 			if(HAL_GetTick() - self->time.AimEnterTimeStart > 200){
 			
@@ -335,7 +399,7 @@ void Remote_Ctrl(center *self)
 			break;				
 	}
 	
-	//未对发射机构进行复位
+	/* 未对发射机构进行复位 */
 	if(self->info.RifleLock == RP_NO){
 	
 		self->modifyRifleMode(self,RIFLE_STOP);
@@ -396,6 +460,18 @@ void KeyMouse_Ctrl(center *self)
 
 void Center_Updata(center *self)
 {
+  //Init
+	if(self->info.SysInit == RP_ING){
+	
+		Center_SysInit(self);	
+	}
+	
+	
+	
+/*------------------------------------------------------------------*/	
+	
+	
+	
 	//gimb
 	if(self->info.MoveMode == MOVE_MASTER){
 
@@ -441,6 +517,8 @@ void Center_Updata(center *self)
 		omni.ModifyOriginAngle(&omni,((float)motor[GIMB_Y].rx_info.angle)/22.5f);
 	}
 	
+	omni.ModifyXYZSet(&omni,self->data.VelocityX,self->data.VelocityY,self->data.VelocityZ);
+	
 	//rifle
 	if(self->info.FrictionSwitch == RP_OK){
 	
@@ -474,18 +552,18 @@ void Center_Updata(center *self)
 	
 		if(gun.data.HeatEnableNum > 5){
 		
-			gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,4000);		
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,4000);		
 		}
 		else{
 		
-			gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,2000);		
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,2000);		
 		}
 	}
 	else if(self->info.RifleMode == RIFLE_STOP){
 	
-		gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,0);
+		gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);
 	
-	}	
+	}
 }
 
 
@@ -494,42 +572,40 @@ void Center_Updata(center *self)
 
 void Center_Ctrl(center *self)
 {
-	if(self->info.SysInit == RP_ING){
+	char errCnt = 0;
 	
-		/*等待imu数据收敛切换更低的kp用于控制使用*/
-		if(HAL_GetTick() > 1000){
-
-			imu.algo.KP = IMU_PID_KP_CONTROL;
-
-		}
-		
-		//头部复位
-		head.ModifyLock(&head,GIMB_UNLOCK);
-		self->info.MoveMode = MOVE_FOLLOW;
-		head.ModifyXYZSet(&head,0,0,0);
-		
-		if(head.info.YReach == GIMB_OK && head.info.YReach == GIMB_OK){
-
-		  gun.ModifyLock(&gun,RIFLE_UNLOCK);
-		  omni.ModifyLock(&omni,CHAS_UNLOCK);
-			
-			self->info.MoveMode = MOVE_NULL;
-			self->info.SysInit = RP_OK;		
-		}
-		
-		
-		//超时强制复位
-		if(HAL_GetTick() - self->time.InitTimeStart > 3000){
-			
-		  gun.ModifyLock(&gun,RIFLE_UNLOCK);
-		  omni.ModifyLock(&omni,CHAS_UNLOCK);				
-			
-			self->info.MoveMode = MOVE_NULL;
-			self->info.SysInit = RP_OK;
-		}
+	if(rc.info.state == RC_OFFLINE){
+	
+		led.allShine(500);
 	}
-	
-/*------------------------------------------------------------------*/	
+	else{
+		
+//		if(gun.info.MotorState == RIFLE_MOTOR_ERR){
+//			
+//			errCnt++;
+//		}
+//		
+//		if(omni.info.MotorState == CHAS_ERR){
+//			
+//			errCnt++;
+//		}
+//		
+//		if(head.info.MotorState == GIMB_MOTOR_ERR){
+//			
+//			errCnt++;
+//		}
+//		
+//		if(errCnt){
+//		
+//			led.Shine(1,100 * errCnt);
+//		}
+//		
+//		
+//		
+//		if(!errCnt)led.running(50);
+      led.running(50);
+		
+	}
 	
 	
 	if(self->info.MoveMode == MOVE_MASTER){
@@ -629,7 +705,7 @@ void Center_ModifiyState(Center_State *self,Center_State state)
 
 void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state)
 {
-	if(self->info.CtrlMode == state)return;
+
 
 	if(self->info.CtrlInit == RP_ING){
 	
@@ -641,6 +717,8 @@ void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state)
 		}
 	}	
 	
+	if(self->info.CtrlMode == state)return;	
+	
 	if(self->info.CtrlMode != state){
 	
 		self->info.CtrlMode = CTRL_NULL;
@@ -650,7 +728,7 @@ void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state)
 
 void Center_ModifiyMoveMode(center *self,Center_MoveMode state)
 {
-	if(self->info.MoveMode == state)return;
+
 
 	if(self->info.MoveInit == RP_ING){
 	
@@ -662,6 +740,8 @@ void Center_ModifiyMoveMode(center *self,Center_MoveMode state)
 		}		
 	}
 	
+	if(self->info.MoveMode == state)return;	
+	
 	if(self->info.MoveMode != state){
 	
 		self->info.MoveMode = MOVE_NULL;
@@ -671,7 +751,7 @@ void Center_ModifiyMoveMode(center *self,Center_MoveMode state)
 
 void Center_ModifiyRifleMode(center *self,Center_RifleMode state)
 {
-	if(self->info.RifleMode == state)return;
+
 
 	if(self->info.RifleInit == RP_ING){
 	
@@ -683,6 +763,8 @@ void Center_ModifiyRifleMode(center *self,Center_RifleMode state)
 		}				
 	}		
 	
+	if(self->info.RifleMode == state)return;	
+	
 	if(self->info.RifleMode != state){
 	
 		self->info.RifleMode = RIFLE_NULL;
@@ -692,7 +774,7 @@ void Center_ModifiyRifleMode(center *self,Center_RifleMode state)
 
 void Center_ModifiyVisionMode(center *self,Center_VisionMode state)
 {
-	if(self->info.VisionMode == state)return;
+
 
 	if(self->info.VisionInit == RP_ING){
 	
@@ -701,8 +783,10 @@ void Center_ModifiyVisionMode(center *self,Center_VisionMode state)
 		if(self->info.VisionInit == RP_OK){
 		
 			self->info.VisionMode = state;
-		}				
+		}
 	}		
+	
+	if(self->info.VisionMode == state)return;	
 	
 	if(self->info.VisionMode != state){
 	

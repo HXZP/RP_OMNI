@@ -87,6 +87,8 @@ typedef struct center_time_struct{
 	uint32_t AimEnterTimeStart;
 	uint32_t InitTimeStart;	
 	
+	uint32_t CenterStartTime;		
+	
 }center_time;
 
 typedef struct center_data_struct{

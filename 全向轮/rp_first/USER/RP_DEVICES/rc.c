@@ -1,14 +1,26 @@
 /*
 *		遥控以及键盘
 
+
+s1               s2
+
+   |          |
+------->2  ------->0
+   |          |
+   3          2
+
+
+
+
+
 顺序:相同符号之间按绝对值从大到小
 tw_step[4]：拨轮产生跳变信号，可以产生四个，拨一次只能产生一个信号，复位后信号才能产生
 rc_wake：拨杆安全标志位，全部拨杆归位后才可以使用
 
 tw数值：
-		+
-		0
 		-
+		0
+		+
 
 tw从上到下对应序号：
 		0
@@ -41,13 +53,13 @@ rc_t rc = {
 	.key        = RC_KeyMouseReceive,
 	
 	//顺序:相同符号之间按绝对值从大到小
-	.info.tw_step_value[0] =  600,
-	.info.tw_step_value[1] =  300,
-	.info.tw_step_value[2] = -600,
-	.info.tw_step_value[3] = -300,	
+	.info.tw_step_value[0] = -630,
+	.info.tw_step_value[1] = -400,
+	.info.tw_step_value[2] = +630,
+	.info.tw_step_value[3] = +400,	
 	
 	.info.state = RC_OFFLINE,
-	.info.offline_cnt     = 0,
+	.info.offline_cnt     = 100,
 	.info.offline_max_cnt = 100,
 };
 

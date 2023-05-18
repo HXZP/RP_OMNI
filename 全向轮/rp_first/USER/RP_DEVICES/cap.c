@@ -16,7 +16,7 @@ cap_t cap = {
 	.info.canId = 0x30,
 	
 	.info.offline_max_cnt = 100,
-	.info.offline_cnt = 0,
+	.info.offline_cnt = 100,
 	.info.state = CAP_OFFLINE,
 
 	.data.tx.output_power_limit = 150,

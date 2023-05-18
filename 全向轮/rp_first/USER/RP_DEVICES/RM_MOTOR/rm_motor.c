@@ -145,7 +145,7 @@ void motor_class_init(struct motor_class_t *motor)
 	
 	motor->state.work_state = M_OFFLINE;
 	
-	motor->state.offline_cnt = 0;
+	motor->state.offline_cnt = 100;
 	motor->state.offline_cnt_max = 100;	
 	
 

@@ -26,7 +26,7 @@ static void Gimbal_Ctrl(gimbal *gimb);
 
 gimbal head = {
 
-	.info.MotorState = GIMB_MOTOR_ONLINE,
+	.info.MotorState = GIMB_MOTOR_ERR,
   .info.Lock       = GIMB_UNLOCK,	
 
 	.info.elevation  = 45,

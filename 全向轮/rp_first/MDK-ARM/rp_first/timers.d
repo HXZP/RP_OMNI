@@ -1,8 +1,8 @@
 rp_first\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/timers.c
-rp_first\timers.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+rp_first\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 rp_first\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-rp_first\timers.o: D:\MDK\ARM\ARMCC\Bin\..\include\stddef.h
-rp_first\timers.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+rp_first\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+rp_first\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 rp_first\timers.o: ../Core/Inc/FreeRTOSConfig.h
 rp_first\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 rp_first\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h

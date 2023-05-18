@@ -49,9 +49,12 @@ int16_t RampInt(int16_t final, int16_t now, int16_t ramp);
 float RampFloat(float final, float now, float ramp);
 float DeathZoom(float input, float center, float death);
 float RP_GetAbsoluteMax(float *data,uint16_t num);
+int RP_GetSymbol(float num);
 float RP_Limit(float tar,float range);
-
-
+float RP_JudgeNull(float last, float now);
+float RP_HalfTurn(float angle,float max);
+float RP_GetTotal(float *data,uint16_t num);
+float RP_GetAbsoluteTotal(float *data,uint16_t num);
 
 
 

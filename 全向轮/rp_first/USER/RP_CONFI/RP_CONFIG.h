@@ -92,7 +92,7 @@ power为主控电源位置，按下图摆放找坐标系
 
 /*Usart Select*/
 #define VISION_USART  1U
-#define JUDGE_USART   5U
+#define JUDGE_USART   3U
 
 /*Test Enable*/
 #define USART_TEST    0U //Enable Usart Test

@@ -1,7 +1,7 @@
 rp_first\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
 rp_first\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-rp_first\port.o: D:\MDK\ARM\ARMCC\Bin\..\include\stddef.h
-rp_first\port.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+rp_first\port.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+rp_first\port.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 rp_first\port.o: ../Core/Inc/FreeRTOSConfig.h
 rp_first\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 rp_first\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h

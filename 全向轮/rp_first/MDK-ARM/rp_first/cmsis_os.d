@@ -1,9 +1,9 @@
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
-rp_first\cmsis_os.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+rp_first\cmsis_os.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-rp_first\cmsis_os.o: D:\MDK\ARM\ARMCC\Bin\..\include\stddef.h
-rp_first\cmsis_os.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+rp_first\cmsis_os.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+rp_first\cmsis_os.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 rp_first\cmsis_os.o: ../Core/Inc/FreeRTOSConfig.h
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
@@ -16,4 +16,4 @@ rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 rp_first\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-rp_first\cmsis_os.o: D:\MDK\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_armcc.h
+rp_first\cmsis_os.o: D:\MDK_PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_armcc.h

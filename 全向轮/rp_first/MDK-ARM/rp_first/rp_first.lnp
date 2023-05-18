@@ -107,6 +107,7 @@
 "rp_first\rifle.o"
 "rp_first\gimbal.o"
 "rp_first\chassis.o"
+"rp_first\auto.o"
 "rp_first\gpio_drv.o"
 "rp_first\iic_drv.o"
 "rp_first\tick_drv.o"

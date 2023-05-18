@@ -69,8 +69,30 @@ float RP_GetAbsoluteMax(float *data,uint16_t num)
 	return max;
 }
 
+float RP_GetTotal(float *data,uint16_t num)
+{
+	float total = 0;
+	
+	
+	for(uint16_t i = 0 ; i < num ; i++)
+	{
+		total += data[i];
+	}
 
+	return total;
+}
 
+float RP_GetAbsoluteTotal(float *data,uint16_t num)
+{
+	float total = 0;
+	
+	
+	for(uint16_t i = 0 ; i < num ; i++)
+	{
+		total += abs(data[i]);
+	}
 
+	return total;
+}
 
 

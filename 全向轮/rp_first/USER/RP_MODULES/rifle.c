@@ -11,6 +11,9 @@
 
 
 void Rifle_ModifyLock(rifle *self,rifle_Lock type);
+
+void Rifle_ModifyState(rifle_state *self,rifle_state state);
+
 void Rifle_ModifyFri(rifle *self,rifle_state state);
 void Rifle_ModifyMagazine(rifle *self,rifle_state state);
 void Rifle_ModifyShootType(rifle *self,rifle_ShootType type,uint16_t number);
@@ -43,12 +46,15 @@ rifle gun = {
 	.friTable.Speed30 = 7020,
 
 	.ModifyLock = Rifle_ModifyLock,
+	
+	.ModifyState = Rifle_ModifyState,
+	
 	.ModifyFri  = Rifle_ModifyFri,
 	.ModifyMagazine  = Rifle_ModifyMagazine,
 	.ModifyShootType = Rifle_ModifyShootType,
 	
 	.Updata  = Rifle_Updata,
-	.BoxCtrl = Rifle_BoxCtrl ,
+	.BoxCtrl = Rifle_BoxCtrl,
 	.FrictionCtrl = Rifle_FrictionCtrl,
 	.MagazineCtrl = Rifle_MagazineCtrl,
 };
@@ -71,6 +77,20 @@ void Rifle_ModifyLock(rifle *self,rifle_Lock type)
 	}	
 }
  
+
+/** @FUN  修改状态
+  * @state  RIFLE_OK   RIFLE_NO
+  */
+void Rifle_ModifyState(rifle_state *self,rifle_state state)
+{
+	if(*self != state){
+	
+		*self = state;
+
+	}
+}
+
+
 /** @FUN  使能摩擦轮
   * @state RIFLE_OK RIFLE_NO
   */
@@ -109,7 +129,7 @@ void Rifle_ModifyMagazine(rifle *self,rifle_state state)
 	if(self->info.Magazine != state){
 	
 		self->info.Magazine = state;
-		return;
+
 	}
 }
 
@@ -144,15 +164,38 @@ void Rifle_Updata(rifle *self)
 
 	
 	self->data.SpeedLimitPre = self->data.SpeedLimit;
-	self->data.SpeedLimit    = judge.data.game_robot_status.shooter_id1_17mm_speed_limit;
-	
-	self->data.HeatLimit     = judge.data.game_robot_status.shooter_id1_17mm_cooling_limit;
-
-	self->data.Heat = judge.data.power_heat_data.shooter_id1_17mm_cooling_heat;
-	
 	self->data.SpeedPre = self->data.Speed;
-	self->data.Speed    = judge.data.shoot_data.bullet_speed;
+	
+	//裁判系统在线处理
+	if(judge.info.state == JUDGE_ONLINE){
+		
 
+		self->data.HeatLimit = judge.data.game_robot_status.shooter_id1_17mm_cooling_limit;
+
+		self->data.Heat = judge.data.power_heat_data.shooter_id1_17mm_cooling_heat;	
+		
+		self->data.SpeedLimit = judge.data.game_robot_status.shooter_id1_17mm_speed_limit;
+				
+		self->data.Speed = judge.data.shoot_data.bullet_speed;
+		
+		self->data.HeatEnableNum = (self->data.HeatLimit - self->data.Heat)/10;
+		
+	}
+	//裁判系统不在线处理
+	else{
+	
+		self->data.HeatEnableNum = 999;
+		
+		self->data.SpeedLimit = 15;
+		
+	}
+	
+	if(self->info.IgnoreHeat == RIFLE_OK){
+	
+		self->data.HeatEnableNum = 999;
+	
+	}
+	
 
 	if(self->data.SpeedLimitPre != self->data.SpeedLimit){
 	
@@ -215,30 +258,18 @@ void Rifle_Updata(rifle *self)
 		self->info.FriSpeedReach = RIFLE_NO;
 	}
 
-	
-	
 	//判断热量允许
-	if(judge.info.state == JUDGE_ONLINE){
-		
-		self->data.HeatEnableNum = (self->data.HeatLimit - self->data.Heat)/10;
-		
-		if(self->data.HeatEnableNum > 1){
-		
-			self->info.HeatEnable = RIFLE_OK;
-		}
-		else{
-		
-			self->info.HeatEnable = RIFLE_NO;
-		}
+	if(self->data.HeatEnableNum > 1){
 	
+		self->info.HeatEnable = RIFLE_OK;
 	}
 	else{
 	
-		self->data.HeatEnableNum = 999;
-		
-		self->info.HeatEnable = RIFLE_OK;
+		self->info.HeatEnable = RIFLE_NO;
 	}
+		
 	
+	//堵转判断	
 	if(self->info.Shooting == RIFLE_ING){
 	
 		if(abs(self->data.BoxSpeed < 50) && abs(self->data.BoxTorque > 5000)){
@@ -254,19 +285,18 @@ void Rifle_Updata(rifle *self)
 		}
 	}
 	
+	//堵转过久处理
 	if(self->info.BoxStucking == RIFLE_NO){
 	
 		self->time.StuckStart = HAL_GetTick();
 	}
 	else{
 	
-		if(HAL_GetTick() - self->time.StuckStart > 2000){
+		if(HAL_GetTick() - self->time.StuckStart > 3000){
 		
 			self->info.BoxStucking = RIFLE_NO;
 		}
 	}
-	
-	
 	
 	//判断是否达到射击条件
 	if(self->info.FriSpeedReach == RIFLE_OK && self->info.BoxStucking == RIFLE_OK && self->info.HeatEnable == RIFLE_OK){

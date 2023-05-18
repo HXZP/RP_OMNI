@@ -33,6 +33,13 @@ typedef enum {
 	
 } chassis_Direction;
 
+typedef enum { 
+	
+	CHAS_FAIR,
+	CHAS_LINEAR,
+	CHAS_ROTATE,
+	
+} chassis_Distribute;
 
 typedef struct {
 
@@ -50,6 +57,7 @@ typedef struct chassis_info_struct{
   chassis_State      MotorState;
 	
   chassis_Direction  Direction;
+	chassis_Distribute Distribute;
 	chassis_Lock       Lock;
 	
 	float ReductionRatio;
@@ -100,7 +108,9 @@ typedef struct chassis_struct{
   void (*ModifyrpmMax)(struct chassis_struct *chas,float max);
 	void (*ModifyXYZSet)(struct chassis_struct *chas,float setX,float setY,float setZ);
 	void (*ModifyOriginAngle)(struct chassis_struct *chas,float angle);
+	void (*ModifyDistribute)(struct chassis_struct *chas,chassis_Distribute type);
 
+	
 	void (*Updata)(struct chassis_struct *chas);
 	void (*Resolving)(struct chassis_struct *chas);
 	void (*Ctrl)(struct chassis_struct *chas);

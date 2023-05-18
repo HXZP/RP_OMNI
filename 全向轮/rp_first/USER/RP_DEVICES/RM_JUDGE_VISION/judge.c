@@ -35,8 +35,8 @@ void Determine_ID(void);
 judge_t	judge = {
 	
 	.info.state  = JUDGE_OFFLINE,	
-	.info.offline_cnt     = 0,
-	.info.offline_max_cnt = 5000,
+	.info.offline_cnt     = 1000,
+	.info.offline_max_cnt = 1000,
 
 	
 	.init       = judge_sensor_init,
@@ -213,6 +213,10 @@ void judge_sensor_update(judge_t *judge_sen, uint8_t *rxBuf)
 //						//JUDGE_ReadFromCom();
 //						break;
 				}
+				
+					
+	      // 接收到数据表示在线
+	      judge_sen->info.offline_cnt = 0;
 			}
 		}
 		
@@ -227,9 +231,7 @@ void judge_sensor_update(judge_t *judge_sen, uint8_t *rxBuf)
 	judge_data->data_valid = res;
 	if(judge_data->data_valid != true)
 		judge_data->err_cnt++;
-	
-	// 接收到数据表示在线
-	judge_sen->info.offline_cnt = 0;
+
 	
 	
 }

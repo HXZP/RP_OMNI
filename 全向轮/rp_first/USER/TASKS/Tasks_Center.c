@@ -28,8 +28,6 @@ void StartMonitorTask(void const * argument)
   for(;;)
   {	
 		
-	  led.running(50);
-		
 		rc.heart_beat(&rc);
 		
 		cap.heart_beat(&cap);		

@@ -18,7 +18,8 @@ static void Chassis_ModifyLock(chassis *chas,chassis_Lock type);
 static void Chassis_ModifyrpmMax(chassis *chas,float max);
 static void Chassis_ModifyOriginAngle(chassis *chas,float angle);
 static void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ);
-	
+static void Chassis_ModifyDistribute(chassis *chas,chassis_Distribute type);
+
 static void Chassis_Updata(chassis *chas);
 static void Chassis_Resolving(chassis *chas);
 static void Chassis_Ctrl(chassis *chas);
@@ -29,9 +30,10 @@ chassis omni = {
 
 	.info.Type       = CHAS_OMNI,
 	.info.MotorState = CHAS_ONLINE,
-	.info.Direction  = CHAS_FORWARD,
   .info.Lock       = CHAS_UNLOCK,
 
+	.info.Direction  = CHAS_FORWARD,
+	.info.Distribute = CHAS_FAIR,
   .data.WheelrpmMax = 8000,
 	
 	.info.ReductionRatio = 14,
@@ -45,6 +47,8 @@ chassis omni = {
 	.ModifyrpmMax      = Chassis_ModifyrpmMax,
 	.ModifyXYZSet      = Chassis_ModifyXYZSet,
 	.ModifyOriginAngle = Chassis_ModifyOriginAngle,
+	.ModifyDistribute  = Chassis_ModifyDistribute,
+	
 	
 	.Updata         = Chassis_Updata,
 	.Resolving      = Chassis_Resolving,
@@ -85,44 +89,143 @@ void Chassis_ModifyrpmMax(chassis *chas,float max)
 }
 
 
-/** @FUN  修改底盘原点角度最大速度
-  * @velocity m/s
+/** @FUN  修改底盘原点角度
+  * @angle 0-360
   */
 void Chassis_ModifyOriginAngle(chassis *chas,float angle)
 {
 	chas->info.OriginAngle = angle;
 }
 
+/** @FUN  修改底盘速度分配模式
+  * @velocity m/s
+  */
+void Chassis_ModifyDistribute(chassis *chas,chassis_Distribute type)
+{
+	chas->info.Distribute = type;
+}
 
-/** @FUN  修改底盘速度目标
+/** @FUN  修改底盘速度目标 并且进行速度分配 速度总和为100 公平分配 线性优先 旋转优先
   * @xyz -100~100
   */
 void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 {
-	chassis_xyz temp;
+	chassis_xyz temp,tempDis;
+	float vel[3],velTotal,velRemain,xyTotal;
 	
 	float angle = chas->data.DirAngle;
 
+	if(abs(setX) > 100 || abs(setY) > 100 || abs(setZ) > 100){
+	
+		setX = RP_GetSymbol(setX) * 100;
+		setY = RP_GetSymbol(setY) * 100;
+		setZ = RP_GetSymbol(setZ) * 100;
+	}
 	
 	if(chas->info.Direction == CHAS_BACKWARD){
 	
-		chas->data.VelocitySet.x = -setX;
-		chas->data.VelocitySet.y = -setY;
-		chas->data.VelocitySet.z =  setZ;
+		temp.x = -setX;
+		temp.y = -setY;
+		temp.z =  setZ;
 	}
 	else{
 	
-		chas->data.VelocitySet.x = setX;
-		chas->data.VelocitySet.y = setY;
-		chas->data.VelocitySet.z = setZ;
+		temp.x = setX;
+		temp.y = setY;
+		temp.z = setZ;
 	}
 	
-	temp.x = chas->data.VelocitySet.x;
-	temp.y = chas->data.VelocitySet.y;
-	temp.z = chas->data.VelocitySet.z;
+	tempDis.x = temp.x * cos(angle) - temp.y * sin(angle);
+	tempDis.y = temp.x * sin(angle) + temp.y * cos(angle);	
+	tempDis.z = temp.z;
+
+
+	vel[0] = tempDis.x;
+	vel[1] = tempDis.y;
+	vel[2] = tempDis.z;
 	
-	chas->data.VelocitySet.x = temp.x * cos(angle) - temp.y * sin(angle);
-	chas->data.VelocitySet.y = temp.x * sin(angle) + temp.y * cos(angle);
+	//x+y <= |x|+|y| 
+	if(RP_GetAbsoluteTotal(vel,3) <= 100){
+		
+		chas->data.VelocitySet.x = tempDis.x;
+		chas->data.VelocitySet.y = tempDis.y;
+		chas->data.VelocitySet.z = tempDis.z;
+		
+		return;
+	}
+	
+	//超过最大速度，进行速度分配
+
+	if(chas->info.Distribute == CHAS_FAIR){
+
+    velTotal = RP_GetAbsoluteTotal(vel,3);
+			
+		for(char i = 0 ; i < 3 ; i++)
+		{
+			vel[i] = vel[i]/velTotal * 100;
+		}
+	}
+	else if(chas->info.Distribute == CHAS_LINEAR){
+	
+		xyTotal = RP_GetAbsoluteTotal(vel,2);
+		
+		velRemain = 100 - xyTotal;
+		
+		//没有剩余速度 z轴速度为0
+		if(velRemain < 0){
+		
+			for(char i = 0 ; i < 2 ; i++)
+			{
+				vel[i] = vel[i]/xyTotal * 100;
+			}	
+			vel[2] = 0;
+		}
+		//有剩余速度 z轴速度看剩余情况
+		else{
+		
+			vel[2] = (abs(vel[2]) > velRemain? velRemain : vel[2]);
+
+		}
+
+	}
+	else if(chas->info.Distribute == CHAS_ROTATE){
+	
+		xyTotal = RP_GetAbsoluteTotal(vel,2);
+		
+		velRemain = 100 - vel[2];
+		
+		//有剩余速度 速度看剩余情况
+		if(velRemain > 0){
+		
+			if(xyTotal > velRemain){
+			
+				for(char i = 0 ; i < 2 ; i++)
+				{
+					vel[i] = vel[i]/velRemain;
+				}	
+			}
+		}
+		//无剩余速度 
+		else{
+		
+			if(xyTotal > velRemain){
+			
+				for(char i = 0 ; i < 2 ; i++)
+				{
+					vel[i] = vel[i]/xyTotal * 100;
+				}	
+			}			
+			vel[2] = 0;
+		}		
+	}	
+
+	tempDis.x = vel[0];
+	tempDis.y = vel[1];	
+	tempDis.z = vel[2];	
+	
+	chas->data.VelocitySet.x = tempDis.x;
+	chas->data.VelocitySet.y = tempDis.y;
+	chas->data.VelocitySet.z = tempDis.z;
 	
 }
 
@@ -165,8 +268,6 @@ void Chassis_Updata(chassis *chas)
 		chas->data.DirAngle = position;
 	}
 	
-
-	
 	//底盘轮子最大速度计算
 	chas->data.VelocityMax = chas->data.WheelrpmMax/chas->info.ReductionRatio/60.0f
 	                         *2.0f*pi*chas->info.WheelRadius;
@@ -190,7 +291,7 @@ void Chassis_Updata(chassis *chas)
   */
 void Chassis_Resolving(chassis *chas)
 {
-	float velocity[4],velocityAbsoluteMax;
+	float velocity[4];//velocityAbsoluteMax;
 	
 	if(chas->info.Type == CHAS_OMNI){
     
@@ -199,25 +300,23 @@ void Chassis_Resolving(chassis *chas)
 		velocity[2] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
 		velocity[3] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
 	}
-	
-	velocityAbsoluteMax = RP_GetAbsoluteMax(velocity,4);
-	
-	if(velocityAbsoluteMax > 100){
-	
-		for(char i = 0 ; i < 4 ; i++)
-		{
-			velocity[i] = velocity[i]/velocityAbsoluteMax;
-			chas->data.WheelSet[i] = velocity[i] * chas->data.WheelrpmMax;
-		}
+	else if(chas->info.Type == CHAS_MECA){
+    
+		velocity[0] = chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[1] = chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
+		velocity[2] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[3] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
 	}
-	else{
+	else if(chas->info.Type == CHAS_HELM){
+    
+	}	
 	
-		for(char i = 0 ; i < 4 ; i++)
-		{
-			velocity[i] = velocity[i]/100;
-			chas->data.WheelSet[i] = velocity[i] * chas->data.WheelrpmMax;
-		}
-	}
+	for(char i = 0 ; i < 4 ; i++)
+	{
+		chas->data.WheelSet[i] = velocity[i]/100 * chas->data.WheelrpmMax;
+	}	
+	
+	
 }
 
 
