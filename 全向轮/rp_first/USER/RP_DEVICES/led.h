@@ -1,7 +1,8 @@
 #ifndef __LED_H
 #define __LED_H
 
-#include "gpio_drv.h"
+#include "type.h"
+
 #include "stdbool.h"
 
 
@@ -15,8 +16,7 @@ typedef struct led_struct {
 	void (*Shine)(char num,uint16_t time);
 
 	void (*running)(uint16_t time);
-//	void (*breath)(uint16_t time);
-	
+
 } led_t;
 
 extern led_t led;

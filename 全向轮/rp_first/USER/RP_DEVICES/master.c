@@ -3,12 +3,13 @@
 主控间通讯
 
 */
+#include "master.h"
 
 #include "RP_CONFIG.h"
 #include "DEVICES.h"
 #include "DRIVERS.h"
 
-#include "string.h"
+
 
 
 static void master_heart_beat(struct master_struct *self);

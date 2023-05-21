@@ -3,6 +3,8 @@
 
 #include "type.h"
 #include "stdbool.h"
+#include "string.h"
+
 
 #define r_abs(x) 					((x)>0? (x):(-(x)))
 

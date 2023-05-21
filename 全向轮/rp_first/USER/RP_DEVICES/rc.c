@@ -32,8 +32,7 @@ tw从上到下对应序号：
 *
 */
 #include "rc.h"
-#include "stdbool.h"
-#include "string.h"
+
 
 
 static void rc_init(rc_t *self);

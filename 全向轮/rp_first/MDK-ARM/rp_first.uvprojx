@@ -960,6 +960,11 @@
               <FilePath>..\USER\RP_MODULES\center.c</FilePath>
             </File>
             <File>
+              <FileName>auto.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RP_MODULES\auto.c</FilePath>
+            </File>
+            <File>
               <FileName>rifle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_MODULES\rifle.c</FilePath>
@@ -974,15 +979,20 @@
               <FileType>1</FileType>
               <FilePath>..\USER\RP_MODULES\chassis.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>USER/POTOCAL_PORT</GroupName>
+          <Files>
             <File>
-              <FileName>auto.c</FileName>
+              <FileName>can_potocal.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\USER\RP_MODULES\auto.c</FilePath>
+              <FilePath>..\USER\POTOCAL_PORT\can_potocal.c</FilePath>
             </File>
             <File>
-              <FileName>auto.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USER\RP_MODULES\auto.h</FilePath>
+              <FileName>usart_potocal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\POTOCAL_PORT\usart_potocal.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1000,6 +1010,11 @@
               <FilePath>..\USER\RP_DRIVERS\type.h</FilePath>
             </File>
             <File>
+              <FileName>tick_drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RP_DRIVERS\tick_drv.c</FilePath>
+            </File>
+            <File>
               <FileName>gpio_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_DRIVERS\gpio_drv.c</FilePath>
@@ -1008,11 +1023,6 @@
               <FileName>iic_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_DRIVERS\iic_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>tick_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\RP_DRIVERS\tick_drv.c</FilePath>
             </File>
             <File>
               <FileName>spi_drv.c</FileName>
@@ -1060,6 +1070,11 @@
               <FilePath>..\USER\RP_DEVICES\imu.c</FilePath>
             </File>
             <File>
+              <FileName>servo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\RP_DEVICES\servo.c</FilePath>
+            </File>
+            <File>
               <FileName>motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_DEVICES\motor.c</FilePath>
@@ -1068,26 +1083,6 @@
               <FileName>master.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USER\RP_DEVICES\master.c</FilePath>
-            </File>
-            <File>
-              <FileName>servo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\RP_DEVICES\servo.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USER/POTOCAL_PORT</GroupName>
-          <Files>
-            <File>
-              <FileName>can_potocal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\POTOCAL_PORT\can_potocal.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart_potocal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\POTOCAL_PORT\usart_potocal.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -55,8 +55,10 @@
 
 
 */
-#include "RP_CONFIG.h"
 #include "motor.h"
+#include "RP_CONFIG.h"
+#include "DRIVERS.h"
+
 
 
 /*----------------------------------------用户接口begin----------------------------------------*/

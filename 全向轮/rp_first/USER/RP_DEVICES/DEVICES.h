@@ -1,3 +1,5 @@
+#ifndef __DEVICES_H
+#define __DEVICES_H
 
 
 #include "led.h"
@@ -11,5 +13,5 @@
 #include "master.h"
 
 
-
+#endif
 

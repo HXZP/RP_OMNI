@@ -1,8 +1,7 @@
 rp_first\motor.o: ..\USER\RP_DEVICES\motor.c
-rp_first\motor.o: ../USER/RP_CONFI/RP_CONFIG.h
 rp_first\motor.o: ..\USER\RP_DEVICES\motor.h
-rp_first\motor.o: ../USER/RP_DRIVERS/DRIVERS.h
-rp_first\motor.o: ../USER/RP_DRIVERS/gpio_drv.h
+rp_first\motor.o: ../USER/RP_DEVICES/RM_MOTOR/rm_motor.h
+rp_first\motor.o: ../USER/RP_DEVICES/RM_MOTOR/rm_motor_def.h
 rp_first\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 rp_first\motor.o: ../Core/Inc/stm32f4xx_hal_conf.h
 rp_first\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -37,6 +36,9 @@ rp_first\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 rp_first\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 rp_first\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 rp_first\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+rp_first\motor.o: ../USER/RP_CONFI/RP_CONFIG.h
+rp_first\motor.o: ../USER/RP_DRIVERS/DRIVERS.h
+rp_first\motor.o: ../USER/RP_DRIVERS/gpio_drv.h
 rp_first\motor.o: ../Core/Inc/main.h
 rp_first\motor.o: ../USER/RP_DRIVERS/iic_drv.h
 rp_first\motor.o: ../USER/RP_DRIVERS/tick_drv.h
@@ -44,5 +46,3 @@ rp_first\motor.o: ../USER/RP_DRIVERS/type.h
 rp_first\motor.o: ../USER/RP_DRIVERS/spi_drv.h
 rp_first\motor.o: ../USER/RP_DRIVERS/can_drv.h
 rp_first\motor.o: ../USER/RP_DRIVERS/uart_drv.h
-rp_first\motor.o: ../USER/RP_DEVICES/RM_MOTOR/rm_motor.h
-rp_first\motor.o: ../USER/RP_DEVICES/RM_MOTOR/rm_motor_def.h

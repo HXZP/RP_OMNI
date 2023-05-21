@@ -1,5 +1,4 @@
 rp_first\imu.o: ..\USER\RP_DEVICES\imu.c
-rp_first\imu.o: ../USER/RP_CONFI/RP_CONFIG.h
 rp_first\imu.o: ..\USER\RP_DEVICES\imu.h
 rp_first\imu.o: ../USER/RP_DEVICES/RP_IMU/bmi270/BMI.h
 rp_first\imu.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
@@ -71,3 +70,4 @@ rp_first\imu.o: ../Drivers/CMSIS/DSP/Include/dsp/svm_defines.h
 rp_first\imu.o: ../Drivers/CMSIS/DSP/Include/dsp/transform_functions.h
 rp_first\imu.o: ../Drivers/CMSIS/DSP/Include/dsp/filtering_functions.h
 rp_first\imu.o: ../Drivers/CMSIS/DSP/Include/dsp/quaternion_math_functions.h
+rp_first\imu.o: ../USER/RP_CONFI/RP_CONFIG.h

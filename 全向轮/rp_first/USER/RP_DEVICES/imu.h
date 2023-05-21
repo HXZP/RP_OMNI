@@ -2,7 +2,8 @@
 #define __IMU_H
 
 #include "BMI.h"
-
+#include "arm_math.h"
+#include "string.h"
 
 #define i_abs(x) 					((x)>0? (x):(-(x)))
 #define i_constrain(x, min, max)	((x>max)?max:(x<min?min:x))

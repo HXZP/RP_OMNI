@@ -7,15 +7,12 @@
 
 #include "stm32f4xx.h"
 #include "cmsis_os.h"
-
 #include "main.h"
-#include "arm_math.h"
 
 #include "Tasks_Center.h"
 #include "RP_CONFIG.h"
 #include "DEVICES.h"
 #include "RP_FUNCTION.h"
-
 #include "center.h"
 
 

@@ -2,6 +2,7 @@
 #define __CENTER_H
 
 #include "type.h"
+#include "string.h"
 
 
 

@@ -2,7 +2,7 @@
 #define __MASTER_H
 
 #include "type.h"
-
+#include "string.h"
 typedef enum
 {
 	M0 = 0,

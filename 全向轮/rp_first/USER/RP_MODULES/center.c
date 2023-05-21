@@ -1,51 +1,113 @@
 /*
 
 遥控器控制：
-sw1
-1键盘
+
+sw1 = 2|3
 3云台模式
 2底盘模式
 
-sw2
-遥控器模式下
-1连发
-3停止
-2单发
+	sw2
+	1连发
+	3停止
+	2单发
 
-键盘模式下
-1蓝
-3红
-2任意一方
+	滚轮控制
+	遥控器模式下
+	最上 摩擦轮
+	偏上 弹舱盖
+	云台模式
+	往下 自瞄
+	偏下 打符
+	最下 小陀螺
 
-滚轮控制
-遥控器模式下
-最上 摩擦轮
-偏上 弹舱盖
-云台模式
-往下 自瞄
-偏下 打符
-最下 小陀螺
+sw1 = 1
+1键盘-测试模式
 
-键盘模式下
-最上 软件复位
-偏上 软件复位
-偏下 软件复位
-最下 软件复位
+	sw2
+	1键盘模式
+	3测试模式1
+	2测试模式2
 
+	滚轮
+	最上 开启/退出测试模式
+	偏上 软件复位
+	偏下 软件复位
+	最下 软件复位
+
+************************************************
+
+代码逻辑：
+	任务：
+		基于freertos进行任务调度资源分配
+	任务优先级原则：
+		信息交互为最高优先级
+		控制为最低优先级
+		看门狗为最低优先级
+	文件：
+		包含：
+			单向包含
+			高级包含低级
+			同等级可包含
+			.h包含标准头文件、低级头文件
+			.c包含同级头文件、高级头文件（尽量别）
+		  高级的内容不出现在低级，高级修改低级内容要通过内置函数修改（尽量）	
+		内容：
+			以模块为区分
+			设备
+			驱动
+			模块
+			调度
+
+
+模式定义:
+1.对于同一机械结构、电子设备
+2.在同一时间不能同时执行的两种程序
+3.称之为两种模式
+
+************************************************
+
+模式切换代码：
+定义模式
+定义模式切换函数，一个模式切换函数只能进行一种机构的切换
+（当然也可以写成复用的，但可能存在资源相互使用的问题）
+定义模式初始化函数
+
+切换流程：
+	使用切换函数
+	比较目标模式和当前模式
+
+		相同：
+		跳出
+
+		不同：
+		当前模式为NULL
+		初始化标志位亮起
+		进行初始化
+		初始化完成
+		切换目标模式
+
+	（关于初始化：只考虑目标模式下所需要的初始环境，不考虑上一模式的情况
+		
+执行：
+	只执行当前模式
+	为NULL时不执行
+
+	(关于执行内容和初始化内容存在交集：
 
 */
 
 
 #include "center.h"
 
-#include "DEVICES.h"
+
 #include "RP_CONFIG.h"
+#include "DEVICES.h"
+#include "RP_FUNCTION.h"
 
 #include "chassis.h"
 #include "gimbal.h"
 #include "rifle.h"
 
-#include "string.h"
 
 //0-100
 #define ROTATE_VELOCITY_DEFUALT 50
@@ -53,25 +115,29 @@ sw2
 #define CENTER_INIT_OUT_TIME 3000
 
 
-void Center_ModifiyState(Center_State *self,Center_State state);
-void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state);
-void Center_ModifiyMoveMode(center *self,Center_MoveMode state);
-void Center_ModifiyRifleMode(center *self,Center_RifleMode state);
-void Center_ModifiyVisionMode(center *self,Center_VisionMode state);
+static void Center_ModifiyState(Center_State *self,Center_State state);
 
-void Center_Switch(center *self);
-void Center_Updata(center *self);
-void Center_Ctrl(center *self);
+static void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state);
+static void Center_ModifiyMoveMode(center *self,Center_MoveMode state);
+static void Center_ModifiyRifleMode(center *self,Center_RifleMode state);
+static void Center_ModifiyVisionMode(center *self,Center_VisionMode state);
 
-void Remote_Ctrl(center *self);
-void KeyMouse_Ctrl(center *self);
+/*核心*/
+static void Center_Switch(center *self);
+   static void Remote_Ctrl(center *self);
+   static void KeyMouse_Ctrl(center *self);
+
+static void Center_Updata(center *self);
+static void Center_Ctrl(center *self);
+
+
 
 center Center = {
 
-	.info.SysInit = RP_NO,
-	.info.CtrlInit = RP_NO,	
-	.info.MoveInit = RP_NO,	
-	.info.RifleInit = RP_NO,	
+	.info.SysInit    = RP_NO,
+	.info.CtrlInit   = RP_NO,	
+	.info.MoveInit   = RP_NO,	
+	.info.RifleInit  = RP_NO,	
 	.info.VisionInit = RP_NO,	
 
 	.info.RifleLock = RP_NO,
@@ -93,9 +159,9 @@ center Center = {
 	
 	.modifyState = Center_ModifiyState,
 
-  .modifyCtrlMode  = Center_ModifiyCtrlMode,
-	.modifyMoveMode  = Center_ModifiyMoveMode,
-  .modifyRifleMode = Center_ModifiyRifleMode,
+  .modifyCtrlMode   = Center_ModifiyCtrlMode,
+	.modifyMoveMode   = Center_ModifiyMoveMode,
+  .modifyRifleMode  = Center_ModifiyRifleMode,
 	.modifyVisionMode = Center_ModifiyVisionMode,
 
 	.Switch = Center_Switch,
@@ -168,8 +234,8 @@ void Center_CtrlModeInit(center *self,Center_CtrlMode state)
 	
 	self->info.FrictionSwitch = RP_NO;
 	self->info.MagazineSwitch = RP_NO;
-	self->info.RotateSwitch = RP_NO;
-	self->info.RifleLock = RP_NO;
+	self->info.RotateSwitch   = RP_NO;
+	self->info.RifleLock      = RP_NO;
 	
 	self->info.CtrlInit = RP_OK;
 }
@@ -205,6 +271,7 @@ void Center_MoveModeInit(center *self,Center_MoveMode state)
 	}
 	
 	self->modifyVisionMode(self,VISION_NULL);
+	
 	self->info.RotateSwitch = RP_NO;
 	
 	self->info.MoveInit = RP_OK;
@@ -221,10 +288,26 @@ void Center_RifleModeInit(center *self,Center_RifleMode state)
 
 void Center_VisionModeInit(center *self,Center_VisionMode state)
 {
-
-	self->data.GimbPitTarget = imu.data.rpy.pitch;
-	self->data.GimbYawTarget = imu.data.rpy.yaw;
+	if(self->info.MoveMode == MOVE_MASTER){
 	
+		self->data.GimbPitTarget = imu.data.rpy.pitch;
+		self->data.GimbYawTarget = imu.data.rpy.yaw;
+	}
+	else if(self->info.MoveMode == MOVE_FOLLOW){
+	
+		self->data.GimbPitTarget = 0;
+		self->data.GimbYawTarget = 0;		
+	}
+	
+	if(omni.info.Direction == CHAS_FORWARD){
+
+		omni.ModifyOriginAngle(&omni,0);
+	}
+	else if(omni.info.Direction == CHAS_BACKWARD){
+	
+		omni.ModifyOriginAngle(&omni,180);
+	}
+		
 	self->info.VisionInit = RP_OK;
 }
 
@@ -347,13 +430,15 @@ void Remote_Ctrl(center *self)
 		if(rc.data.tw_step[2]){
 		
 			self->info.RotateSwitch = RP_OK;
+			
+			
 		}
 		else{
 			self->data.RotateVelocity = ROTATE_VELOCITY_DEFUALT;
 			self->info.RotateSwitch = RP_NO;
 		}
 			
-		
+		//开启视觉
 		if(rc.data.tw_step[3]){
 
 			self->modifyVisionMode(self,VISION_BIG_BUFF);
@@ -399,7 +484,7 @@ void Remote_Ctrl(center *self)
 			break;				
 	}
 	
-	/* 未对发射机构进行复位 */
+	/* 发射机构未退出保护 */
 	if(self->info.RifleLock == RP_NO){
 	
 		self->modifyRifleMode(self,RIFLE_STOP);
@@ -408,6 +493,8 @@ void Remote_Ctrl(center *self)
 	/* 发射模式end */
 	
 	/* 滚轮控制 */
+	
+	//摩擦轮
 	if(rc.data.tw_step[0]){
 	
 		self->modifyState(&self->info.FrictionSwitch,RP_OK);
@@ -416,7 +503,7 @@ void Remote_Ctrl(center *self)
 	
 		self->modifyState(&self->info.FrictionSwitch,RP_NO);
 	}
-	
+	//弹仓
 	if(rc.data.tw_step[1]){
 	
 		self->modifyState(&self->info.MagazineSwitch,RP_NO);
@@ -572,7 +659,6 @@ void Center_Updata(center *self)
 
 void Center_Ctrl(center *self)
 {
-	char errCnt = 0;
 	
 	if(rc.info.state == RC_OFFLINE){
 	
@@ -580,30 +666,7 @@ void Center_Ctrl(center *self)
 	}
 	else{
 		
-//		if(gun.info.MotorState == RIFLE_MOTOR_ERR){
-//			
-//			errCnt++;
-//		}
-//		
-//		if(omni.info.MotorState == CHAS_ERR){
-//			
-//			errCnt++;
-//		}
-//		
-//		if(head.info.MotorState == GIMB_MOTOR_ERR){
-//			
-//			errCnt++;
-//		}
-//		
-//		if(errCnt){
-//		
-//			led.Shine(1,100 * errCnt);
-//		}
-//		
-//		
-//		
-//		if(!errCnt)led.running(50);
-      led.running(50);
+    led.running(50);
 		
 	}
 	

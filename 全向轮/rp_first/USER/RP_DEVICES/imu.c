@@ -57,10 +57,10 @@ imu包内置功能：
 y z  |
 
 */
-#include "RP_CONFIG.h"
 #include "imu.h"
-#include "arm_math.h"
-#include "string.h"
+#include "RP_CONFIG.h"
+
+
 
 #if !defined  (IMU_POTOCAL_TYPE)
   #define IMU_POTOCAL_TYPE    IMU_IIC

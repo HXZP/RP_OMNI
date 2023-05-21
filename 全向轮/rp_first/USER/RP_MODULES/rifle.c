@@ -169,7 +169,6 @@ void Rifle_Updata(rifle *self)
 	//裁判系统在线处理
 	if(judge.info.state == JUDGE_ONLINE){
 		
-
 		self->data.HeatLimit = judge.data.game_robot_status.shooter_id1_17mm_cooling_limit;
 
 		self->data.Heat = judge.data.power_heat_data.shooter_id1_17mm_cooling_heat;	
@@ -189,14 +188,13 @@ void Rifle_Updata(rifle *self)
 		self->data.SpeedLimit = 15;
 		
 	}
-	
+	//忽略热量
 	if(self->info.IgnoreHeat == RIFLE_OK){
 	
 		self->data.HeatEnableNum = 999;
 	
 	}
 	
-
 	if(self->data.SpeedLimitPre != self->data.SpeedLimit){
 	
 		self->data.SpeedLowNum  = 0;	
@@ -246,7 +244,8 @@ void Rifle_Updata(rifle *self)
 		
 			self->info.FriSpeedReach = RIFLE_NO;
 			
-			if(HAL_GetTick() - self->time.FriEnableTime > 2000){
+			//太久没到达认为摩擦轮堵住
+			if(HAL_GetTick() - self->time.FriEnableTime > 1000){
 			
 				self->info.FriStucking = RIFLE_OK;
 			}
@@ -269,7 +268,7 @@ void Rifle_Updata(rifle *self)
 	}
 		
 	
-	//堵转判断	
+	//堵转判断
 	if(self->info.Shooting == RIFLE_ING){
 	
 		if(abs(self->data.BoxSpeed < 50) && abs(self->data.BoxTorque > 5000)){
@@ -283,6 +282,11 @@ void Rifle_Updata(rifle *self)
 
 			self->time.StuckJudegStart = HAL_GetTick();
 		}
+	}
+	else{
+	
+	
+	
 	}
 	
 	//堵转过久处理
@@ -365,18 +369,26 @@ void Rifle_FrictionCtrl(rifle *self)
 }
 
 /** @FUN  发射模式
-  * @note 优先级：堵转 位置 速度
+  * @note 优先级：堵转 发射未就绪 位置发射状态 速度发射 发射完成状态
   *       
   */
 void Rifle_BoxCtrl(rifle *self)
 {
-
+	/* 发生堵转情况，异常 */
+	
 	//堵转处理中，优先处理
 	if(self->info.BoxStucking == RIFLE_ING){
 	
+		//堵转处理结束 关闭标志位 关闭发射状态 立刻切到速度控制状态
 		if(abs(self->data.BoxPositionSet - self->data.BoxPosition) < 100){
 		
 			self->info.BoxStucking = RIFLE_NO;
+			
+		  self->data.BoxSpeedSet = 0;
+		
+		  self->info.Shooting = RIFLE_NO;
+		
+		  self->info.BoxType = RIFLE_SPEED;			
 		}
 		
 		return;
@@ -385,8 +397,6 @@ void Rifle_BoxCtrl(rifle *self)
 	//发生堵转，设定位置
 	if(self->info.BoxStucking == RIFLE_OK){
 	
-		self->info.Shooting = RIFLE_NO;
-		
 		if(self->data.BoxPositionSet < 0 || self->data.BoxSpeedSet < 0){
 		
 			self->data.BoxPositionSet = self->data.BoxPosition + 8191 * 4.5f;
@@ -395,27 +405,26 @@ void Rifle_BoxCtrl(rifle *self)
 		
 			self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f;
 		}
+		
 		self->info.BoxStucking = RIFLE_ING;
 		
 		self->info.ShootType = RIFLE_SHOOT_STUCK;
 		
+		self->info.BoxType = RIFLE_POSITION;
+		
 		return;
 	}
 	
-	//不发生堵转情况，正常运行
+	/* 不发生堵转 */
 	
-	//不满足控制条件 已完成射击 立刻停止
-	if(self->info.ShootReady == RIFLE_NO || self->info.Shooting == RIFLE_OK){
+	//未就绪
+	if(self->info.ShootReady == RIFLE_NO){
 	
 		self->info.ShootType = RIFLE_SHOOT_STOP;
 		self->info.Shooting  = RIFLE_NO;
-		
 	}
-
-	//满足控制条件
-
-	//处于位置发射状态 禁止打断 完成后Shooting = RIFLE_OK
-	if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_ING){
+	//位置控制未结束 禁止打断 完成后Shooting = RIFLE_OK 立刻返回不做其他决策
+	else if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_ING){
 		
 		if(abs(self->data.BoxPositionSet - self->data.BoxPosition) < 100){
 		
@@ -425,19 +434,30 @@ void Rifle_BoxCtrl(rifle *self)
 		
 			self->info.BoxType = RIFLE_POSITION;
 		}
-		
+
 		return;
+	}	
+	//持续控制
+	else if(self->info.ShootType == RIFLE_SHOOT_STAY){
+	
+
+	}	
+	//位置控制结束
+	else if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_OK){
+	
+		self->info.ShootType = RIFLE_SHOOT_STOP;
+		self->info.Shooting  = RIFLE_NO;
 	}
 
-	//不处于位置发射状态
 
 	//控制类型：停止输出
 	if(self->info.ShootType == RIFLE_SHOOT_STOP){
 	
 		self->data.BoxSpeedSet = 0;
+		
 		self->info.Shooting = RIFLE_NO;
+		
 		self->info.BoxType = RIFLE_SPEED;
-
 	}
 	else{
 

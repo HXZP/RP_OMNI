@@ -1,5 +1,7 @@
 rp_first\led.o: ..\USER\RP_DEVICES\led.c
 rp_first\led.o: ..\USER\RP_DEVICES\led.h
+rp_first\led.o: ../USER/RP_DRIVERS/type.h
+rp_first\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 rp_first\led.o: ../USER/RP_DRIVERS/gpio_drv.h
 rp_first\led.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 rp_first\led.o: ../Core/Inc/stm32f4xx_hal_conf.h
@@ -36,4 +38,3 @@ rp_first\led.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 rp_first\led.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 rp_first\led.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 rp_first\led.o: ../Core/Inc/main.h
-rp_first\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
