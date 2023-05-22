@@ -244,10 +244,11 @@ void Center_CtrlModeInit(center *self,Center_CtrlMode state)
 	self->modifyRifleMode(self,RIFLE_NULL);	
 	self->modifyVisionMode(self,VISION_NULL);
 	
+	self->info.RifleLock      = RP_NO;	
 	self->info.FrictionSwitch = RP_NO;
-	self->info.MagazineSwitch = RP_NO;
 	self->info.RotateSwitch   = RP_NO;
-	self->info.RifleLock      = RP_NO;
+	
+	self->info.MagazineSwitch = RP_NO;	
 	
 	self->info.MoveCrazzy = RP_OK;
 	
@@ -536,11 +537,11 @@ void Remote_Ctrl(center *self)
 	//µ¯²Ö
 	if(rc.data.tw_step[1]){
 	
-		self->modifyState(&self->info.MagazineSwitch,RP_NO);
+		self->modifyState(&self->info.MagazineSwitch,RP_OK);
 	}
 	else{
 	
-		self->modifyState(&self->info.MagazineSwitch,RP_OK);
+		self->modifyState(&self->info.MagazineSwitch,RP_NO);
 	}
 	/* ¹öÂÖ¿ØÖÆend */
 
@@ -582,10 +583,12 @@ void KeyMouse_Ctrl(center *self)
 **/
 void Center_Updata(center *self)
 {
+	float angle;
+	
   //Init
 	if(self->info.SysInit == RP_ING){
 	
-		Center_SysInit(self);	
+		Center_SysInit(self);
 	}
 
 	//gimb
@@ -599,12 +602,12 @@ void Center_Updata(center *self)
 
 		if(self->data.GimbPitTarget){
 		
-			self->data.GimbPitTarget = self->data.GimbPitTarget + imu.data.rpy.pitch;
+			self->data.GimbPitTarget = self->data.GimbPitTarget + head.ModifyRange(imu.data.rpy.pitch,-180,180);
 		}
 		
 		if(self->data.GimbYawTarget){
 		
-			self->data.GimbYawTarget = self->data.GimbYawTarget + imu.data.rpy.yaw;
+			self->data.GimbYawTarget = self->data.GimbYawTarget + head.ModifyRange(imu.data.rpy.yaw,-180,180);
 		}
 	}
 	else if(self->info.MoveMode == MOVE_FOLLOW){
@@ -612,6 +615,7 @@ void Center_Updata(center *self)
 		self->data.GimbPitTarget = 0;
 		self->data.GimbYawTarget = 0;
 	}
+	
 	head.ModifyXYZSet(&head,NULL,&self->data.GimbPitTarget,&self->data.GimbYawTarget);
 	
 	//chas
@@ -639,9 +643,12 @@ void Center_Updata(center *self)
 		}
 		else{
 		
+			angle = omni.data.DirAngle;
+			angle = RP_HalfTurn(angle,360);
+			
 			self->data.VelocityX = (float)self->data.Channel[3]/660*100;
 			self->data.VelocityY =-(float)self->data.Channel[2]/660*100;
-		  self->data.VelocityZ =- omni.data.DirAngle*abs(omni.data.DirAngle)/(180*180)*100;
+		  self->data.VelocityZ =- angle*abs(angle)/(180*180)*100;
 		}
 	}
 	else if(self->info.MoveMode == MOVE_FOLLOW){
@@ -668,11 +675,11 @@ void Center_Updata(center *self)
 
 	if(self->info.MagazineSwitch == RP_OK){
 	
-		gun.ModifyMagazine(&gun,RIFLE_OK);
+		gun.ModifyMagazine(&gun,RIFLE_NO);
 	}
 	else if(self->info.MagazineSwitch == RP_NO){
 	
-		gun.ModifyMagazine(&gun,RIFLE_NO);
+		gun.ModifyMagazine(&gun,RIFLE_OK);
 	}
 
 	switch((uint8_t)self->info.RifleMode){
@@ -736,7 +743,6 @@ void Center_Updata(center *self)
 }
 
 
-
 /*
  * Ö´ÐÐµ×²ãÄ£¿é
 **/
@@ -744,50 +750,49 @@ void Center_Ctrl(center *self)
 {
 	uint16_t ledtime = 0;
 	
-	if(rc.info.state == RC_OFFLINE){
+//	if(rc.info.state == RC_OFFLINE){
+//	
+//		led.allShine(1000);
+//	}
+//	else{
+		
+	if(omni.info.MotorState == CHAS_ERR){
 	
-		led.allShine(1000);
+		ledtime++;
 	}
+	if(head.info.MotorState == GIMB_MOTOR_ERR){
+	
+		ledtime++;
+	}
+	if(gun.info.MotorState == RIFLE_MOTOR_ERR){
+	
+		ledtime++;
+	}
+	if(judge.info.state == JUDGE_OFFLINE){
+	
+		ledtime++;
+	}
+	if(vision.info.state == VISION_OFFLINE){
+	
+		ledtime++;
+	}
+	if(cap.info.state == CAP_OFFLINE){
+	
+		ledtime++;
+	}
+	
+	self->info.ErrDevices = ledtime;
+	
+	ledtime = ledtime * 100;
+	
+	if(ledtime == 0)led.running(50);
+	
 	else{
-		
-		if(omni.info.MotorState == CHAS_ERR){
-		
-			ledtime++;
-		}
-		if(head.info.MotorState == GIMB_MOTOR_ERR){
-		
-			ledtime++;
-		}
-		if(gun.info.MotorState == RIFLE_MOTOR_ERR){
-		
-			ledtime++;
-		}
-		if(judge.info.state == JUDGE_OFFLINE){
-		
-			ledtime++;
-		}
-		if(vision.info.state == VISION_OFFLINE){
-		
-			ledtime++;
-		}
-		if(cap.info.state == CAP_OFFLINE){
-		
-			ledtime++;
-		}
-		
-		self->info.ErrDevices = ledtime;
-		
-		ledtime = ledtime * 100;
-		
-		
-		
-    if(ledtime == 0)led.running(50);
-		
-		else{
-		
-			led.allShine(ledtime);
-		}
+	
+		led.allShine(ledtime);
 	}
+	
+//	}
 	
 	if(self->info.MoveMode == MOVE_MASTER){
 	
@@ -803,11 +808,16 @@ void Center_Ctrl(center *self)
 		
 		head.Updata(&head,
 		            0,
-		            head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle,
-		            head.info.AssemblyVector.Z*motor[GIMB_Y].rx_info.angle,
+		            head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.5f,
+		            head.info.AssemblyVector.Z*motor[GIMB_Y].rx_info.angle_offset/22.5f,
 		            imu.data.acc_gyr.gyr_x,
 		            imu.data.acc_gyr.gyr_y,
 		            imu.data.acc_gyr.gyr_z);	
+	}
+	else{
+
+		head.Updata(&head,0,0,0,0,0,0);			
+	
 	}
 	
 	omni.Updata(&omni);
@@ -817,6 +827,7 @@ void Center_Ctrl(center *self)
 	
 	head.Resolving(&head);
 	omni.Resolving(&omni);
+	gun.Resolving(&gun);
 	
 	//×ËÌ¬ÖØ·ÖÅä
 //	if(self->info.MoveMode == MOVE_MASTER){
@@ -831,12 +842,8 @@ void Center_Ctrl(center *self)
 	
 	head.Ctrl(&head);
 	omni.Ctrl(&omni);
-	
-	gun.FrictionCtrl(&gun);
-	gun.MagazineCtrl(&gun);
-	gun.BoxCtrl(&gun);
-	
-	
+	gun.Ctrl(&gun);
+
 }
 
 

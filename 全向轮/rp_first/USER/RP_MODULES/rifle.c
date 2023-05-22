@@ -8,6 +8,10 @@
 #include "RP_FUNCTION.h"
 #include "rifle.h"
 
+#define MAGAZINE_CCR_CLOSE 48
+#define MAGAZINE_CCR_OPEN  127
+
+
 
 
 void Rifle_ModifyLock(rifle *self,rifle_Lock type);
@@ -19,10 +23,11 @@ void Rifle_ModifyMagazine(rifle *self,rifle_state state);
 void Rifle_ModifyShootType(rifle *self,rifle_ShootType type,uint16_t number);
 
 void Rifle_Updata(rifle *self);
+void Rifle_Resolving(rifle *self);
 void Rifle_BoxCtrl(rifle *self);
 void Rifle_FrictionCtrl(rifle *self);
 void Rifle_MagazineCtrl(rifle *self);
-
+void Rifle_Ctrl(rifle *self);
 
 rifle gun = {
 
@@ -53,7 +58,10 @@ rifle gun = {
 	.ModifyMagazine  = Rifle_ModifyMagazine,
 	.ModifyShootType = Rifle_ModifyShootType,
 	
-	.Updata  = Rifle_Updata,
+	.Updata    = Rifle_Updata,
+	.Resolving = Rifle_Resolving,
+	.Ctrl      = Rifle_Ctrl,
+	
 	.BoxCtrl = Rifle_BoxCtrl,
 	.FrictionCtrl = Rifle_FrictionCtrl,
 	.MagazineCtrl = Rifle_MagazineCtrl,
@@ -236,9 +244,10 @@ void Rifle_Updata(rifle *self)
 	//判断摩擦轮速度是否达到 摩擦轮是否达堵住
 	if(self->info.FriEnable == RIFLE_OK){
 	
-		if(abs(self->data.FriSet - self->data.FriRpmR) < 800 && abs(self->data.FriSet - self->data.FriRpmL) < 800){
+		if(abs(self->data.FriSet - abs(self->data.FriRpmR)) < 800 && abs(self->data.FriSet - abs(self->data.FriRpmL)) < 800){
 		
 				self->info.FriSpeedReach = RIFLE_OK;
+			  self->info.FriStucking   = RIFLE_NO;
 		}
 		else{
 		
@@ -303,7 +312,7 @@ void Rifle_Updata(rifle *self)
 	}
 	
 	//判断是否达到射击条件
-	if(self->info.FriSpeedReach == RIFLE_OK && self->info.BoxStucking == RIFLE_OK && self->info.HeatEnable == RIFLE_OK){
+	if(self->info.FriSpeedReach == RIFLE_OK && self->info.BoxStucking == RIFLE_NO && self->info.HeatEnable == RIFLE_OK){
 	
 		self->info.ShootReady = RIFLE_OK;
 	}
@@ -446,7 +455,7 @@ void Rifle_BoxCtrl(rifle *self)
 	else if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_OK){
 	
 		self->info.ShootType = RIFLE_SHOOT_STOP;
-		self->info.Shooting  = RIFLE_NO;
+//		self->info.Shooting  = RIFLE_NO;
 	}
 
 
@@ -492,24 +501,60 @@ void Rifle_BoxCtrl(rifle *self)
 		}
 	}
 }
+
+
+
+void Rifle_MagazineCtrl(rifle *self)
+{
+	if(self->info.Magazine == RIFLE_OK){
+	
+		self->data.MagazineCCR = MAGAZINE_CCR_CLOSE;
+//		magazine.modifyCCR(&magazine,48);
+		return;
+	}
+	else if(self->info.Magazine == RIFLE_NO){
+	
+		self->data.MagazineCCR = MAGAZINE_CCR_OPEN;
+//		magazine.modifyCCR(&magazine,127);
+		return;
+	}
+}
+
+
+/* @FUN 所有逻辑解算
+ * 
+ **/
+void Rifle_Resolving(rifle *self)
+{
+	self->FrictionCtrl(self);
+	self->MagazineCtrl(self);
+	self->BoxCtrl(self);
+}
+
+
+
 /** @FUN  电机控制 存在电机失联时 拨盘不控制
   *  
   */
 void Rifle_Ctrl(rifle *self)
 {
-	int16_t Rifle_CANBuff[4];
+	int16_t Rifle_CANBuff[4] = {0,0,0,0};
 	
 	if(self->info.Lock == RIFLE_LOCK)
 	{
 		
-		magazine.sleep(&magazine);
-		
 		if(HAL_GetTick() - self->time.LockTime < 1000){
 		
+			magazine.modifyCCR(&magazine,self->data.MagazineCCR);
+			
 			Rifle_CANBuff[motor[FRI_R].id.buff_p] = motor[FRI_R].c_speed(&motor[FRI_R],0);
 			Rifle_CANBuff[motor[FRI_L].id.buff_p] = motor[FRI_L].c_speed(&motor[FRI_L],0);
 			
 			Rifle_CANBuff[motor[BOX].id.buff_p] = motor[BOX].c_speed(&motor[BOX],0);			
+		}
+		else{
+		
+			magazine.sleep(&magazine);	
 		}
 
 		motor[FRI_R].tx(&motor[FRI_R],Rifle_CANBuff);	
@@ -520,6 +565,7 @@ void Rifle_Ctrl(rifle *self)
 	{
 		
 		magazine.weak(&magazine);
+		magazine.modifyCCR(&magazine,self->data.MagazineCCR);
 		
 		Rifle_CANBuff[motor[FRI_R].id.buff_p] = motor[FRI_R].c_speed(&motor[FRI_R], self->data.FriSet);
 		Rifle_CANBuff[motor[FRI_L].id.buff_p] = motor[FRI_L].c_speed(&motor[FRI_L],-self->data.FriSet);
@@ -544,19 +590,6 @@ void Rifle_Ctrl(rifle *self)
 	}
 }
 
-void Rifle_MagazineCtrl(rifle *self)
-{
-	if(self->info.Magazine == RIFLE_OK){
-	
-		magazine.modifyCCR(&magazine,48);
-		return;
-	}
-	else if(self->info.Magazine == RIFLE_NO){
-	
-		magazine.modifyCCR(&magazine,127);
-		return;
-	}
-}
 
 
 

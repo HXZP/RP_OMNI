@@ -5,7 +5,7 @@
 #include "type.h"
 
 
-#define pi 3.141592654
+#define pi 3.141592654f
 
 /* ÊýÖµº¯Êý */
 #define constrain(x, min, max)	((x>max)?max:(x<min?min:x))

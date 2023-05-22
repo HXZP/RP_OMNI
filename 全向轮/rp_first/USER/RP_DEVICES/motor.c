@@ -225,8 +225,9 @@ void RM_MotorInit(void)
 	motor[FRI_L].pid_init(&motor[FRI_L].pid.speed,fri_speed_pid_param);
 	motor[FRI_R].pid_init(&motor[FRI_R].pid.speed,fri_speed_pid_param);
 	
-	motor[BOX].pid_init(&motor[FRI_R].pid.position,   box_posit_out_pid_param);
-	motor[BOX].pid_init(&motor[FRI_R].pid.position_in,box_posit_inn_pid_param);	
+	motor[BOX].pid_init(&motor[BOX].pid.speed,      box_speed_pid_param);
+	motor[BOX].pid_init(&motor[BOX].pid.position,   box_posit_out_pid_param);
+	motor[BOX].pid_init(&motor[BOX].pid.position_in,box_posit_inn_pid_param);	
 }
 
 
@@ -293,8 +294,8 @@ void RM_MotorCAN1(uint32_t canId, uint8_t *rxBuf)
 		motor[i].rx(&motor[i],rxBuf,canId,M_CAN1);
 	}
 	
-	motor[GIMB_Y].c_offset(&motor[GIMB_Y],8192);
-	motor[GIMB_P].c_offset(&motor[GIMB_P],8192);
+	motor[GIMB_Y].c_offset(&motor[GIMB_Y]);
+	motor[GIMB_P].c_offset(&motor[GIMB_P]);
 	
 }
 

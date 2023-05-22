@@ -27,6 +27,11 @@ typedef enum
 	M_OFFLINE = 0,	
 	
 	M_ONLINE,
+
+	M_TYPE_ERR,
+	M_ID_ERR,
+	M_INIT_ERR,	
+	M_DATA_ERR,
 	
 }motor_state_e;
 
@@ -151,15 +156,18 @@ typedef struct motor_pid
 
 typedef struct
 {
-	motor_pid_t            speed;
+	motor_pid_t   speed;
 	
-	motor_pid_t            angle;	
-	motor_pid_t            angle_in;		
+	motor_pid_t   angle;	
+	motor_pid_t   angle_in;		
 	
-	motor_pid_t            position;
-	motor_pid_t            position_in;	
+	motor_pid_t   step;         
+	motor_pid_t   step_in;
 	
-	motor_pid_t            user_define;
+	motor_pid_t   position;
+	motor_pid_t   position_in;	
+	
+	motor_pid_t   user_define;
 	
 }motor_pid_all_t; //pid×Ü»ã
 

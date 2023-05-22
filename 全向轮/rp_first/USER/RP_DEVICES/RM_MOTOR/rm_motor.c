@@ -9,10 +9,6 @@
 *使用pid前也需要进行pid初始化，否则无法使用
 *可以直接使用内置函数进行pid控制 也可以直接使用库内定义函数或者自己定义的函数
 
-注意：
-pid2、pid1使用360度制
-其他内置pid使用原来单位
-
 */
 
 #include "rm_motor.h"
@@ -163,6 +159,7 @@ void motor_class_init(struct motor_class_t *motor)
 	
 	motor->c_speed = motor_pid_speed;
 	motor->c_angle = motor_pid_angle;
+	motor->c_step  = motor_pid_step;
 	motor->c_posit = motor_pid_position;	
 	
 	motor->c_pid1 = motor_pid_single;
@@ -278,25 +275,39 @@ void motor_judge_dir(struct motor_class_t *motor,uint16_t range)
  *	@brief	对电机角度做偏置 类如yaw轴电机朝向，原始朝前为1777，修改后朝前为0 
  *            range:电机数据范围
  */
-void motor_offset(struct motor_class_t *motor, uint16_t range)
+float motor_offset(struct motor_class_t *motor)
 {
 	motor_rx_info_t *info = &motor->rx_info;
 	
 	int16_t angle = 0;
 	
-	if(info->angle < motor->mec_info.mec_mid)
-		 angle = info->angle - motor->mec_info.mec_mid + range;
-	else
-	   angle = info->angle - motor->mec_info.mec_mid;
+	angle = info->angle - motor->mec_info.mec_mid;
 	
-  angle = -angle + range + range/4;
+	if(angle < 0){
 	
-	if(angle > range)angle = angle - range;
+		angle += 8192;
+	}
+	
+	info->angle_offset = angle;
+	
+	return angle;
+	
+//	if(info->angle < motor->mec_info.mec_mid)
+//		 angle = info->angle - motor->mec_info.mec_mid + range;
+//	else
+//	   angle = info->angle - motor->mec_info.mec_mid;
+//	
+//  angle = -angle + range + range/4;
+//	
+//	if(angle > range)angle = angle - range;
 
-	angle = motor_cycle(angle - range/4,range);
-	
-	info->angle_offset = angle;			
+//	angle = motor_cycle(angle - range/4,range);
+//	
+//	info->angle_offset = angle;			
 }
+
+
+
 
 
 /*-----------------------------------------------------------------
@@ -373,26 +384,40 @@ float motor_pid_ctrl(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas
 	if(inn == NULL)
 	{
 		motor_pid_err(out , meas1);	
-		switch(err_cal_mode)
-		{
-			case 0:			
-				break;
+//		switch(err_cal_mode)
+//		{
+//			case 0:			
+//				break;
+//			
+//			case 1:
+//				while(m_abs(out->info.err) >= 360) 
+//					out->info.err = motor_cycle(out->info.err,360);
+//				
+//				out->info.err = motor_half_cycle(out->info.err, 360);
+//				break;				
+//			
+//			case 2:
+//				while(m_abs(out->info.err) >= 360) 
+//					out->info.err = motor_cycle(out->info.err,360);
+//				
+//				out->info.err = motor_half_cycle(out->info.err, 360);
+//				out->info.err = motor_half_cycle(out->info.err, 180);
+//				break;			
+//		}
+
+		if(err_cal_mode > 0){
 			
-			case 1:
-				while(m_abs(out->info.err) >= 360) 
-					out->info.err = motor_cycle(out->info.err,360);
-				
-				out->info.err = motor_half_cycle(out->info.err, 360);
-				break;				
+			while(m_abs(out->info.err) >= 360){
 			
-			case 2:
-				while(m_abs(out->info.err) >= 360) 
-					out->info.err = motor_cycle(out->info.err,360);
-				
-				out->info.err = motor_half_cycle(out->info.err, 360);
-				out->info.err = motor_half_cycle(out->info.err, 180);
-				break;			
+				out->info.err = motor_cycle(out->info.err,360);		
+			}
+			
+			for(char i = 1;i < err_cal_mode+1; i++){
+			
+				out->info.err = motor_half_cycle(out->info.err, 360/err_cal_mode);
+			}
 		}
+
 		motor_pid_cal(out);
 		
 		return out->info.out;	
@@ -401,26 +426,41 @@ float motor_pid_ctrl(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas
 	{
 		/*--外环计算--*/
 		motor_pid_err(out , meas1);	
-		switch(err_cal_mode)
-		{
-			case 0:			
-				break;
+		
+//		switch(err_cal_mode)
+//		{
+//			case 0:			
+//				break;
+//			
+//			case 1:
+//				while(m_abs(out->info.err) >= 360) 
+//					out->info.err = motor_cycle(out->info.err,360);
+//				
+//				out->info.err = motor_half_cycle(out->info.err, 360);
+//				break;				
+//			
+//			case 2:
+//				while(m_abs(out->info.err) >= 360) 
+//					out->info.err = motor_cycle(out->info.err,360);
+//				
+//				out->info.err = motor_half_cycle(out->info.err, 360);
+//				out->info.err = motor_half_cycle(out->info.err, 180);
+//				break;		
+//		}
+		if(err_cal_mode > 0){
 			
-			case 1:
-				while(m_abs(out->info.err) >= 360) 
-					out->info.err = motor_cycle(out->info.err,360);
-				
-				out->info.err = motor_half_cycle(out->info.err, 360);
-				break;				
+			while(m_abs(out->info.err) >= 360){
 			
-			case 2:
-				while(m_abs(out->info.err) >= 360) 
-					out->info.err = motor_cycle(out->info.err,360);
-				
-				out->info.err = motor_half_cycle(out->info.err, 360);
-				out->info.err = motor_half_cycle(out->info.err, 180);
-				break;			
+				out->info.err = motor_cycle(out->info.err,360);		
+			}
+			
+			for(char i = 1;i < err_cal_mode+1; i++){
+			
+				out->info.err = motor_half_cycle(out->info.err, 360/err_cal_mode);
+			}
 		}
+		
+		
 		motor_pid_cal(out);
 		
 		inn->info.target = out->info.out;	//目标值转移到速度环
@@ -460,6 +500,7 @@ float motor_pid_single(motor_pid_t *out, float meas1, float tar)
 
 }
 
+
 /**
  *	@brief	位置pid控制 
  *  @return 返回计算结果
@@ -472,7 +513,7 @@ float motor_pid_position(struct motor_class_t *motor,float target)//
 		return 0;
 	}
 	
-	if(motor->pid.position.info.init_flag == M_DEINIT)
+	if(motor->pid.position.info.init_flag == M_DEINIT || motor->pid.position_in.info.init_flag == M_DEINIT)
 	{
 		return 0;
 	}	
@@ -482,6 +523,7 @@ float motor_pid_position(struct motor_class_t *motor,float target)//
 	return motor_pid_ctrl(&motor->pid.position,&motor->pid.position_in,motor->rx_info.angle_sum,motor->rx_info.speed,0);
 	
 }
+
 
 /**
  *	@brief	角度pid控制 
@@ -495,7 +537,7 @@ float motor_pid_angle(struct motor_class_t *motor,float target)//8192
 		return 0;
 	}
 
-	if(motor->pid.angle.info.init_flag == M_DEINIT)
+	if(motor->pid.angle.info.init_flag == M_DEINIT || motor->pid.angle_in.info.init_flag == M_DEINIT)
 	{
 		return 0;
 	}	
@@ -505,6 +547,32 @@ float motor_pid_angle(struct motor_class_t *motor,float target)//8192
 	return motor_pid_ctrl(&motor->pid.angle,&motor->pid.angle_in,motor->rx_info.angle/22.75f,motor->rx_info.speed,1);
 	
 }
+
+
+
+/**
+ *	@brief	步数pid控制 
+ *  @return 返回计算结果
+ */
+float motor_pid_step(struct motor_class_t *motor,float target,char step)//8192
+{
+	
+	if(motor->state.init_flag == M_DEINIT)
+	{
+		return 0;
+	}
+
+	if(motor->pid.step.info.init_flag == M_DEINIT || motor->pid.step_in.info.init_flag == M_DEINIT)
+	{
+		return 0;
+	}	
+	
+	motor->pid.angle.info.target = target/22.75f;
+	
+	return motor_pid_ctrl(&motor->pid.step,&motor->pid.step_in,motor->rx_info.angle/22.75f,motor->rx_info.speed,step);
+	
+}
+
 
 /**
  *	@brief	速度pid控制 

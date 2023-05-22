@@ -5,6 +5,12 @@
 
 陀螺仪坐标系：
 power为主控电源位置，按下图摆放找坐标系
+
+	y
+	|
+	|
+	z----x
+ 
 小主控：
 正面射出z轴，朝右x轴，朝上y轴
  ------------
@@ -51,7 +57,7 @@ power为主控电源位置，按下图摆放找坐标系
 
 	#define RP_CENTER 1
 
-	#define IMU_POSE_ANGLE 180
+	#define IMU_POSE_ANGLE -90
 	#define IMU_POSE_AX    0
 	#define IMU_POSE_AY    0
 	#define IMU_POSE_AZ    1
@@ -81,8 +87,8 @@ power为主控电源位置，按下图摆放找坐标系
 
 
 /*数据*/
-#define MOTOR_YAW_MID 0
-#define MOTOR_PIT_MID 0
+#define MOTOR_YAW_MID 5869
+#define MOTOR_PIT_MID 1200
 
 #define WHEEL_SPEED_MAX 8000
 #define WHEEL_POWER_MAX 8000

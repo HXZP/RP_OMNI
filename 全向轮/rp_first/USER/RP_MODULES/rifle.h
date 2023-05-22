@@ -140,6 +140,7 @@ typedef struct rifle_data_struct{
 
 	uint16_t HeatEnableNum;
 
+	float MagazineCCR;
 	
 }rifle_data;
 
@@ -161,9 +162,13 @@ typedef struct rifle_struct{
 	void (*ModifyShootType)(struct rifle_struct *self,rifle_ShootType type,uint16_t number);
 	
 	void (*Updata)(struct rifle_struct *self);
+	void (*Resolving)(struct rifle_struct *self);	
+	
 	void (*BoxCtrl)(struct rifle_struct *self);	
 	void (*FrictionCtrl)(struct rifle_struct *self);
   void (*MagazineCtrl)(struct rifle_struct *self);
+	
+	void (*Ctrl)(struct rifle_struct *self);	
 }rifle;
 
 

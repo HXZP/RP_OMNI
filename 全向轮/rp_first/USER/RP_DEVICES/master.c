@@ -77,6 +77,7 @@ void master_updata(struct master_struct *self,uint8_t *buff,uint32_t canId)
 		
 		judge.data.power_heat_data.chassis_power_buffer = self->data.judge2.buffer;
 		judge.data.power_heat_data.shooter_id1_17mm_cooling_heat = self->data.judge2.cooling_heat;
+		judge.data.game_robot_status.chassis_power_limit = self->data.judge2.powerLimit;
 		
 		judge.info.offline_cnt = 0;
 		self->info.offline_cnt = 0;
@@ -115,11 +116,11 @@ void MASTER_sendBuff(void)
 		
 		master[M1].data.judge2.cooling_heat = judge.data.power_heat_data.shooter_id1_17mm_cooling_heat;
 		master[M1].data.judge2.buffer       = judge.data.power_heat_data.chassis_power_buffer;
-
+    master[M1].data.judge2.powerLimit   = judge.data.game_robot_status.chassis_power_limit;
 
 		memcpy(buff,&master[M1].data.judge2,sizeof(master[M1].data.judge2));
 		
-		CAN_SendUint8(0x102,buff,2,4);		
+		CAN_SendUint8(0x102,buff,2,6);		
 	
 	}
 	

@@ -42,6 +42,7 @@ typedef struct motor_class_t
 	*/
 	float (*c_posit)(struct motor_class_t *motor,float target);
 	float (*c_angle)(struct motor_class_t *motor,float target);	
+	float (*c_step)(struct motor_class_t *motor,float target,char step);	
 	float (*c_speed)(struct motor_class_t *motor,float target);	
 	
 	/*
@@ -53,7 +54,7 @@ typedef struct motor_class_t
 	float (*c_pid1)(motor_pid_t *out, float meas1, float tar);	
 	
 	void  (*c_judge_dir)(struct motor_class_t *motor,uint16_t range);	
-  void  (*c_offset)(struct motor_class_t *motor, uint16_t range);	
+  float (*c_offset)(struct motor_class_t *motor);	
 	
   uint8_t (*c_stuck_flag)(struct motor_class_t *motor,uint16_t torque_limit);	
 	
@@ -73,7 +74,7 @@ void get_rm_info(struct motor_class_t *motor, uint8_t *rxBuf);
 float motor_cycle(float tar,float cycle);
 float motor_half_cycle(float angle,float max);
 void  motor_judge_dir(struct motor_class_t *motor,uint16_t range);
-void  motor_offset(struct motor_class_t *motor, uint16_t range);
+float motor_offset(struct motor_class_t *motor);
 
 float motor_pid_err(motor_pid_t *pid,float measure);
 float motor_pid_cal(motor_pid_t *pid);
@@ -81,6 +82,7 @@ float motor_pid_ctrl(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas
 
 float motor_pid_position(struct motor_class_t *motor,float target);
 float motor_pid_angle(struct motor_class_t *motor,float target);
+float motor_pid_step(struct motor_class_t *motor,float target,char step);
 float motor_pid_speed(struct motor_class_t *motor,float target);
 
 float motor_pid_double(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas2, float tar, char err_cal_mode);

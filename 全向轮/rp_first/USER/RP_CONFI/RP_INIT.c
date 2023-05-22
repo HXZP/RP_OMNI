@@ -16,26 +16,33 @@ void RP_INIT(void)
 #if (BMI_ENABLE == 1U)		
 	
 	RP_IMU_INIT();//must first
+	
 #endif
 	
 	
-	RM_MotorInit();	
+	RM_MotorInit();
+	
 	rc.init(&rc);
 	judge.init(&judge);
 	vision.init(&vision);	
 	magazine.weak(&magazine);	
 	
 #if (USART_ENABLE == 1U)		
+	
 	USART1_Init();
 	USART2_Init();
 	USART3_Init();
 	USART4_Init();
 	USART5_Init();
+	
 #endif
+
 	
 #if (CAN_ENABLE == 1U)
+
 	CAN1_Init();
 	CAN2_Init();
+	
 #endif	
 
 

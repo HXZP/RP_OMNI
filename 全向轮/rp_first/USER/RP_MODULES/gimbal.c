@@ -36,7 +36,7 @@ gimbal head = {
 	.info.ZReach = GIMB_NO,
 	
 	.info.AssemblyVector.X = 1,
-	.info.AssemblyVector.Y = 1,
+	.info.AssemblyVector.Y =-1,
 	.info.AssemblyVector.Z = 1,
 	
 	.ModifyLock  = Gimbal_ModifyLock,
@@ -118,7 +118,7 @@ void Gimbal_ModifyXYZSet(gimbal *gimb,float *setX,float *setY,float *setZ)
 void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz)
 {
 	//云台电机失联判断
-	if(motor[GIMB_Y].state.work_state && motor[GIMB_P].state.work_state){
+	if(motor[GIMB_Y].state.work_state == M_ONLINE && motor[GIMB_P].state.work_state == M_ONLINE){
 		
 		gimb->info.MotorState = GIMB_MOTOR_ONLINE;
 	}	
@@ -222,7 +222,7 @@ void Gimbal_Ctrl(gimbal *gimb)
 		Gimbal_CANBuff[motor[GIMB_Y].id.buff_p] = gimb->data.Torque.Z;
 		Gimbal_CANBuff[motor[GIMB_P].id.buff_p] = gimb->data.Torque.Y;
 
-		motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);
+//		motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);
 	}	
 
 }

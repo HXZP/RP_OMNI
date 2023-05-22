@@ -76,7 +76,6 @@ void CAP_setBuff0x2F(cap_t *self)
     self->data.Buff0x2F[1] = self->data.tx.output_power_limit;    //电容放电功率限制，-120~300W
     self->data.Buff0x2F[2] = self->data.tx.input_power_limit;     //电容充电功率限制，0~150W
     self->data.Buff0x2F[3] = self->data.tx.cap_control.all;       //电容开关，0（关闭）、1（开启）
-
 }
 
 void CAP_ModifyOutInLimit(cap_t *self,float out,float in)
@@ -103,7 +102,7 @@ void CAP_setMessage(cap_t *self,float powerBuff,float powerLimit,float volt,floa
 
 void CAP_rxMessage(cap_t *self,uint32_t canId, uint8_t *rxBuf)
 {
-    if(canId == 0x30)
+    if(canId == self->info.canId)
     {
         self->data.rx.cap_Ucr = int16_to_float(((uint16_t)rxBuf[0] << 8| rxBuf[1]), 32000, -32000, 30, 0);
         self->data.rx.cap_I   = int16_to_float(((uint16_t)rxBuf[2] << 8| rxBuf[3]), 32000, -32000, 20, -20);

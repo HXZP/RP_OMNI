@@ -75,7 +75,7 @@ typedef struct{
 
 	uint16_t buffer;
 	
-
+  uint16_t powerLimit;
 	
 } MASTER_pack3_t;
 

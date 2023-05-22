@@ -253,6 +253,7 @@ void Chassis_Updata(chassis *chas)
 		chas->info.MotorState = CHAS_ERR;
 	}
 	
+	//裁判系统赋值
 	chas->data.PowerBuff = judge.data.power_heat_data.chassis_power_buffer;
 	chas->data.PowerLimit = judge.data.game_robot_status.chassis_power_limit;
 	
@@ -266,20 +267,26 @@ void Chassis_Updata(chassis *chas)
 	}	
 	
 	//底盘方向判断 0-360 获取和原点的方向夹角
-	position = ((float)motor[GIMB_Y].rx_info.angle)/22.5f;
+	position = ((float)motor[GIMB_Y].rx_info.angle_offset)/22.5f;
 	
 	if(abs(position - 180) < 90){
 		
 		chas->info.Direction = CHAS_BACKWARD;
-		position = RP_Limit(position - 180 - chas->info.OriginAngle,360);
-		chas->data.DirAngle = position;
 	}
 	else{
 		
 		chas->info.Direction = CHAS_FORWARD;
-		position = RP_Limit(position - chas->info.OriginAngle,360);
-		chas->data.DirAngle = position;
 	}
+	
+	position = position - chas->info.OriginAngle;
+	
+	while(abs(position) > 360){
+	
+		if(position < 0)         position += 360;
+		else if(position >= 360) position -= 360;	
+	}
+	
+	chas->data.DirAngle = position;
 	
 	//底盘轮子最大速度计算
 	chas->data.VelocityMax = chas->data.WheelrpmMax/chas->info.ReductionRatio/60.0f
@@ -368,7 +375,7 @@ void Chassis_Ctrl(chassis *chas)
 		
 		Chassis_Power_Limit(chas,Chassis_CANBuff);
 		
-		motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
+//		motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
 	}
 	
 }
