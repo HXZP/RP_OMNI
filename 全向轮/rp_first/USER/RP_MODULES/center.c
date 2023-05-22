@@ -159,9 +159,14 @@ center Center = {
 	.info.RifleMode  = RIFLE_NULL,	
 	.info.VisionMode = VISION_NULL,
 	
-	.time.InitTimeStart = 0,
+	.info.MoveCommand = RP_NO,
+	.info.MoveCrazzy  = RP_NO,
+	
+	.info.ErrDevices = 0,
+	
+	.time.InitTimeStart     = 0,
 	.time.AimEnterTimeStart = 0,
-	.time.CenterStartTime = 0,
+	.time.CenterStartTime   = 0,
 	
 	.data.RotateVelocity = ROTATE_VELOCITY_DEFUALT,
 	
@@ -243,6 +248,8 @@ void Center_CtrlModeInit(center *self,Center_CtrlMode state)
 	self->info.MagazineSwitch = RP_NO;
 	self->info.RotateSwitch   = RP_NO;
 	self->info.RifleLock      = RP_NO;
+	
+	self->info.MoveCrazzy = RP_OK;
 	
 	self->info.CtrlInit = RP_OK;
 }
@@ -442,8 +449,6 @@ void Remote_Ctrl(center *self)
 		if(rc.data.tw_step[2]){
 		
 			self->info.RotateSwitch = RP_OK;
-			
-			
 		}
 		else{
 			self->data.RotateVelocity = ROTATE_VELOCITY_DEFUALT;
@@ -481,7 +486,7 @@ void Remote_Ctrl(center *self)
 					
 	/* 发射模式 */			
 	switch(SW2){
-	
+
 		case SW_MID:
 			
 			self->info.RifleLock = RP_OK;
@@ -498,16 +503,6 @@ void Remote_Ctrl(center *self)
 			self->modifyRifleMode(self,RIFLE_SET1);
 			break;				
 	}
-
-//  换到初始化中	
-//	if(self->info.VisionMode != VISION_NULL){
-//	
-//		self->modifyState(&self->info.AutoFireSwitch,RP_OK);
-//	}
-//	else{
-//	
-//		self->modifyState(&self->info.AutoFireSwitch,RP_NO);
-//	}
 	
 	//辅助射击介入决策
 	if(self->info.AutoFireSwitch == RP_OK){
@@ -518,7 +513,6 @@ void Remote_Ctrl(center *self)
 	
 	
 	}
-	
 	
 	
 	/* 发射机构未退出保护 */
@@ -549,7 +543,6 @@ void Remote_Ctrl(center *self)
 		self->modifyState(&self->info.MagazineSwitch,RP_OK);
 	}
 	/* 滚轮控制end */
-			
 
 }
 
@@ -571,30 +564,29 @@ void KeyMouse_Ctrl(center *self)
 
 
 
+
+
+
+
+
+
+
+
+
+
+/*------------------------------------------------------------------*/	
+
+
 /*
  * 根据目标模式 调用底层API进行修改状态
 **/
 void Center_Updata(center *self)
-	
 {
   //Init
 	if(self->info.SysInit == RP_ING){
 	
 		Center_SysInit(self);	
 	}
-	
-	//移动命令
-	if(self->data.Channel[3] || self->data.Channel[2]){
-	
-		self->info.MoveCommand = RP_OK;
-	}
-	else{
-	
-		self->info.MoveCommand = RP_NO;
-	}
-	
-	
-/*------------------------------------------------------------------*/	
 
 	//gimb
 	if(self->info.MoveMode == MOVE_MASTER){
@@ -630,6 +622,19 @@ void Center_Updata(center *self)
 			self->data.VelocityX = (float)self->data.Channel[3]/660*100;
 			self->data.VelocityY =-(float)self->data.Channel[2]/660*100;
 		  self->data.VelocityZ = self->data.RotateVelocity;
+			
+			//小陀螺功率自适应
+			if(omni.data.PowerBuff > 40){
+			
+				self->data.RotateVelocity += 0.5f; 
+			}
+			else{
+			
+				self->data.RotateVelocity -= 0.5f;
+			}
+			
+			if(self->data.RotateVelocity > 100)self->data.RotateVelocity = 100;
+			else if(self->data.RotateVelocity < 30)self->data.RotateVelocity = 30;
 			
 		}
 		else{
@@ -695,8 +700,40 @@ void Center_Updata(center *self)
 			gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);					
 			break;	
 	}
-}
+	
 
+	//移动命令
+	if(abs(self->data.VelocityX) < 10 || abs(self->data.VelocityY) < 10 || abs(self->data.VelocityZ) < 10){
+	
+		self->info.MoveCommand = RP_OK;
+	}
+	else{
+	
+		self->info.MoveCommand = RP_NO;
+	}
+
+  /* 电容使用策略 */
+	//充电
+	if(self->info.MoveCommand == RP_OK){
+	
+		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,0);
+	}
+	else if(self->info.MoveCommand == RP_NO){
+	
+		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,150);
+	}
+	//放电
+	if(self->info.MoveCrazzy == RP_OK){
+	
+		cap.modifyLimit(&cap,150,cap.data.tx.input_power_limit);
+	}
+	else if(self->info.MoveCrazzy == RP_NO){
+	
+		cap.modifyLimit(&cap,75,cap.data.tx.input_power_limit);
+	}  
+	
+	
+}
 
 
 
@@ -705,14 +742,51 @@ void Center_Updata(center *self)
 **/
 void Center_Ctrl(center *self)
 {
+	uint16_t ledtime = 0;
 	
 	if(rc.info.state == RC_OFFLINE){
 	
-		led.allShine(500);
+		led.allShine(1000);
 	}
 	else{
 		
-    led.running(50);
+		if(omni.info.MotorState == CHAS_ERR){
+		
+			ledtime++;
+		}
+		if(head.info.MotorState == GIMB_MOTOR_ERR){
+		
+			ledtime++;
+		}
+		if(gun.info.MotorState == RIFLE_MOTOR_ERR){
+		
+			ledtime++;
+		}
+		if(judge.info.state == JUDGE_OFFLINE){
+		
+			ledtime++;
+		}
+		if(vision.info.state == VISION_OFFLINE){
+		
+			ledtime++;
+		}
+		if(cap.info.state == CAP_OFFLINE){
+		
+			ledtime++;
+		}
+		
+		self->info.ErrDevices = ledtime;
+		
+		ledtime = ledtime * 100;
+		
+		
+		
+    if(ledtime == 0)led.running(50);
+		
+		else{
+		
+			led.allShine(ledtime);
+		}
 	}
 	
 	if(self->info.MoveMode == MOVE_MASTER){
@@ -744,6 +818,7 @@ void Center_Ctrl(center *self)
 	head.Resolving(&head);
 	omni.Resolving(&omni);
 	
+	//姿态重分配
 //	if(self->info.MoveMode == MOVE_MASTER){
 //		
 //		head.Translation(&head,

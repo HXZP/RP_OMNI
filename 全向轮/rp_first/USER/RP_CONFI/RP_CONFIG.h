@@ -51,10 +51,10 @@ power为主控电源位置，按下图摆放找坐标系
 
 	#define RP_CENTER 1
 
-	#define IMU_POSE_ANGLE 0
-	#define IMU_POSE_AX    1
+	#define IMU_POSE_ANGLE 180
+	#define IMU_POSE_AX    0
 	#define IMU_POSE_AY    0
-	#define IMU_POSE_AZ    0
+	#define IMU_POSE_AZ    1
 	#define IMU_PID_KP     10.f
 	
 	#define IMU_PID_KP_CONTROL     0.1f
@@ -65,10 +65,10 @@ power为主控电源位置，按下图摆放找坐标系
 
 #if MASTER == 1U
 
-	#define IMU_POSE_ANGLE 180
-	#define IMU_POSE_AX    1
-	#define IMU_POSE_AY    1
-	#define IMU_POSE_AZ    0
+	#define IMU_POSE_ANGLE -90
+	#define IMU_POSE_AX    0
+	#define IMU_POSE_AY    0
+	#define IMU_POSE_AZ    1
 	#define IMU_PID_KP     10.f	
 	
 	#define IMU_PID_KP_CONTROL     1.f
@@ -83,6 +83,11 @@ power为主控电源位置，按下图摆放找坐标系
 /*数据*/
 #define MOTOR_YAW_MID 0
 #define MOTOR_PIT_MID 0
+
+#define WHEEL_SPEED_MAX 8000
+#define WHEEL_POWER_MAX 8000
+
+
 
 
 /*开启中心控制*/

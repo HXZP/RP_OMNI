@@ -74,11 +74,14 @@ typedef struct center_info_struct{
 	Center_State    AutoFireSwitch;
 	
 	Center_State    MoveCommand;
+	Center_State    MoveCrazzy;
 	
 	Center_CtrlMode   CtrlMode;	
 	Center_MoveMode   MoveMode;
 	Center_RifleMode  RifleMode;
   Center_VisionMode VisionMode;	
+	
+	char ErrDevices;
 	
 }center_info;
 

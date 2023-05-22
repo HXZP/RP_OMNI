@@ -11,6 +11,7 @@ static void CAP_setMessage(cap_t *self,float powerBuff,float powerLimit,float vo
 static void CAP_rxMessage(cap_t *self,uint32_t canId, uint8_t *rxBuf);
 static void CAP_heart_beat(cap_t *self);
 static void CAP_ModifyOutInLimit(cap_t *self,float out,float in);
+
 cap_t cap = {
 
 	.info.canId = 0x30,

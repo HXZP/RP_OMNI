@@ -107,7 +107,7 @@ motor_t motor[MOTOR_LIST] =
 	
 		.id.drive_type = M_CAN1,
 		.id.motor_type = GM6020,
-		.id.rx_id      = 0x205,
+		.id.rx_id      = 0x206,
 
 		.init = &motor_class_init,
 		
@@ -118,7 +118,7 @@ motor_t motor[MOTOR_LIST] =
 	
 		.id.drive_type = M_CAN1,
 		.id.motor_type = GM6020,
-		.id.rx_id      = 0x206,
+		.id.rx_id      = 0x205,
 		
 		.init = &motor_class_init,
 		

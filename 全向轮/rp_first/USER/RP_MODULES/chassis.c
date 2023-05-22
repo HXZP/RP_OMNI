@@ -13,7 +13,7 @@
 
 #include "DEVICES.h"
 #include "RP_FUNCTION.h"
-
+#include "RP_CONFIG.h"
 
 static void Chassis_ModifyLock(chassis *chas,chassis_Lock type);
 static void Chassis_ModifyrpmMax(chassis *chas,float max);
@@ -43,8 +43,8 @@ chassis omni = {
 	
 	.info.OriginAngle = 0,
 
-  .data.WheelrpmMax   = 8000,
-	.data.WheelPowerMax = 8000,
+  .data.WheelrpmMax   = WHEEL_SPEED_MAX,
+	.data.WheelPowerMax = WHEEL_POWER_MAX,
 	
 	.ModifyLock        = Chassis_ModifyLock,
 	.ModifyrpmMax      = Chassis_ModifyrpmMax,
@@ -253,6 +253,17 @@ void Chassis_Updata(chassis *chas)
 		chas->info.MotorState = CHAS_ERR;
 	}
 	
+	chas->data.PowerBuff = judge.data.power_heat_data.chassis_power_buffer;
+	chas->data.PowerLimit = judge.data.game_robot_status.chassis_power_limit;
+	
+	if(judge.info.state == JUDGE_ONLINE && cap.info.state == CAP_ONLINE){
+	
+		chas->data.WheelPowerMax = WHEEL_POWER_MAX;
+	}
+	else{
+	
+		chas->data.WheelPowerMax = WHEEL_POWER_MAX / 2;
+	}	
 	
 	//底盘方向判断 0-360 获取和原点的方向夹角
 	position = ((float)motor[GIMB_Y].rx_info.angle)/22.5f;
@@ -370,20 +381,11 @@ void Chassis_Ctrl(chassis *chas)
   */
 void Chassis_Power_Limit(chassis *chas,int16_t *data)
 {
-	float buffer = judge.data.power_heat_data.chassis_power_buffer;
+	float buffer = chas->data.PowerBuff;
+	
+	uint16_t outMax = chas->data.WheelPowerMax * 4;	
 	
 	float heat_rate, Limit_k, CHAS_LimitOutput, CHAS_TotalOutput;
-	
-	uint16_t OUT_MAX = 0;
-	
-	if(judge.info.state == CAP_ONLINE && cap.info.state == CAP_ONLINE){
-	
-		OUT_MAX = chas->data.WheelPowerMax * 4;
-	}
-	else{
-	
-		OUT_MAX = chas->data.WheelPowerMax / 2 * 4;
-	}
 	
 	if(buffer > 60)buffer = 60;//防止飞坡之后缓冲250J变为正增益系数
 	
@@ -395,9 +397,9 @@ void Chassis_Power_Limit(chassis *chas,int16_t *data)
 		Limit_k = Limit_k;
 	
 	if(buffer < 60)
-		CHAS_LimitOutput = Limit_k * OUT_MAX;
+		CHAS_LimitOutput = Limit_k * outMax;
 	else 
-		CHAS_LimitOutput = OUT_MAX;    
+		CHAS_LimitOutput = outMax;    
 	
 	CHAS_TotalOutput = abs(data[0]) + abs(data[1]) + abs(data[2]) + abs(data[3]) ;
 	

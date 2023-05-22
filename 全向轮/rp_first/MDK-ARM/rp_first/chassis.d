@@ -88,3 +88,4 @@ rp_first\chassis.o: ../USER/RP_DEVICES/master.h
 rp_first\chassis.o: ../USER/RP_FUNCTION/RP_FUNCTION.h
 rp_first\chassis.o: ../USER/RP_FUNCTION/rp_math.h
 rp_first\chassis.o: ../USER/RP_FUNCTION/GimbalRotationOutput.h
+rp_first\chassis.o: ../USER/RP_CONFI/RP_CONFIG.h
