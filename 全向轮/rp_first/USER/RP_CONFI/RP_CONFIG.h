@@ -62,14 +62,19 @@ power为主控电源位置，按下图摆放找坐标系
 	#define IMU_POTOCAL_TYPE IMU_SPI
 	
 #endif
+
 #if MASTER == 1U
+
 	#define IMU_POSE_ANGLE 180
 	#define IMU_POSE_AX    1
 	#define IMU_POSE_AY    1
 	#define IMU_POSE_AZ    0
 	#define IMU_PID_KP     10.f	
 	
-	#define IMU_POTOCAL_TYPE IMU_IIC
+	#define IMU_PID_KP_CONTROL     1.f
+	
+	#define IMU_POTOCAL_TYPE IMU_SPI
+	
 #endif
 
 
@@ -92,7 +97,7 @@ power为主控电源位置，按下图摆放找坐标系
 
 /*Usart Select*/
 #define VISION_USART  1U
-#define JUDGE_USART   3U
+#define JUDGE_USART   5U
 
 /*Test Enable*/
 #define USART_TEST    0U //Enable Usart Test

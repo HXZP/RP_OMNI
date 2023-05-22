@@ -14,8 +14,11 @@ void RP_INIT(void)
 {
 	
 #if (BMI_ENABLE == 1U)		
+	
 	RP_IMU_INIT();//must first
 #endif
+	
+	
 	RM_MotorInit();	
 	rc.init(&rc);
 	judge.init(&judge);

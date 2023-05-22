@@ -92,9 +92,16 @@ sw1 = 1
 	只执行当前模式
 	为NULL时不执行
 
-	(关于执行内容和初始化内容存在交集：
+	(关于执行内容和初始化内容存在交集：把执行内容写在初始化
+	
+对功率分配的思考：
+	超电的充电：
+//		之前的策略是一直充电放电，但应该从用户的需求上去考虑，操作手想要运动，肯定是不希望运动慢
+
+	
 
 */
+
 
 
 #include "center.h"
@@ -145,6 +152,7 @@ center Center = {
 	.info.FrictionSwitch = RP_NO,
 	.info.MagazineSwitch = RP_NO,
 	.info.RotateSwitch   = RP_NO,
+	.info.AutoFireSwitch = RP_NO,
 	
 	.info.CtrlMode   = CTRL_NULL,
 	.info.MoveMode   = MOVE_NULL,	
@@ -170,7 +178,6 @@ center Center = {
 };
 
 
-#if (RP_CENTER == 1)
 
 /*============================================================================*/
 
@@ -307,7 +314,13 @@ void Center_VisionModeInit(center *self,Center_VisionMode state)
 	
 		omni.ModifyOriginAngle(&omni,180);
 	}
-		
+	
+	//默认开启辅助射击
+	if(state != VISION_NULL){
+	
+		self->modifyState(&self->info.AutoFireSwitch,RP_OK);
+	}
+	
 	self->info.VisionInit = RP_OK;
 }
 
@@ -318,7 +331,7 @@ void Center_VisionModeInit(center *self,Center_VisionMode state)
 
 
 /*
- *@note 控制开关中心
+ *@note 控制开关中心 修改目标状态
 **/
 void Center_Switch(center *self)
 {
@@ -333,16 +346,18 @@ void Center_Switch(center *self)
 		
 		self->time.InitTimeStart = HAL_GetTick();
 		
-		self->info.SysInit = RP_NO;
-		self->info.CtrlInit = RP_NO;
-		self->info.MoveInit = RP_NO;		
-		self->info.RifleInit = RP_NO;
+		self->info.SysInit    = RP_NO;
+		self->info.CtrlInit   = RP_NO;
+		self->info.MoveInit   = RP_NO;		
+		self->info.RifleInit  = RP_NO;
 		self->info.VisionInit = RP_NO;
 		
 		self->info.RifleLock = RP_NO;
 		
 		self->info.FrictionSwitch = RP_NO;
 		self->info.MagazineSwitch = RP_NO;
+		self->info.RotateSwitch   = RP_NO;
+		self->info.AutoFireSwitch = RP_NO;
 		
 		self->modifyCtrlMode(self,CTRL_NULL);
 		self->modifyMoveMode(self,MOVE_NULL);
@@ -354,7 +369,6 @@ void Center_Switch(center *self)
 
 	}
 	else{
-		
 		
 		if(self->info.SysInit == RP_NO){
 		
@@ -378,7 +392,6 @@ void Center_Switch(center *self)
 		if(self->info.CtrlMode == CTRL_RC){
 
 			Remote_Ctrl(self);
-			
 		}
 		/* 遥控模式end */
 		
@@ -389,7 +402,6 @@ void Center_Switch(center *self)
 			self->info.RifleLock = RP_OK;
 
 			KeyMouse_Ctrl(self);
-		  
 		}
 		/* 键盘模式end */
 	}
@@ -442,8 +454,8 @@ void Remote_Ctrl(center *self)
 		if(rc.data.tw_step[3]){
 
 			self->modifyVisionMode(self,VISION_BIG_BUFF);
-		}				
-		else if(rc.data.thumbwheel < 20 && rc.data.thumbwheel > -300){
+		}
+		else if(rc.data.thumbwheel < 20 && rc.data.thumbwheel > 200){
 		
 			if(HAL_GetTick() - self->time.AimEnterTimeStart > 200){
 			
@@ -455,6 +467,8 @@ void Remote_Ctrl(center *self)
 			self->time.AimEnterTimeStart = HAL_GetTick();
 			
 			self->modifyVisionMode(self,VISION_NULL);
+			
+			self->info.AutoFireSwitch = RP_NO;
 		}
 	}
 	/* 底盘模式 */
@@ -469,6 +483,7 @@ void Remote_Ctrl(center *self)
 	switch(SW2){
 	
 		case SW_MID:
+			
 			self->info.RifleLock = RP_OK;
 			self->modifyRifleMode(self,RIFLE_STOP);
 			break;
@@ -483,12 +498,33 @@ void Remote_Ctrl(center *self)
 			self->modifyRifleMode(self,RIFLE_SET1);
 			break;				
 	}
+
+//  换到初始化中	
+//	if(self->info.VisionMode != VISION_NULL){
+//	
+//		self->modifyState(&self->info.AutoFireSwitch,RP_OK);
+//	}
+//	else{
+//	
+//		self->modifyState(&self->info.AutoFireSwitch,RP_NO);
+//	}
+	
+	//辅助射击介入决策
+	if(self->info.AutoFireSwitch == RP_OK){
+	
+
+	}
+	else{
+	
+	
+	}
+	
+	
 	
 	/* 发射机构未退出保护 */
 	if(self->info.RifleLock == RP_NO){
 	
 		self->modifyRifleMode(self,RIFLE_STOP);
-	
 	}
 	/* 发射模式end */
 	
@@ -520,7 +556,7 @@ void Remote_Ctrl(center *self)
 
 
 /*
- *@note 子开关：键盘
+ * @note 子开关：键盘
 **/
 void KeyMouse_Ctrl(center *self)
 {
@@ -530,22 +566,16 @@ void KeyMouse_Ctrl(center *self)
 	self->data.Channel[2] = rc.data.ch[2];
 	self->data.Channel[3] = rc.data.ch[3];
 	
-
-
-
-
-
 }
 
 
 
 
-
-
-
-
-
+/*
+ * 根据目标模式 调用底层API进行修改状态
+**/
 void Center_Updata(center *self)
+	
 {
   //Init
 	if(self->info.SysInit == RP_ING){
@@ -553,21 +583,37 @@ void Center_Updata(center *self)
 		Center_SysInit(self);	
 	}
 	
+	//移动命令
+	if(self->data.Channel[3] || self->data.Channel[2]){
+	
+		self->info.MoveCommand = RP_OK;
+	}
+	else{
+	
+		self->info.MoveCommand = RP_NO;
+	}
 	
 	
 /*------------------------------------------------------------------*/	
-	
-	
-	
+
 	//gimb
 	if(self->info.MoveMode == MOVE_MASTER){
 
-		self->data.GimbPitTarget = +(float)self->data.Channel[1]/660.f;
-		self->data.GimbYawTarget = -(float)self->data.Channel[0]/660.f;
+		self->data.GimbPitTarget =+(float)self->data.Channel[1]/660.f;
+		self->data.GimbYawTarget =-(float)self->data.Channel[0]/660.f;
 		
 		self->data.GimbPitTarget = RP_Limit(self->data.GimbPitTarget,360);
 		self->data.GimbYawTarget = RP_Limit(self->data.GimbYawTarget,360);
+
+		if(self->data.GimbPitTarget){
 		
+			self->data.GimbPitTarget = self->data.GimbPitTarget + imu.data.rpy.pitch;
+		}
+		
+		if(self->data.GimbYawTarget){
+		
+			self->data.GimbYawTarget = self->data.GimbYawTarget + imu.data.rpy.yaw;
+		}
 	}
 	else if(self->info.MoveMode == MOVE_FOLLOW){
 	
@@ -590,10 +636,9 @@ void Center_Updata(center *self)
 		
 			self->data.VelocityX = (float)self->data.Channel[3]/660*100;
 			self->data.VelocityY =-(float)self->data.Channel[2]/660*100;
-		  self->data.VelocityZ =-(float)self->data.Channel[0]/660*100;
+		  self->data.VelocityZ =- omni.data.DirAngle*abs(omni.data.DirAngle)/(180*180)*100;
 		}
-		
-	}	
+	}
 	else if(self->info.MoveMode == MOVE_FOLLOW){
 	
 		self->data.VelocityX = (float)self->data.Channel[3]/660*100;
@@ -625,38 +670,39 @@ void Center_Updata(center *self)
 		gun.ModifyMagazine(&gun,RIFLE_NO);
 	}
 
-	if(self->info.RifleMode == RIFLE_SET1){
+	switch((uint8_t)self->info.RifleMode){
 	
-		gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,1);
-	
-	}
-	else if(self->info.RifleMode == RIFLE_SET6){
-	
-		gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,6);
-	
-	}
-	else if(self->info.RifleMode == RIFLE_STAY){
-	
-		if(gun.data.HeatEnableNum > 5){
+		case RIFLE_SET1:
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,1);
+			break;
 		
-			gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,4000);		
-		}
-		else{
+		case RIFLE_SET6:
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,6);
+			break;		
 		
-			gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,2000);		
-		}
-	}
-	else if(self->info.RifleMode == RIFLE_STOP){
-	
-		gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);
-	
+		case RIFLE_STAY:
+			if(gun.data.HeatEnableNum > 5){
+			
+				gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,4000);		
+			}
+			else{
+			
+				gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,2000);		
+			}
+			break;	
+			
+		case RIFLE_STOP:
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);					
+			break;	
 	}
 }
 
 
 
 
-
+/*
+ * 执行底层模块
+**/
 void Center_Ctrl(center *self)
 {
 	
@@ -667,9 +713,7 @@ void Center_Ctrl(center *self)
 	else{
 		
     led.running(50);
-		
 	}
-	
 	
 	if(self->info.MoveMode == MOVE_MASTER){
 	
@@ -700,13 +744,13 @@ void Center_Ctrl(center *self)
 	head.Resolving(&head);
 	omni.Resolving(&omni);
 	
-	if(self->info.MoveMode == MOVE_MASTER){
-		
-		head.Translation(&head,
-										 master[M1].data.chasRPY.x,
-										 master[M1].data.chasRPY.y,
-										 master[M1].data.chasRPY.z);
-	}	
+//	if(self->info.MoveMode == MOVE_MASTER){
+//		
+//		head.Translation(&head,
+//										 master[M1].data.chasRPY.x,
+//										 master[M1].data.chasRPY.y,
+//										 master[M1].data.chasRPY.z);
+//	}
 
 /*---------------------------------------------------------------*/	
 	
@@ -724,20 +768,6 @@ void Center_Ctrl(center *self)
 
 /*------------------------------------------------------------------*/	
 /*------------------------------------------------------------------*/	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -768,8 +798,6 @@ void Center_ModifiyState(Center_State *self,Center_State state)
 
 void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state)
 {
-
-
 	if(self->info.CtrlInit == RP_ING){
 	
 		Center_CtrlModeInit(self,state);
@@ -791,8 +819,6 @@ void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state)
 
 void Center_ModifiyMoveMode(center *self,Center_MoveMode state)
 {
-
-
 	if(self->info.MoveInit == RP_ING){
 	
 		Center_MoveModeInit(self,state);
@@ -814,8 +840,6 @@ void Center_ModifiyMoveMode(center *self,Center_MoveMode state)
 
 void Center_ModifiyRifleMode(center *self,Center_RifleMode state)
 {
-
-
 	if(self->info.RifleInit == RP_ING){
 	
 		Center_RifleModeInit(self,state);
@@ -837,8 +861,6 @@ void Center_ModifiyRifleMode(center *self,Center_RifleMode state)
 
 void Center_ModifiyVisionMode(center *self,Center_VisionMode state)
 {
-
-
 	if(self->info.VisionInit == RP_ING){
 	
 		Center_VisionModeInit(self,state);
@@ -865,11 +887,28 @@ void Center_ModifiyVisionMode(center *self,Center_VisionMode state)
 
 
 
-
-
-
-#endif
-
-
-
-
+//	if(self->info.RifleMode == RIFLE_SET1){
+//	
+//		gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,1);
+//	
+//	}
+//	else if(self->info.RifleMode == RIFLE_SET6){
+//	
+//		gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,6);
+//	
+//	}
+//	else if(self->info.RifleMode == RIFLE_STAY){
+//	
+//		if(gun.data.HeatEnableNum > 5){
+//		
+//			gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,4000);		
+//		}
+//		else{
+//		
+//			gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,2000);		
+//		}
+//	}
+//	else if(self->info.RifleMode == RIFLE_STOP){
+//	
+//		gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);
+//	}

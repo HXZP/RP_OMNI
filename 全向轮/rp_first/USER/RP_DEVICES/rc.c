@@ -52,9 +52,9 @@ rc_t rc = {
 	.key        = RC_KeyMouseReceive,
 	
 	//顺序:相同符号之间按绝对值从大到小
-	.info.tw_step_value[0] = -630,
+	.info.tw_step_value[0] = -650,
 	.info.tw_step_value[1] = -400,
-	.info.tw_step_value[2] = +630,
+	.info.tw_step_value[2] = +650,
 	.info.tw_step_value[3] = +400,	
 	
 	.info.state = RC_OFFLINE,

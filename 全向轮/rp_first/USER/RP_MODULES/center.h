@@ -45,8 +45,6 @@ typedef enum {
 	
 	RIFLE_STAY,
 	
-
-	
 } Center_RifleMode;
 
 typedef enum { 
@@ -70,11 +68,12 @@ typedef struct center_info_struct{
   Center_State    VisionInit;	
 	
 	Center_State    RifleLock;
-
 	Center_State    FrictionSwitch;
 	Center_State    MagazineSwitch;
-	
 	Center_State    RotateSwitch;
+	Center_State    AutoFireSwitch;
+	
+	Center_State    MoveCommand;
 	
 	Center_CtrlMode   CtrlMode;	
 	Center_MoveMode   MoveMode;

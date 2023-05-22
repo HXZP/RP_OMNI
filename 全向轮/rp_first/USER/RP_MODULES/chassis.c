@@ -35,7 +35,6 @@ chassis omni = {
 
 	.info.Direction  = CHAS_FORWARD,
 	.info.Distribute = CHAS_FAIR,
-  .data.WheelrpmMax = 8000,
 	
 	.info.ReductionRatio = 14,
 	.info.WheelRadius    = 10,
@@ -43,6 +42,9 @@ chassis omni = {
 	.info.VehicleWide    = 1,
 	
 	.info.OriginAngle = 0,
+
+  .data.WheelrpmMax   = 8000,
+	.data.WheelPowerMax = 8000,
 	
 	.ModifyLock        = Chassis_ModifyLock,
 	.ModifyrpmMax      = Chassis_ModifyrpmMax,
@@ -187,7 +189,6 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 			vel[2] = (abs(vel[2]) > velRemain? velRemain : vel[2]);
 
 		}
-
 	}
 	else if(chas->info.Distribute == CHAS_ROTATE){
 	
@@ -296,17 +297,17 @@ void Chassis_Resolving(chassis *chas)
 	
 	if(chas->info.Type == CHAS_OMNI){
     
-		velocity[0] = chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[1] = chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
-		velocity[2] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[3] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
+		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
 	}
 	else if(chas->info.Type == CHAS_MECA){
     
-		velocity[0] = chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[1] = chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
-		velocity[2] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[3] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
+		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
 	}
 	else if(chas->info.Type == CHAS_HELM){
     
@@ -326,10 +327,10 @@ void Chassis_Resolving(chassis *chas)
   */
 void Chassis_Ctrl(chassis *chas)
 {
-	int16_t Chassis_CANBuff[4];
+	int16_t Chassis_CANBuff[4] = {0,0,0,0};
 	
-	if(chas->info.Lock == CHAS_LOCK)
-	{
+	if(chas->info.Lock == CHAS_LOCK){
+		
 		if(HAL_GetTick() - chas->time.LockTime < 1000){
 		
 			Chassis_CANBuff[motor[CHAS_1].id.buff_p] = motor[CHAS_1].c_speed(&motor[CHAS_1],0);
@@ -341,10 +342,14 @@ void Chassis_Ctrl(chassis *chas)
 			
 			motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
 		}
+		else{
+		
+			motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);
+		}
 
 	}
-	else if(chas->info.Lock == CHAS_UNLOCK)
-	{
+	else if(chas->info.Lock == CHAS_UNLOCK){
+		
 		Chassis_CANBuff[motor[CHAS_1].id.buff_p] = motor[CHAS_1].c_speed(&motor[CHAS_1],chas->data.WheelSet[0]);
 		Chassis_CANBuff[motor[CHAS_2].id.buff_p] = motor[CHAS_2].c_speed(&motor[CHAS_2],chas->data.WheelSet[1]);
 		Chassis_CANBuff[motor[CHAS_3].id.buff_p] = motor[CHAS_3].c_speed(&motor[CHAS_3],chas->data.WheelSet[2]);
@@ -373,11 +378,11 @@ void Chassis_Power_Limit(chassis *chas,int16_t *data)
 	
 	if(judge.info.state == CAP_ONLINE && cap.info.state == CAP_ONLINE){
 	
-		OUT_MAX = 8000 * 4;
+		OUT_MAX = chas->data.WheelPowerMax * 4;
 	}
 	else{
 	
-		OUT_MAX = 4000 * 4;
+		OUT_MAX = chas->data.WheelPowerMax / 2 * 4;
 	}
 	
 	if(buffer > 60)buffer = 60;//防止飞坡之后缓冲250J变为正增益系数

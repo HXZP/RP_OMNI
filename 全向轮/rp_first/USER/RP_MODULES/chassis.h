@@ -91,6 +91,7 @@ typedef struct chassis_data_struct{
 	float       WheelSet[4];
 	float       WheelReal[4];
 
+	float       WheelPowerMax;		
 	float       PowerLimit;
 	float       PowerBuff;
 	

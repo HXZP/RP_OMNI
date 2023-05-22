@@ -450,7 +450,9 @@ void Rifle_BoxCtrl(rifle *self)
 	}
 
 
-	//控制类型：停止输出
+	/* 控制类型决策 */
+	
+	//0、停止输出
 	if(self->info.ShootType == RIFLE_SHOOT_STOP){
 	
 		self->data.BoxSpeedSet = 0;
@@ -459,40 +461,35 @@ void Rifle_BoxCtrl(rifle *self)
 		
 		self->info.BoxType = RIFLE_SPEED;
 	}
-	else{
+	//1、持续输出
+	else if(self->info.ShootType == RIFLE_SHOOT_STAY){
 
-		//1、持续输出
-		if(self->info.ShootType == RIFLE_SHOOT_STAY){
+		self->info.Shooting = RIFLE_ING;
 
-			self->info.Shooting = RIFLE_ING;
+		self->data.BoxSpeedSet = -self->data.BoxNumSet;
 
-			self->data.BoxSpeedSet = -self->data.BoxNumSet;
+		self->info.BoxType = RIFLE_SPEED;
+		
+		return;
+	}
+	//2、指定数量
+	else if(self->info.ShootType == RIFLE_SHOOT_SET){
+		
+		self->info.Shooting = RIFLE_ING;
+		
+		self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f * self->data.BoxNumSet;
 
+		self->data.BoxSpeedSet = -6500;
+		
+		//输量大于等于3的时候先使用速度控制
+		if(self->data.BoxNumSet > 2){
+					
 			self->info.BoxType = RIFLE_SPEED;
-			
-			return;
 		}
-
-
-		//2、指定数量
-		if(self->info.ShootType == RIFLE_SHOOT_SET){
-			
-			self->info.Shooting = RIFLE_ING;
-			
-			self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f * self->data.BoxNumSet;
-
-			self->data.BoxSpeedSet = 6500;
-			
-			//输量大于等于3的时候先使用速度控制
-			if(self->data.BoxNumSet > 2){
-						
-				self->info.BoxType = RIFLE_SPEED;
-			}
-			else{
-			
-				self->info.BoxType = RIFLE_POSITION;
-			}
-		}	
+		else{
+		
+			self->info.BoxType = RIFLE_POSITION;
+		}
 	}
 }
 /** @FUN  电机控制 存在电机失联时 拨盘不控制
