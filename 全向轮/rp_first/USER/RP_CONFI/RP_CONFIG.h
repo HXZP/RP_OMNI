@@ -89,7 +89,7 @@ power为主控电源位置，按下图摆放找坐标系
 
 
 /*数据*/
-#define MOTOR_YAW_MID 5880
+#define MOTOR_YAW_MID 5850
 #define MOTOR_PIT_MID 1300
 
 #define WHEEL_SPEED_MAX 8000

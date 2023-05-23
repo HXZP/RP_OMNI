@@ -60,6 +60,8 @@ typedef struct chassis_info_struct{
   chassis_State      MotorState;
 	
   chassis_Direction  Direction;
+  chassis_Direction  DireMaster;
+	
 	chassis_Distribute Distribute;
 	chassis_Lock       Lock;
 	
@@ -96,6 +98,7 @@ typedef struct chassis_data_struct{
 	float       PowerBuff;
 	
 	float       DirAngle;
+	float       CurrentAngle;
 	
 }chassis_data;
 
@@ -113,7 +116,7 @@ typedef struct chassis_struct{
 	void (*ModifyXYZSet)(struct chassis_struct *chas,float setX,float setY,float setZ);
 	void (*ModifyOriginAngle)(struct chassis_struct *chas,float angle);
 	void (*ModifyDistribute)(struct chassis_struct *chas,chassis_Distribute type);
-
+  void (*ModifyDireMaster)(struct chassis_struct *chas,chassis_Direction  dire);
 	
 	void (*Updata)(struct chassis_struct *chas);
 	void (*Resolving)(struct chassis_struct *chas);

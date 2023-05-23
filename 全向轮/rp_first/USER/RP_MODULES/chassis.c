@@ -20,6 +20,7 @@ static void Chassis_ModifyrpmMax(chassis *chas,float max);
 static void Chassis_ModifyOriginAngle(chassis *chas,float angle);
 static void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ);
 static void Chassis_ModifyDistribute(chassis *chas,chassis_Distribute type);
+static void Chassis_ModifyDireMaster(chassis *chas,chassis_Direction dire);
 
 static void Chassis_Updata(chassis *chas);
 static void Chassis_Resolving(chassis *chas);
@@ -34,6 +35,7 @@ chassis omni = {
   .info.Lock       = CHAS_UNLOCK,
 
 	.info.Direction  = CHAS_FORWARD,
+	.info.DireMaster = CHAS_FORWARD,
 	.info.Distribute = CHAS_FAIR,
 	
 	.info.ReductionRatio = 14,
@@ -51,7 +53,7 @@ chassis omni = {
 	.ModifyXYZSet      = Chassis_ModifyXYZSet,
 	.ModifyOriginAngle = Chassis_ModifyOriginAngle,
 	.ModifyDistribute  = Chassis_ModifyDistribute,
-	
+	.ModifyDireMaster  = Chassis_ModifyDireMaster,
 	
 	.Updata         = Chassis_Updata,
 	.Resolving      = Chassis_Resolving,
@@ -108,28 +110,33 @@ void Chassis_ModifyDistribute(chassis *chas,chassis_Distribute type)
 	chas->info.Distribute = type;
 }
 
+/** @FUN  修改底盘主方向
+  * @dirc chassis_Direction
+  */
+void Chassis_ModifyDireMaster(chassis *chas,chassis_Direction dire)
+{
+	chas->info.DireMaster = dire;
+}
+
 /** @FUN  修改底盘速度目标 并且进行速度分配 速度总和为100 公平分配 线性优先 旋转优先
   * @xyz -100~100
   */
 void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 {
 	chassis_xyz temp,tempDis;
-	float vel[3],velTotal,velRemain,xyTotal;
 	
-	float angle = chas->data.DirAngle;
+	float vel[3],velTotal,velRemain,xyTotal;
+
+	float angle = chas->data.DirAngle / 360 * 2 * PI;
 
 	if(abs(setX) > 100 || abs(setY) > 100 || abs(setZ) > 100){
-	
-//		setX = RP_GetSymbol(setX) * 100;
-//		setY = RP_GetSymbol(setY) * 100;
-//		setZ = RP_GetSymbol(setZ) * 100;
-		
+
 			setX = 0;
   		setY = 0;
 	  	setZ = 0;		
 	}
 	
-	if(chas->info.Direction == CHAS_BACKWARD){
+	if(chas->info.DireMaster == CHAS_BACKWARD){
 	
 		temp.x = -setX;
 		temp.y = -setY;
@@ -171,7 +178,7 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 	if(chas->info.Distribute == CHAS_FAIR){
 
     velTotal = RP_GetAbsoluteTotal(vel,3);
-			
+
 		for(char i = 0 ; i < 3 ; i++)
 		{
 			vel[i] = vel[i]/velTotal * 100;
@@ -290,14 +297,13 @@ void Chassis_Updata(chassis *chas)
 		chas->info.Direction = CHAS_FORWARD;
 	}
 	
+	chas->data.CurrentAngle = position;
+	
 	position = position - chas->info.OriginAngle;
 	
-	while(abs(position) > 360){
-	
-		if(position < 0)         position += 360;
-		else if(position >= 360) position -= 360;	
-	}
-	
+	if(position < 0)         position += 360;
+	else if(position >= 360) position -= 360;	
+
 	chas->data.DirAngle = position;
 	
 	//底盘轮子最大速度计算
@@ -310,11 +316,11 @@ void Chassis_Updata(chassis *chas)
 	chas->data.WheelReal[2] = motor[CHAS_3].rx_info.speed;
 	chas->data.WheelReal[3] = motor[CHAS_4].rx_info.speed;
 	
-	//瞎写的
-	chas->data.VelocityReal.x = chas->data.WheelReal[0]-chas->data.WheelReal[2]+chas->data.WheelReal[1]-chas->data.WheelReal[3];
-	chas->data.VelocityReal.y =-chas->data.WheelReal[0]-chas->data.WheelReal[2]+chas->data.WheelReal[1]+chas->data.WheelReal[3];
-	chas->data.VelocityReal.z =-chas->data.WheelReal[0]-chas->data.WheelReal[2]-chas->data.WheelReal[1]-chas->data.WheelReal[3];
-	
+//	//瞎写的
+//	chas->data.VelocityReal.x = chas->data.WheelReal[0]-chas->data.WheelReal[2]+chas->data.WheelReal[1]-chas->data.WheelReal[3];
+//	chas->data.VelocityReal.y =-chas->data.WheelReal[0]-chas->data.WheelReal[2]+chas->data.WheelReal[1]+chas->data.WheelReal[3];
+//	chas->data.VelocityReal.z =-chas->data.WheelReal[0]-chas->data.WheelReal[2]-chas->data.WheelReal[1]-chas->data.WheelReal[3];
+//	
 }
 
 
@@ -327,17 +333,17 @@ void Chassis_Resolving(chassis *chas)
 	
 	if(chas->info.Type == CHAS_OMNI){
     
-		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
-		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;	
-		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
-		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;
+		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
+		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
 	}
 	else if(chas->info.Type == CHAS_MECA){
     
-		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
-		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;	
-		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
-		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;
+		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
+		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
 	}
 	else if(chas->info.Type == CHAS_HELM){
     

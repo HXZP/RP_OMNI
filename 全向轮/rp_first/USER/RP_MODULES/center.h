@@ -74,6 +74,8 @@ typedef struct center_info_struct{
 	Center_State    AutoFireSwitch;
 	
 	Center_State    MoveCommand;
+	Center_State    MoveXYCommand;
+	
 	Center_State    MoveCrazzy;
 	
 	Center_CtrlMode   CtrlMode;	

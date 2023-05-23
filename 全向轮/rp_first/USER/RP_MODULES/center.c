@@ -204,11 +204,17 @@ center Center = {
 **/
 void Center_SysInit(center *self)
 {
-	if(HAL_GetTick() > 1000){
+	if(HAL_GetTick() < 800){
 	
-		imu.algo.KP = IMU_PID_KP_CONTROL;
+		imu.algo.KP = 50;
+		
 	}
-
+	else{
+	
+	  imu.algo.KP = 0.1f;
+	}
+	
+	imu.algo.KP = IMU_PID_KP_CONTROL;
 	gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);
 	gun.ModifyMagazine(&gun,RIFLE_NO);
 	gun.ModifyFri(&gun,RIFLE_NO);
@@ -216,22 +222,9 @@ void Center_SysInit(center *self)
 	//头部复位
 	head.ModifyLock(&head,GIMB_UNLOCK);
 	
-	//self->info.MoveMode = MOVE_FOLLOW;
 	self->modifyMoveMode(self,MOVE_FOLLOW);
-	
-	omni.Updata(&omni);
-	
-	if(omni.info.Direction == CHAS_FORWARD){
 
-		omni.ModifyOriginAngle(&omni,0);
-	}
-	else if(omni.info.Direction == CHAS_BACKWARD){
-	
-		omni.ModifyOriginAngle(&omni,180);
-	}
-	
-	head.Updata(&head,
-							0,
+	head.Updata(&head,0,
 							head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.755f,
 							head.info.AssemblyVector.Z*motor[GIMB_Y].rx_info.angle_offset/22.755f,
 							imu.data.acc_gyr.gyr_x,
@@ -242,12 +235,10 @@ void Center_SysInit(center *self)
 	self->data.GimbPitTarget = 0;
 	
 	head.ModifyXYZSet(&head,0,self->data.GimbPitTarget,self->data.GimbYawTarget);
-	head.Resolving(&head);
-	head.Ctrl(&head);
 	
 	if(head.info.YReach == GIMB_OK && head.info.ZReach == GIMB_OK){
 
-		if(HAL_GetTick() - self->time.GimbalReachTime > 50){
+		if(HAL_GetTick() - self->time.GimbalReachTime > 500){
 		
 			self->info.SysInit  = RP_OK;
 		}
@@ -270,7 +261,6 @@ void Center_SysInit(center *self)
 		
 		omni.ModifyLock(&omni,CHAS_UNLOCK);				
 		
-		//self->info.MoveMode = MOVE_NULL;	
 		self->modifyMoveMode(self,MOVE_NULL);
 
 	}
@@ -306,17 +296,19 @@ void Center_CtrlModeInit(center *self,Center_CtrlMode state)
 
 void Center_MoveModeInit(center *self,Center_MoveMode state)
 {
+	/* rc */	
 	rc.data.tw_step[0] = 0;
   rc.data.tw_step[1] = 0;
   rc.data.tw_step[2] = 0;
   rc.data.tw_step[3] = 0;
 
-	motor[GIMB_Y].pid.angle.info.init_flag = M_DEINIT;
+	/* gimb */
+	motor[GIMB_Y].pid.angle.info.init_flag    = M_DEINIT;
   motor[GIMB_Y].pid.angle_in.info.init_flag = M_DEINIT;
 	
-	motor[GIMB_P].pid.angle.info.init_flag = M_DEINIT;
+	motor[GIMB_P].pid.angle.info.init_flag    = M_DEINIT;
 	motor[GIMB_P].pid.angle_in.info.init_flag = M_DEINIT;
-	
+
 	if(state == MOVE_MASTER){
 		
 		motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_imu_out_pid_param);
@@ -325,8 +317,8 @@ void Center_MoveModeInit(center *self,Center_MoveMode state)
 		motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_imu_out_pid_param);
 		motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle_in,pit_imu_inn_pid_param);			
 		
-		self->data.GimbPitTarget = imu.data.rpy.pitch;
-		self->data.GimbYawTarget = imu.data.rpy.yaw;
+		self->data.GimbPitTarget = RP_Limit(imu.data.rpy.pitch,360);
+		self->data.GimbYawTarget = RP_Limit(imu.data.rpy.yaw,360);
 		
 	}
 	else if(state == MOVE_FOLLOW){
@@ -337,27 +329,24 @@ void Center_MoveModeInit(center *self,Center_MoveMode state)
 		motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_mec_out_pid_param);
 		motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle_in,pit_mec_inn_pid_param);	
 				
-		self->data.GimbPitTarget = motor[GIMB_P].rx_info.angle_offset/22.755f;
+		self->data.GimbPitTarget = RP_Limit(head.info.AssemblyVector.Y * motor[GIMB_P].rx_info.angle_offset/22.755f,360);
+		self->data.GimbYawTarget = (omni.info.Direction == CHAS_FORWARD ? 0 : 180);
 		
-		if(omni.info.Direction == CHAS_FORWARD){
-
-			self->data.GimbYawTarget = 0;
-		}
-		else if(omni.info.Direction == CHAS_BACKWARD){
-		
-			self->data.GimbYawTarget = 180;
-		}
-
 	}
 	
+	/* chas */
 	if(omni.info.Direction == CHAS_FORWARD){
 
 		omni.ModifyOriginAngle(&omni,0);
+		omni.ModifyDireMaster(&omni,omni.info.Direction);
 	}
 	else if(omni.info.Direction == CHAS_BACKWARD){
 	
 		omni.ModifyOriginAngle(&omni,180);
+		omni.ModifyDireMaster(&omni,omni.info.Direction);
 	}
+	
+	omni.ModifyDistribute(&omni,CHAS_FAIR);
 	
 	self->modifyVisionMode(self,VISION_NULL);
 	
@@ -379,13 +368,13 @@ void Center_VisionModeInit(center *self,Center_VisionMode state)
 {
 	if(state == MOVE_MASTER){
 	
-		self->data.GimbPitTarget = imu.data.rpy.pitch;
-		self->data.GimbYawTarget = imu.data.rpy.yaw;
+		self->data.GimbPitTarget = RP_Limit(imu.data.rpy.pitch,360);
+		self->data.GimbYawTarget = RP_Limit(imu.data.rpy.yaw,360);
 		
 	}
 	else if(state == MOVE_FOLLOW){
 	
-		self->data.GimbPitTarget = motor[GIMB_P].rx_info.angle_offset;
+		self->data.GimbPitTarget = head.info.AssemblyVector.Y * motor[GIMB_P].rx_info.angle_offset/22.755f;
 		
 		if(omni.info.Direction == CHAS_FORWARD){
 
@@ -394,7 +383,7 @@ void Center_VisionModeInit(center *self,Center_VisionMode state)
 		else if(omni.info.Direction == CHAS_BACKWARD){
 		
 			self->data.GimbYawTarget = 180;
-		}		
+		}
 	}
 	
 	if(omni.info.Direction == CHAS_FORWARD){
@@ -508,10 +497,10 @@ void Remote_Ctrl(center *self)
 {
 	
 	//更新通道值
-	self->data.Channel[0] = rc.data.ch0;
-	self->data.Channel[1] = rc.data.ch1;	
-	self->data.Channel[2] = rc.data.ch2;	
-	self->data.Channel[3] = rc.data.ch3;	
+	self->data.Channel[0] = (float)rc.data.ch0/660.f*100;
+	self->data.Channel[1] = (float)rc.data.ch1/660.f*100;
+	self->data.Channel[2] = (float)rc.data.ch2/660.f*100;	
+	self->data.Channel[3] = (float)rc.data.ch3/660.f*100;	
 	
 	/* 移动模式 */
 	switch(SW1){
@@ -532,11 +521,13 @@ void Remote_Ctrl(center *self)
 		if(rc.data.tw_step[2]){
 		
 			self->info.RotateSwitch = RP_OK;
-				
+
 		}
 		else{
 			self->data.RotateVelocity = ROTATE_VELOCITY_DEFUALT;
+			
 			self->info.RotateSwitch = RP_NO;
+
 		}
 
 		//开启视觉
@@ -563,7 +554,7 @@ void Remote_Ctrl(center *self)
 	/* 底盘模式 */
 	else if(self->info.MoveMode == MOVE_FOLLOW){
 	
-		
+
 	}
 	/* 移动模式end */
 	
@@ -683,23 +674,62 @@ void Center_Updata(center *self)
 	}
 
 
+
+	/* 移动命令 */
+	if(abs(self->data.Channel[0]) > 10 || abs(self->data.Channel[2]) > 10 || abs(self->data.Channel[3]) > 10){
+	
+		self->info.MoveCommand = RP_OK;
+	}
+	else{
+	
+		self->info.MoveCommand = RP_NO;
+	}
+	
+	if(abs(self->data.Channel[2]) > 10 || abs(self->data.Channel[3]) > 10){
+	
+		self->info.MoveXYCommand = RP_OK;
+	}
+	else{
+	
+		self->info.MoveXYCommand = RP_NO;
+	}	
+	
+	//移动策略
+	if(self->info.MoveXYCommand == RP_OK){
+	
+		omni.ModifyDistribute(&omni,CHAS_LINEAR);
+	}			
+	else{
+	
+		omni.ModifyDistribute(&omni,CHAS_ROTATE);
+	}
 	
 	//gimb
+	if(RP_Limit(self->data.GimbPitTarget,360) > 0 && RP_Limit(self->data.GimbPitTarget,360) < 180){
+	
+		self->data.GimbPitTarget = (self->data.GimbPitTarget > head.info.depression ? head.info.depression : self->data.GimbPitTarget);
+	}
+	else if(RP_Limit(self->data.GimbPitTarget,360) > 180 && RP_Limit(self->data.GimbPitTarget,360) < 360){
+	
+		self->data.GimbPitTarget = (self->data.GimbPitTarget < 360 - head.info.elevation ? 360 - head.info.elevation : self->data.GimbPitTarget);
+	}
+	
+	
 	if(self->info.MoveMode == MOVE_MASTER){
-
-		if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/660.f,360),head.info.depression,360 - head.info.elevation)){
 		
-			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/660.f,360);
+		if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360),head.info.depression,360 - head.info.elevation)){
+		
+			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360);
 		}
 			
-		self->data.GimbYawTarget = RP_Limit(self->data.GimbYawTarget - (float)self->data.Channel[0]/660.f,360);
+		self->data.GimbYawTarget = RP_Limit(self->data.GimbYawTarget - (float)self->data.Channel[0]/100,360);
 
 	}
 	else if(self->info.MoveMode == MOVE_FOLLOW){
 	
-		if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/660.f,360),head.info.depression,360 - head.info.elevation)){
+		if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360),head.info.depression,360 - head.info.elevation)){
 		
-			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget+(float)self->data.Channel[1]/660.f,360);
+			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget+(float)self->data.Channel[1]/100,360);
 		}
 	}
 
@@ -710,20 +740,18 @@ void Center_Updata(center *self)
 
 		if(self->info.RotateSwitch == RP_OK){
 			
-			self->data.VelocityX = (float)self->data.Channel[3]/660*100;
-			self->data.VelocityY =-(float)self->data.Channel[2]/660*100;
+			self->data.VelocityX = (float)self->data.Channel[3];
+			self->data.VelocityY =-(float)self->data.Channel[2];
 		  self->data.VelocityZ = self->data.RotateVelocity;
 			
 			//小陀螺功率自适应
 			if(omni.data.PowerBuff > 40){
 			
-//				self->data.RotateVelocity += 0.2f;
-				self->data.RotateVelocity = (self->data.RotateVelocity > 100 ? 100 : self->data.RotateVelocity+0.2f);
+				self->data.RotateVelocity = (self->data.RotateVelocity >= 100 ? 100 : self->data.RotateVelocity+0.005f);
 			}
 			else{
 			
-//				self->data.RotateVelocity -= 0.2f;
-				self->data.RotateVelocity = (self->data.RotateVelocity < 30 ? 30 : self->data.RotateVelocity-0.2f);
+				self->data.RotateVelocity = (self->data.RotateVelocity <= 30 ? 30 : self->data.RotateVelocity-0.01f);
 			}
 		}
 		else{
@@ -731,16 +759,16 @@ void Center_Updata(center *self)
 			angle = omni.data.DirAngle;
 			angle = RP_HalfTurn(angle,360);
 			
-			self->data.VelocityX =  (float)self->data.Channel[3]/660*100;
-			self->data.VelocityY = -(float)self->data.Channel[2]/660*100;
-		  self->data.VelocityZ = - angle/(180)*100;
+			self->data.VelocityX =  (float)self->data.Channel[3];
+			self->data.VelocityY = -(float)self->data.Channel[2];
+		  self->data.VelocityZ =  angle/(180)*80;
 		}
 	}
 	else if(self->info.MoveMode == MOVE_FOLLOW){
 	
-		self->data.VelocityX = (float)self->data.Channel[3]/660*100;
-		self->data.VelocityY =-(float)self->data.Channel[2]/660*100;
-		self->data.VelocityZ =-(float)self->data.Channel[0]/660*100;
+		self->data.VelocityX = (float)self->data.Channel[3];
+		self->data.VelocityY =-(float)self->data.Channel[2];
+		self->data.VelocityZ =-(float)self->data.Channel[0];
 		
 		//以此时电机坐标为原点，也就是说和底盘位置不产生角度
 		omni.ModifyOriginAngle(&omni,((float)motor[GIMB_Y].rx_info.angle_offset)/22.755f);
@@ -793,16 +821,7 @@ void Center_Updata(center *self)
 			break;	
 	}
 	
-
-	//移动命令
-	if(abs(self->data.VelocityX) < 10 || abs(self->data.VelocityY) < 10 || abs(self->data.VelocityZ) < 10){
 	
-		self->info.MoveCommand = RP_NO;
-	}
-	else{
-	
-		self->info.MoveCommand = RP_OK;
-	}
 
   /* 电容使用策略 */
 	//充电

@@ -53,21 +53,21 @@ void USART3_rxDataHandler(uint8_t *rxBuf)
 	}
 }
 
-void USART4_rxDataHandler(uint8_t *rxBuf)
-{
-	if(USART_TEST)UART_Send(rxBuf,4);
-	
-	//USER
-	else{
-	
-		if(VISION_USART == 4)vision.update(&vision,rxBuf);
-	
-		if(JUDGE_USART == 4)judge.update(&judge,rxBuf);	
-	
-	
-	
-	}
-}
+//void USART4_rxDataHandler(uint8_t *rxBuf)
+//{
+//	if(USART_TEST)UART_Send(rxBuf,4);
+//	
+//	//USER
+//	else{
+//	
+//		if(VISION_USART == 4)vision.update(&vision,rxBuf);
+//	
+//		if(JUDGE_USART == 4)judge.update(&judge,rxBuf);	
+//	
+//	
+//	
+//	}
+//}
 
 
 

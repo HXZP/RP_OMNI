@@ -30,7 +30,7 @@ gimbal head = {
   .info.Lock       = GIMB_UNLOCK,	
 
 	.info.elevation  = 40,
-	.info.depression = 25,
+	.info.depression = 20,
 	
 	.info.YReach = GIMB_NO,
 	.info.ZReach = GIMB_NO,
