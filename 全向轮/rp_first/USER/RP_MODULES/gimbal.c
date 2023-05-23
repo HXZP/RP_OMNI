@@ -15,7 +15,7 @@
 #include "GimbalRotationOutput.h"
 
 static void Gimbal_ModifyLock(gimbal *gimb,gimbal_Lock type);
-static void Gimbal_ModifyXYZSet(gimbal *gimb,float *setX,float *setY,float *setZ);
+static void Gimbal_ModifyXYZSet(gimbal *gimb,float setX,float setY,float setZ);
 static float Gimbal_ModifyDataRange360(float data,float min,float max);
 
 static void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz);
@@ -29,7 +29,7 @@ gimbal head = {
 	.info.MotorState = GIMB_MOTOR_ERR,
   .info.Lock       = GIMB_UNLOCK,	
 
-	.info.elevation  = 45,
+	.info.elevation  = 40,
 	.info.depression = 25,
 	
 	.info.YReach = GIMB_NO,
@@ -97,13 +97,12 @@ float Gimbal_ModifyDataRange360(float data,float min,float max)
 /** @FUN  修改云台目标
   * @xyz  0~360
   */
-void Gimbal_ModifyXYZSet(gimbal *gimb,float *setX,float *setY,float *setZ)
+void Gimbal_ModifyXYZSet(gimbal *gimb,float setX,float setY,float setZ)
 {
-	*setY = anti_constrain(*setY,gimb->info.depression,360-gimb->info.elevation);
 	
-	gimb->data.AngleSet.X = *setX;
-	gimb->data.AngleSet.Y = *setY;
-	gimb->data.AngleSet.Z = *setZ;
+	gimb->data.AngleSet.X = setX;
+	gimb->data.AngleSet.Y = setY;
+	gimb->data.AngleSet.Z = setZ;
 
 }
 
@@ -127,24 +126,6 @@ void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,flo
 		gimb->info.MotorState = GIMB_MOTOR_ERR;
 	}
 
-	if(abs(motor[GIMB_P].pid.angle.info.err) < 5){
-	
-		gimb->info.YReach = GIMB_OK;
-	}
-	else{
-	
-		gimb->info.YReach = GIMB_NO;
-	}
-	
-	if(abs(motor[GIMB_Y].pid.angle.info.err) < 5){
-	
-		gimb->info.ZReach = GIMB_OK;
-	}		
-	else{
-	
-		gimb->info.ZReach = GIMB_NO;
-	}
-	
 	gimb->data.Angle.X = ax;
 	gimb->data.Angle.Y = ay;
   gimb->data.Angle.Z = az;
@@ -153,6 +134,24 @@ void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,flo
 	gimb->data.Speed.Y = ry;
   gimb->data.Speed.Z = rz;
 
+	if(RP_HalfTurn(gimb->data.AngleSet.Y - gimb->data.Angle.Y,360) < 5){
+	
+		gimb->info.YReach = GIMB_OK;
+	}
+	else{
+	
+		gimb->info.YReach = GIMB_NO;
+	}
+	
+	if(RP_HalfTurn(gimb->data.AngleSet.Z - gimb->data.Angle.Z,360) < 5){
+	
+		gimb->info.ZReach = GIMB_OK;
+	}		
+	else{
+	
+		gimb->info.ZReach = GIMB_NO;
+	}	
+	
 }
 
 
@@ -202,6 +201,8 @@ void Gimbal_Translation(gimbal* gimb,float chasX,float chasY,float chasZ)
 
 }
 
+
+
 void Gimbal_Ctrl(gimbal *gimb)
 {
 	int16_t Gimbal_CANBuff[4];
@@ -222,7 +223,7 @@ void Gimbal_Ctrl(gimbal *gimb)
 		Gimbal_CANBuff[motor[GIMB_Y].id.buff_p] = gimb->data.Torque.Z;
 		Gimbal_CANBuff[motor[GIMB_P].id.buff_p] = gimb->data.Torque.Y;
 
-//		motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);
+		motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);
 	}	
 
 }

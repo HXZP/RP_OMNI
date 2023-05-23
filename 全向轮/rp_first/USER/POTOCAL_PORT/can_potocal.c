@@ -12,7 +12,6 @@ void CAN1_rxDataHandler(uint32_t canId, uint8_t *rxBuf)
 	
 	cap.updata(&cap,canId,rxBuf);
 	
-	
 }
 
 

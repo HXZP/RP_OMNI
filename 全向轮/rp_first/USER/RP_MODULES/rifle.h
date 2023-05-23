@@ -87,6 +87,8 @@ typedef struct rifle_time_struct{
 	uint32_t StuckStart;
 
 	uint32_t FriEnableTime;
+	
+	uint32_t ShootSetTime;
 		
 }rifle_time;
 

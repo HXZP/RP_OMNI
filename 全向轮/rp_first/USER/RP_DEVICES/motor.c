@@ -144,7 +144,7 @@ motor_t motor[MOTOR_LIST] =
 	[BOX] = {
 	
 		.id.drive_type = M_CAN2,
-		.id.motor_type = RM3508,
+		.id.motor_type = RM2006,
 		.id.rx_id      = 0x203,
 
 		.init = &motor_class_init,
@@ -179,21 +179,27 @@ float  test_speed_pid_param[7] = {5,0,0,0,0,15000,20000};
 
 float chassis_speed_pid_param[7] = {8,0.6,0,0,5000,5000,8000};
 
-float yaw_imu_out_pid_param[7] = {15,0,0,0,0,15000,20000};
-float yaw_imu_inn_pid_param[7] = {100,0.3,0,0,15000,20000,20000};
+float yaw_imu_out_pid_param[7] = {28,0,0,0,0,15000,20000};
+float yaw_imu_inn_pid_param[7] = {300,4,0,0,10000,10000,20000};
 
-float pit_imu_out_pid_param[7] = {20,0,0,0,0,15000,20000};
-float pit_imu_inn_pid_param[7] = {300,0.2,0,0,15000,20000,20000};
+float pit_imu_out_pid_param[7] = {30,0,0,0,0,15000,20000};
+float pit_imu_inn_pid_param[7] = {220,10,0,0,5000,10000,20000};
+
+float yaw_mec_out_pid_param[7] = {0.2,0,0,0,0,15000,20000};
+float yaw_mec_inn_pid_param[7] = {5000,100,0,0,15,15000,20000};
+
+float pit_mec_out_pid_param[7] = {1,0,0,0,0,15000,20000};
+float pit_mec_inn_pid_param[7] = {8000,5,0,0,100,10000,20000};
 
 float yaw_speed_pid_param[7] = {4,0,0,0,15000,20000,20000};
 float pit_speed_pid_param[7] = {4,0,0,0,15000,20000,20000};
 
 float fri_speed_pid_param[7] = {8,0.5,0,0,1000,2000,12000};
 
-float box_speed_pid_param[7] = {6,0.8,0,0,5000,5000,10000};
+float box_speed_pid_param[7] = {5,0.3,0,0,5000,5000,10000};
 
 float box_posit_out_pid_param[7] = {0.28,0,0,0,1000,10000,10000};
-float box_posit_inn_pid_param[7] = {3,0.5,0,0,5000,5000,10000};
+float box_posit_inn_pid_param[7] = {3,0.1,0,0,500,500,10000};
 
 
 void RM_MotorInit(void)

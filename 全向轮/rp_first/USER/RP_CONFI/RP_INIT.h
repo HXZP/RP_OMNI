@@ -6,7 +6,7 @@
 #include "DEVICES.h"
 
 void RP_INIT(void);
-
+void RP_IMU_INIT(void);
 
 
 

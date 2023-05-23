@@ -106,7 +106,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of MonitorTask */
-  osThreadDef(MonitorTask, StartMonitorTask, osPriorityRealtime, 0, 256);
+  osThreadDef(MonitorTask, StartMonitorTask, osPriorityRealtime, 0, 512);
   MonitorTaskHandle = osThreadCreate(osThread(MonitorTask), NULL);
 
   /* definition and creation of CommunityTask */
@@ -114,7 +114,7 @@ void MX_FREERTOS_Init(void) {
   CommunityTaskHandle = osThreadCreate(osThread(CommunityTask), NULL);
 
   /* definition and creation of ControlTask */
-  osThreadDef(ControlTask, StartControlTask, osPriorityNormal, 0, 256);
+  osThreadDef(ControlTask, StartControlTask, osPriorityNormal, 0, 512);
   ControlTaskHandle = osThreadCreate(osThread(ControlTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */

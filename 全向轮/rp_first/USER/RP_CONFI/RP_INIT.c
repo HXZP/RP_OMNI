@@ -16,6 +16,7 @@ void RP_INIT(void)
 #if (BMI_ENABLE == 1U)		
 	
 	RP_IMU_INIT();//must first
+	HAL_Delay(100);
 	
 #endif
 	
@@ -56,6 +57,7 @@ void RP_IMU_INIT(void)
 {
 	if(imu.info.tpye == IMU_SPI)Imu_SPI_Init();
 	if(imu.info.tpye == IMU_IIC)IIC_Init();
+	
 	imu.init(&imu);
 }
 

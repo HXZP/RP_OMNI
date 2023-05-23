@@ -36,6 +36,10 @@ float RP_Limit(float tar,float range)
 		else if(tar >=range) tar -= range;	
 	}
 	
+	if(tar < 0)          tar += range;
+	else if(tar >=range) tar -= range;		
+
+	
 	return tar;
 }
 

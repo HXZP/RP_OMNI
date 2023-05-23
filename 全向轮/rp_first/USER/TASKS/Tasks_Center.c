@@ -41,7 +41,8 @@ void StartMonitorTask(void const * argument)
 		
 		MASTER_HeartBeat();
 		
-#if (MASTER == 0)		
+#if (MASTER == 0)
+		
 	#if (RC_KEY_MONITOR == 1)		
 			
 			rc.key(&rc);
@@ -75,13 +76,16 @@ void StartCommunityTask(void const * argument)
 		communityCnt++;
 		
 		imu.updata(&imu);
-
-		MASTER_sendBuff();
+		
+		if(!(communityCnt%3)){
+		
+			MASTER_sendBuff();
+		}
 		
 #if (MASTER == 1U)
 		
 		/*电容数据通信 5ms */
-		if(!communityCnt%5){
+		if(!(communityCnt%5)){
 		
 			if(judge.info.state == JUDGE_ONLINE){
 			
@@ -132,7 +136,7 @@ void StartControlTask(void const * argument)
 				Center.Ctrl(&Center);
 				
 		#endif				
-  #endif	
+  #endif
 		
 #endif		
 		

@@ -123,11 +123,6 @@ void MASTER_sendBuff(void)
 		CAN_SendUint8(0x102,buff,2,6);		
 	
 	}
-	
-
-	
-	
-	
 #endif
 
 

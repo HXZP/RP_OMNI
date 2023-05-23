@@ -9,7 +9,7 @@
 
 /* ÊýÖµº¯Êý */
 #define constrain(x, min, max)	((x>max)?max:(x<min?min:x))
-#define anti_constrain(x, min, max)	(((x<max) && (x>min))?(0):x)
+#define anti_constrain(x, min, max)	(((x<max) && (x>min))?(0):1)
 
 #define abs(x) 					((x)>0? (x):(-(x)))
 

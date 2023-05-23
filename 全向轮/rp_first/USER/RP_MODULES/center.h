@@ -91,6 +91,7 @@ typedef struct center_time_struct{
 	uint32_t InitTimeStart;	
 	
 	uint32_t CenterStartTime;		
+	uint32_t GimbalReachTime;	
 	
 }center_time;
 

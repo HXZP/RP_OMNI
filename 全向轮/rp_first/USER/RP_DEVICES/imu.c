@@ -382,7 +382,7 @@ void imu_updata(struct imu_struct *self)
 		
 		self->data.rpy_pre = self->data.rpy;	
 		self->solve_rpy(self);
-		
+
 	}
 	else{
 	
@@ -425,8 +425,6 @@ void imu_heart_beat(struct imu_struct *imu){
 		if(info->state == IMU_OFFLINE)
 			info->state = IMU_ONLINE;
 	}
-	info->state = IMU_ONLINE;
-
 }
 
 

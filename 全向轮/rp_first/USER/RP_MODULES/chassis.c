@@ -120,9 +120,13 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 
 	if(abs(setX) > 100 || abs(setY) > 100 || abs(setZ) > 100){
 	
-		setX = RP_GetSymbol(setX) * 100;
-		setY = RP_GetSymbol(setY) * 100;
-		setZ = RP_GetSymbol(setZ) * 100;
+//		setX = RP_GetSymbol(setX) * 100;
+//		setY = RP_GetSymbol(setY) * 100;
+//		setZ = RP_GetSymbol(setZ) * 100;
+		
+			setX = 0;
+  		setY = 0;
+	  	setZ = 0;		
 	}
 	
 	if(chas->info.Direction == CHAS_BACKWARD){
@@ -141,18 +145,23 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 	tempDis.x = temp.x * cos(angle) - temp.y * sin(angle);
 	tempDis.y = temp.x * sin(angle) + temp.y * cos(angle);	
 	tempDis.z = temp.z;
-
-
+	
 	vel[0] = tempDis.x;
 	vel[1] = tempDis.y;
 	vel[2] = tempDis.z;
+
+	
+//	vel[0] = temp.x;
+//	vel[1] = temp.y;
+//	vel[2] = temp.z;
+
 	
 	//x+y <= |x|+|y| 
 	if(RP_GetAbsoluteTotal(vel,3) <= 100){
 		
-		chas->data.VelocitySet.x = tempDis.x;
-		chas->data.VelocitySet.y = tempDis.y;
-		chas->data.VelocitySet.z = tempDis.z;
+		chas->data.VelocitySet.x = vel[0];
+		chas->data.VelocitySet.y = vel[1];
+		chas->data.VelocitySet.z = vel[2];
 		
 		return;
 	}
@@ -221,14 +230,17 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 		}		
 	}	
 
-	tempDis.x = vel[0];
-	tempDis.y = vel[1];	
-	tempDis.z = vel[2];	
-	
-	chas->data.VelocitySet.x = tempDis.x;
-	chas->data.VelocitySet.y = tempDis.y;
-	chas->data.VelocitySet.z = tempDis.z;
-	
+//	tempDis.x = vel[0];
+//	tempDis.y = vel[1];	
+//	tempDis.z = vel[2];	
+//	
+//	chas->data.VelocitySet.x = tempDis.x;
+//	chas->data.VelocitySet.y = tempDis.y;
+//	chas->data.VelocitySet.z = tempDis.z;
+//	
+		chas->data.VelocitySet.x = vel[0];
+		chas->data.VelocitySet.y = vel[1];
+		chas->data.VelocitySet.z = vel[2];	
 }
 
 
@@ -267,7 +279,7 @@ void Chassis_Updata(chassis *chas)
 	}	
 	
 	//底盘方向判断 0-360 获取和原点的方向夹角
-	position = ((float)motor[GIMB_Y].rx_info.angle_offset)/22.5f;
+	position = ((float)motor[GIMB_Y].rx_info.angle_offset)/22.755f;
 	
 	if(abs(position - 180) < 90){
 		
@@ -315,17 +327,17 @@ void Chassis_Resolving(chassis *chas)
 	
 	if(chas->info.Type == CHAS_OMNI){
     
-		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
-		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
+		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;	
+		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
+		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;
 	}
 	else if(chas->info.Type == CHAS_MECA){
     
-		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;	
-		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y - chas->data.VelocitySet.z;
-		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y - chas->data.VelocitySet.z;
+		velocity[0] =-chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
+		velocity[1] =-chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;	
+		velocity[2] =+chas->data.VelocitySet.x - chas->data.VelocitySet.y + chas->data.VelocitySet.z;
+		velocity[3] =+chas->data.VelocitySet.x + chas->data.VelocitySet.y + chas->data.VelocitySet.z;
 	}
 	else if(chas->info.Type == CHAS_HELM){
     
@@ -343,13 +355,14 @@ void Chassis_Resolving(chassis *chas)
 /**
   * 解算轮子的扭矩 功率控制
   */
+
 void Chassis_Ctrl(chassis *chas)
 {
-	int16_t Chassis_CANBuff[4] = {0,0,0,0};
+  int16_t Chassis_CANBuff[4] = {0,0,0,0};
 	
 	if(chas->info.Lock == CHAS_LOCK){
 		
-		if(HAL_GetTick() - chas->time.LockTime < 1000){
+		if(HAL_GetTick() - chas->time.LockTime < 300){
 		
 			Chassis_CANBuff[motor[CHAS_1].id.buff_p] = motor[CHAS_1].c_speed(&motor[CHAS_1],0);
 			Chassis_CANBuff[motor[CHAS_2].id.buff_p] = motor[CHAS_2].c_speed(&motor[CHAS_2],0);
@@ -360,11 +373,6 @@ void Chassis_Ctrl(chassis *chas)
 			
 			motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
 		}
-		else{
-		
-			motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);
-		}
-
 	}
 	else if(chas->info.Lock == CHAS_UNLOCK){
 		
@@ -375,7 +383,7 @@ void Chassis_Ctrl(chassis *chas)
 		
 		Chassis_Power_Limit(chas,Chassis_CANBuff);
 		
-//		motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
+		motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
 	}
 	
 }

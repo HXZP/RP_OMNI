@@ -103,7 +103,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
-  MX_IWDG_Init();
+//  MX_IWDG_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	HAL_IWDG_Refresh(&hiwdg);

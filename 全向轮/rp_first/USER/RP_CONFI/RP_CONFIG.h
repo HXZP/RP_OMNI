@@ -64,6 +64,7 @@ power为主控电源位置，按下图摆放找坐标系
 	#define IMU_PID_KP     10.f
 	
 	#define IMU_PID_KP_CONTROL     0.1f
+	#define IMU_PID_KP_NORMAL     10.f
 	
 	#define IMU_POTOCAL_TYPE IMU_SPI
 	
@@ -78,6 +79,7 @@ power为主控电源位置，按下图摆放找坐标系
 	#define IMU_PID_KP     10.f	
 	
 	#define IMU_PID_KP_CONTROL     1.f
+	#define IMU_PID_KP_NORMAL     10.f
 	
 	#define IMU_POTOCAL_TYPE IMU_SPI
 	
@@ -87,8 +89,8 @@ power为主控电源位置，按下图摆放找坐标系
 
 
 /*数据*/
-#define MOTOR_YAW_MID 5869
-#define MOTOR_PIT_MID 1200
+#define MOTOR_YAW_MID 5880
+#define MOTOR_PIT_MID 1300
 
 #define WHEEL_SPEED_MAX 8000
 #define WHEEL_POWER_MAX 8000
