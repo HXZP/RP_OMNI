@@ -164,10 +164,6 @@ void Rifle_Updata(rifle *self)
 		
 		self->ModifyLock(self,RIFLE_LOCK);
 	}
-	else{
-	
-		self->ModifyLock(self,RIFLE_UNLOCK);
-	}
 
 	self->data.FriTempL = motor[FRI_L].rx_info.temperature;
 	self->data.FriTempR = motor[FRI_R].rx_info.temperature;
@@ -184,17 +180,17 @@ void Rifle_Updata(rifle *self)
 	
 	//裁判系统在线处理
 	if(judge.info.state == JUDGE_ONLINE){
-		
+
 		self->data.HeatLimit = judge.data.game_robot_status.shooter_id1_17mm_cooling_limit;
 
 		self->data.Heat = judge.data.power_heat_data.shooter_id1_17mm_cooling_heat;	
-		
+
 		self->data.SpeedLimit = judge.data.game_robot_status.shooter_id1_17mm_speed_limit;
-				
+
 		self->data.Speed = judge.data.shoot_data.bullet_speed;
-		
+
 		self->data.HeatEnableNum = (self->data.HeatLimit - self->data.Heat)/10;
-		
+
 	}
 	//裁判系统不在线处理
 	else{
@@ -526,6 +522,17 @@ void Rifle_BoxCtrl(rifle *self)
 		
 		self->info.Shooting = RIFLE_ING;
 		
+		if(self->data.BoxNumSet >= self->data.HeatEnableNum){
+		
+			self->data.BoxNumSet = self->data.HeatEnableNum - 1;	
+		}
+		
+		if(self->data.BoxNumSet < 0){
+		
+			self->data.BoxNumSet = 0;
+		}
+		
+		
 		self->data.BoxPositionSet = self->data.BoxPosition - 8191 * 4.5f * self->data.BoxNumSet;
 
 		self->data.BoxSpeedSet = -6500;
@@ -590,6 +597,7 @@ void Rifle_Ctrl(rifle *self)
 		if(HAL_GetTick() - self->time.LockTime < 1000){
 		
 			self->data.MagazineCCR = MAGAZINE_CCR_CLOSE;
+			
 			magazine.modifyCCR(&magazine,self->data.MagazineCCR);
 			
 			Rifle_CANBuff[motor[FRI_R].id.buff_p] = motor[FRI_R].c_speed(&motor[FRI_R],0);
@@ -604,13 +612,13 @@ void Rifle_Ctrl(rifle *self)
 			magazine.modifyCCR(&magazine,0);
 			magazine.sleep(&magazine);	
 		}
-		
-		return;
+
 	}
 	else if(self->info.Lock == RIFLE_UNLOCK)
 	{
 		
 		magazine.weak(&magazine);
+		
 		magazine.modifyCCR(&magazine,self->data.MagazineCCR);
 		
 		Rifle_CANBuff[motor[FRI_R].id.buff_p] = motor[FRI_R].c_speed(&motor[FRI_R], self->data.FriSet);
@@ -627,7 +635,7 @@ void Rifle_Ctrl(rifle *self)
 
 		motor[FRI_R].tx(&motor[FRI_R],Rifle_CANBuff);	
 		
-		return;
+
 	}
 }
 

@@ -575,7 +575,7 @@ void Remote_Ctrl(center *self)
 		
 		case SW_DOWN:
 
-			self->modifyRifleMode(self,RIFLE_SET6);
+			self->modifyRifleMode(self,RIFLE_SET1);
 			break;				
 	}
 	
@@ -833,6 +833,7 @@ void Center_Updata(center *self)
 	
 		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,150);
 	}
+	
 	//放电
 	if(self->info.MoveCrazzy == RP_OK){
 	
@@ -845,16 +846,16 @@ void Center_Updata(center *self)
 }
 
 
-
+	
+/*-------------------------------------------*/
+	  
 
 /*
  * 执行底层模块
 **/
 void Center_Ctrl(center *self)
 {
-	
-/*-------------------------------------------*/
-	
+
 	uint16_t ledtime = 0;
 	
 	if(omni.info.MotorState == CHAS_ERR){

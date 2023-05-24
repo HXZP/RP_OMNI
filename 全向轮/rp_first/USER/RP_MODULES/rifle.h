@@ -126,7 +126,7 @@ typedef struct rifle_data_struct{
 	int16_t SpeedLimit;
 	int16_t SpeedLimitPre;
 	
-	int16_t HeatLimit;
+	uint16_t HeatLimit;
 	
 	float Heat;	
 	float Speed;
