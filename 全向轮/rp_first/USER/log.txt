@@ -110,3 +110,17 @@ data：设备的数据
 8v-20v 充电时间 23s
 8v-24v 充电时间 39s
 
+5.25
+imu初始化失败常客
+#define BMI2_E_CONFIG_LOAD                        INT8_C(-9)
+
+bmi2.c 4526行添加延时
+
+不明白了卧槽，spi的通信时，当我在任务里添加一部分代码的时候，初始化又无法通过了
+
+BMI2_E_COM_FAIL - Error: Communication fail
+
+
+
+
+

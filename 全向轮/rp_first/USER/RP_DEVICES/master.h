@@ -65,6 +65,8 @@ typedef struct{
 	
 	uint16_t speedLimit;
 	
+  uint16_t powerLimit;	
+	
 	uint8_t  robot_id;
 	
 } MASTER_pack2_t;
@@ -75,7 +77,7 @@ typedef struct{
 
 	uint16_t buffer;
 	
-  uint16_t powerLimit;
+	float bulletSpeed;
 	
 } MASTER_pack3_t;
 

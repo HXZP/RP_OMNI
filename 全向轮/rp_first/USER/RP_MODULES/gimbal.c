@@ -12,7 +12,11 @@
 #include "gimbal.h"
 #include "motor.h"
 #include "RP_FUNCTION.h"
+#include "RP_CONFIG.h"
 #include "GimbalRotationOutput.h"
+
+#define PI 3.14159265358979f
+
 
 static void Gimbal_ModifyLock(gimbal *gimb,gimbal_Lock type);
 static void Gimbal_ModifyXYZSet(gimbal *gimb,float setX,float setY,float setZ);
@@ -187,13 +191,13 @@ void Gimbal_Resolving(gimbal* gimb)
 void Gimbal_Translation(gimbal* gimb,float chasX,float chasY,float chasZ)
 {
 
- RP_RotationOutput_Chassis2Gimb(chasX,
-	                              chasY,
-	                              chasZ,
+ RP_RotationOutput_Chassis2Gimb(chasX/180*PI,
+	                              chasY/180*PI,
+	                              chasZ/180*PI,
 	
-	                              gimb->data.Angle.X,
-	                              gimb->data.Angle.Y,
-	                              gimb->data.Angle.Z,
+	                              gimb->data.Angle.X/180*PI,
+	                              gimb->data.Angle.Y/180*PI,
+	                              gimb->data.Angle.Z/180*PI,
 	
 		                            &gimb->data.Torque.X,
 	                              &gimb->data.Torque.Y,
@@ -214,7 +218,7 @@ void Gimbal_Ctrl(gimbal *gimb)
 			Gimbal_CANBuff[motor[GIMB_Y].id.buff_p] = motor[GIMB_Y].c_speed(&motor[GIMB_Y],0);
 			Gimbal_CANBuff[motor[GIMB_P].id.buff_p] = motor[GIMB_P].c_speed(&motor[GIMB_P],0);
 
-			motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);	
+			if(GIMBAL_GLOBAL)motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);	
 		}
 
 	}
@@ -223,7 +227,7 @@ void Gimbal_Ctrl(gimbal *gimb)
 		Gimbal_CANBuff[motor[GIMB_Y].id.buff_p] = gimb->data.Torque.Z;
 		Gimbal_CANBuff[motor[GIMB_P].id.buff_p] = gimb->data.Torque.Y;
 
-		motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);
+		if(GIMBAL_GLOBAL)motor[GIMB_Y].tx(&motor[GIMB_Y],Gimbal_CANBuff);
 	}	
 
 }

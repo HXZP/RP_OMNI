@@ -16,7 +16,6 @@ void RP_INIT(void)
 #if (BMI_ENABLE == 1U)		
 	
 	RP_IMU_INIT();//must first
-	HAL_Delay(100);
 	
 #endif
 	

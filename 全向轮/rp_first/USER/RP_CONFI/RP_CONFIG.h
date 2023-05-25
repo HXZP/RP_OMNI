@@ -66,13 +66,13 @@ power为主控电源位置，按下图摆放找坐标系
 	#define IMU_PID_KP_CONTROL     0.1f
 	#define IMU_PID_KP_NORMAL     10.f
 	
-	#define IMU_POTOCAL_TYPE IMU_SPI
+	#define IMU_POTOCAL_TYPE IMU_IIC
 	
 #endif
 
 #if MASTER == 1U
 
-	#define IMU_POSE_ANGLE -90
+	#define IMU_POSE_ANGLE 180
 	#define IMU_POSE_AX    0
 	#define IMU_POSE_AY    0
 	#define IMU_POSE_AZ    1
@@ -99,7 +99,10 @@ power为主控电源位置，按下图摆放找坐标系
 
 
 /*开启中心控制*/
-#define CENTER_GLOBAL 1U 
+#define CENTER_GLOBAL  1U 
+#define CHASSIS_GLOBAL 0U 
+#define GIMBAL_GLOBAL  1U 
+#define RIFLE_GLOBAL   1U 
 
 
 

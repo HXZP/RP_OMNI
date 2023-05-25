@@ -204,25 +204,27 @@ center Center = {
 **/
 void Center_SysInit(center *self)
 {
-	if(HAL_GetTick() < 800){
+	if(HAL_GetTick() < 400){
 	
 		imu.algo.KP = 50;
-		
+//		return;
 	}
 	else{
 	
 	  imu.algo.KP = 0.1f;
-	}
+
 	
-	imu.algo.KP = IMU_PID_KP_CONTROL;
+//	imu.algo.KP = IMU_PID_KP_CONTROL;
+	
 	gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);
 	gun.ModifyMagazine(&gun,RIFLE_NO);
 	gun.ModifyFri(&gun,RIFLE_NO);
 	
 	//头部复位
 	head.ModifyLock(&head,GIMB_UNLOCK);
-	
-	self->modifyMoveMode(self,MOVE_FOLLOW);
+
+	self->info.MoveMode = MOVE_FOLLOW;
+//	self->modifyMoveMode(self,MOVE_FOLLOW);
 
 	head.Updata(&head,0,
 							head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.755f,
@@ -244,7 +246,7 @@ void Center_SysInit(center *self)
 		}
 	}
 	else{
-	
+
 		self->time.GimbalReachTime = HAL_GetTick();
 	}
 	
@@ -264,7 +266,7 @@ void Center_SysInit(center *self)
 		self->modifyMoveMode(self,MOVE_NULL);
 
 	}
-
+	}
 }
 
 
@@ -452,6 +454,8 @@ void Center_Switch(center *self)
 		if(self->info.SysInit == RP_NO){
 		
 			self->info.SysInit = RP_ING;
+			
+			return;
 		}
 		
 		/* 控制模式 */
@@ -639,6 +643,13 @@ void KeyMouse_Ctrl(center *self)
 	self->data.Channel[2] = rc.data.ch[2];
 	self->data.Channel[3] = rc.data.ch[3];
 	
+	if(rc.data.tw_step[0]){
+	
+		NVIC_SystemReset();
+	}
+	
+	
+	
 }
 
 
@@ -661,20 +672,11 @@ void KeyMouse_Ctrl(center *self)
  * 根据目标模式 调用底层API进行修改状态
 **/
 
-void Center_Updata(center *self)
+
+/* ---------------------------Center_Updata子-------------------------- */
+
+void Center_StateUpdata(center *self)
 {
-	float angle;
-	
-  //Init
-	if(self->info.SysInit == RP_ING){
-	
-		Center_SysInit(self);
-		
-		return;
-	}
-
-
-
 	/* 移动命令 */
 	if(abs(self->data.Channel[0]) > 10 || abs(self->data.Channel[2]) > 10 || abs(self->data.Channel[3]) > 10){
 	
@@ -694,16 +696,30 @@ void Center_Updata(center *self)
 		self->info.MoveXYCommand = RP_NO;
 	}	
 	
-	//移动策略
-	if(self->info.MoveXYCommand == RP_OK){
+  /* 电容使用策略 */
+	//充电
+	if(self->info.MoveCommand == RP_OK){
 	
-		omni.ModifyDistribute(&omni,CHAS_LINEAR);
-	}			
-	else{
+		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,0);
+	}
+	else if(self->info.MoveCommand == RP_NO){
 	
-		omni.ModifyDistribute(&omni,CHAS_ROTATE);
+		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,150);
 	}
 	
+	//放电
+	if(self->info.MoveCrazzy == RP_OK){
+	
+		cap.modifyLimit(&cap,150,cap.data.tx.input_power_limit);
+	}
+	else if(self->info.MoveCrazzy == RP_NO){
+	
+		cap.modifyLimit(&cap,75,cap.data.tx.input_power_limit);
+	}
+}
+
+void Center_GimbalStrategy(center *self)
+{
 	//gimb
 	if(RP_Limit(self->data.GimbPitTarget,360) > 0 && RP_Limit(self->data.GimbPitTarget,360) < 180){
 	
@@ -732,9 +748,35 @@ void Center_Updata(center *self)
 			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget+(float)self->data.Channel[1]/100,360);
 		}
 	}
+	
+	
+	if(self->info.MagazineSwitch == RP_OK){
+	
+		self->data.GimbPitTarget = 0;
+	}
+	
+	
 
 	head.ModifyXYZSet(&head,0,self->data.GimbPitTarget,self->data.GimbYawTarget);
+
+
+}
+
+void Center_MoveStrategy(center *self)
+{	
+	float angle;	
 	
+	//移动策略
+	if(self->info.MoveXYCommand == RP_OK){
+	
+		omni.ModifyDistribute(&omni,CHAS_LINEAR);
+	}			
+	else{
+	
+		omni.ModifyDistribute(&omni,CHAS_ROTATE);
+	}
+	
+
 	//chas
 	if(self->info.MoveMode == MOVE_MASTER){
 
@@ -773,10 +815,14 @@ void Center_Updata(center *self)
 		//以此时电机坐标为原点，也就是说和底盘位置不产生角度
 		omni.ModifyOriginAngle(&omni,((float)motor[GIMB_Y].rx_info.angle_offset)/22.755f);
 	}
-	
+
 	omni.ModifyXYZSet(&omni,self->data.VelocityX,self->data.VelocityY,self->data.VelocityZ);
-	
-	//rifle
+
+}
+
+
+void Center_ShootStrategy(center *self)
+{
 	if(self->info.FrictionSwitch == RP_OK){
 	
 		gun.ModifyFri(&gun,RIFLE_OK);
@@ -823,26 +869,38 @@ void Center_Updata(center *self)
 	
 	
 
-  /* 电容使用策略 */
-	//充电
-	if(self->info.MoveCommand == RP_OK){
+}
+/* ---------------------------Center_Updata子-------------------------- */
+
+
+void Center_Updata(center *self)
+{
+
 	
-		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,0);
+  //Init
+	if(self->info.SysInit == RP_ING){
+	
+		Center_SysInit(self);
+		
+		return;
 	}
-	else if(self->info.MoveCommand == RP_NO){
+
+	Center_StateUpdata(self);
 	
-		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,150);
-	}
+	Center_GimbalStrategy(self);
 	
-	//放电
-	if(self->info.MoveCrazzy == RP_OK){
+	Center_MoveStrategy(self);
 	
-		cap.modifyLimit(&cap,150,cap.data.tx.input_power_limit);
-	}
-	else if(self->info.MoveCrazzy == RP_NO){
+	Center_ShootStrategy(self);
+
 	
-		cap.modifyLimit(&cap,75,cap.data.tx.input_power_limit);
-	}  
+	
+	
+	
+	
+	
+	
+	
 }
 
 
@@ -921,8 +979,9 @@ void Center_Ctrl(center *self)
 	}
 	else{
 
-		head.Updata(&head,0,0,0,0,0,0);
-	
+//		head.Updata(&head,0,0,0,0,0,0);
+//		return;
+
 	}
 	
 	omni.Updata(&omni);
@@ -1071,4 +1130,181 @@ void Center_ModifiyVisionMode(center *self,Center_VisionMode state)
 
 
 
+	
+#if 0	
+	float angle;
 
+	/* 移动命令 */
+	if(abs(self->data.Channel[0]) > 10 || abs(self->data.Channel[2]) > 10 || abs(self->data.Channel[3]) > 10){
+	
+		self->info.MoveCommand = RP_OK;
+	}
+	else{
+	
+		self->info.MoveCommand = RP_NO;
+	}
+	
+	if(abs(self->data.Channel[2]) > 10 || abs(self->data.Channel[3]) > 10){
+	
+		self->info.MoveXYCommand = RP_OK;
+	}
+	else{
+	
+		self->info.MoveXYCommand = RP_NO;
+	}	
+	
+	//移动策略
+	if(self->info.MoveXYCommand == RP_OK){
+	
+		omni.ModifyDistribute(&omni,CHAS_LINEAR);
+	}			
+	else{
+	
+		omni.ModifyDistribute(&omni,CHAS_ROTATE);
+	}
+	
+	//gimb
+	if(RP_Limit(self->data.GimbPitTarget,360) > 0 && RP_Limit(self->data.GimbPitTarget,360) < 180){
+	
+		self->data.GimbPitTarget = (self->data.GimbPitTarget > head.info.depression ? head.info.depression : self->data.GimbPitTarget);
+	}
+	else if(RP_Limit(self->data.GimbPitTarget,360) > 180 && RP_Limit(self->data.GimbPitTarget,360) < 360){
+	
+		self->data.GimbPitTarget = (self->data.GimbPitTarget < 360 - head.info.elevation ? 360 - head.info.elevation : self->data.GimbPitTarget);
+	}
+	
+	
+	if(self->info.MoveMode == MOVE_MASTER){
+		
+		if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360),head.info.depression,360 - head.info.elevation)){
+		
+			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360);
+		}
+			
+		self->data.GimbYawTarget = RP_Limit(self->data.GimbYawTarget - (float)self->data.Channel[0]/100,360);
+
+	}
+	else if(self->info.MoveMode == MOVE_FOLLOW){
+	
+		if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360),head.info.depression,360 - head.info.elevation)){
+		
+			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget+(float)self->data.Channel[1]/100,360);
+		}
+	}
+
+	head.ModifyXYZSet(&head,0,self->data.GimbPitTarget,self->data.GimbYawTarget);
+
+	//chas
+	if(self->info.MoveMode == MOVE_MASTER){
+
+		if(self->info.RotateSwitch == RP_OK){
+			
+			self->data.VelocityX = (float)self->data.Channel[3];
+			self->data.VelocityY =-(float)self->data.Channel[2];
+		  self->data.VelocityZ = self->data.RotateVelocity;
+			
+			//小陀螺功率自适应
+			if(omni.data.PowerBuff > 40){
+			
+				self->data.RotateVelocity = (self->data.RotateVelocity >= 100 ? 100 : self->data.RotateVelocity+0.005f);
+			}
+			else{
+			
+				self->data.RotateVelocity = (self->data.RotateVelocity <= 30 ? 30 : self->data.RotateVelocity-0.01f);
+			}
+		}
+		else{
+		
+			angle = omni.data.DirAngle;
+			angle = RP_HalfTurn(angle,360);
+			
+			self->data.VelocityX =  (float)self->data.Channel[3];
+			self->data.VelocityY = -(float)self->data.Channel[2];
+		  self->data.VelocityZ =  angle/(180)*80;
+		}
+	}
+	else if(self->info.MoveMode == MOVE_FOLLOW){
+	
+		self->data.VelocityX = (float)self->data.Channel[3];
+		self->data.VelocityY =-(float)self->data.Channel[2];
+		self->data.VelocityZ =-(float)self->data.Channel[0];
+		
+		//以此时电机坐标为原点，也就是说和底盘位置不产生角度
+		omni.ModifyOriginAngle(&omni,((float)motor[GIMB_Y].rx_info.angle_offset)/22.755f);
+	}
+	
+	omni.ModifyXYZSet(&omni,self->data.VelocityX,self->data.VelocityY,self->data.VelocityZ);
+	
+	//rifle
+	if(self->info.FrictionSwitch == RP_OK){
+	
+		gun.ModifyFri(&gun,RIFLE_OK);
+	}
+	else if(self->info.FrictionSwitch == RP_NO){
+	
+		gun.ModifyFri(&gun,RIFLE_NO);
+	}
+
+	if(self->info.MagazineSwitch == RP_OK){
+	
+		gun.ModifyMagazine(&gun,RIFLE_OK);
+	}
+	else if(self->info.MagazineSwitch == RP_NO){
+	
+		gun.ModifyMagazine(&gun,RIFLE_NO);
+	}
+
+	switch((uint8_t)self->info.RifleMode){
+	
+		case RIFLE_SET1:
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,1);
+			break;
+		
+		case RIFLE_SET6:
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_SET,6);
+			break;		
+		
+		case RIFLE_STAY:
+			if(gun.data.HeatEnableNum > 5){
+			
+				gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,4000);		
+			}
+			else{
+			
+				gun.ModifyShootType(&gun,RIFLE_SHOOT_STAY,2000);		
+			}
+			break;	
+			
+		case RIFLE_STOP:
+			gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);					
+			break;	
+	}
+	
+	
+
+  /* 电容使用策略 */
+	//充电
+	if(self->info.MoveCommand == RP_OK){
+	
+		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,0);
+	}
+	else if(self->info.MoveCommand == RP_NO){
+	
+		cap.modifyLimit(&cap,cap.data.tx.output_power_limit,150);
+	}
+	
+	//放电
+	if(self->info.MoveCrazzy == RP_OK){
+	
+		cap.modifyLimit(&cap,150,cap.data.tx.input_power_limit);
+	}
+	else if(self->info.MoveCrazzy == RP_NO){
+	
+		cap.modifyLimit(&cap,75,cap.data.tx.input_power_limit);
+	}
+	
+#endif	
+	
+	
+	
+	

@@ -41,3 +41,4 @@ rp_first\gimbal.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 rp_first\gimbal.o: ../USER/RP_FUNCTION/RP_FUNCTION.h
 rp_first\gimbal.o: ../USER/RP_FUNCTION/rp_math.h
 rp_first\gimbal.o: ../USER/RP_FUNCTION/GimbalRotationOutput.h
+rp_first\gimbal.o: ../USER/RP_CONFI/RP_CONFIG.h

@@ -2093,7 +2093,6 @@ int8_t bmi2_soft_reset(struct bmi2_dev *dev)
         if (rslt == BMI2_OK)
         {
             /* Write the configuration file */
-						dev->delay_us(1,NULL);
             rslt = bmi2_write_config_file(dev);
         }
 
@@ -4525,6 +4524,9 @@ int8_t bmi2_get_internal_status(uint8_t *int_stat, struct bmi2_dev *dev)
 
         /* Get the error bits and message */
         rslt = bmi2_get_regs(BMI2_INTERNAL_STATUS_ADDR, int_stat, 1, dev);
+
+        dev->delay_us(100, dev->intf_ptr);
+
     }
     else
     {

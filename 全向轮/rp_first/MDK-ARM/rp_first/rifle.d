@@ -1,7 +1,8 @@
 rp_first\rifle.o: ..\USER\RP_MODULES\rifle.c
+rp_first\rifle.o: ..\USER\RP_MODULES\rifle.h
+rp_first\rifle.o: ../USER/RP_DRIVERS/type.h
 rp_first\rifle.o: ../USER/RP_DEVICES/DEVICES.h
 rp_first\rifle.o: ../USER/RP_DEVICES/led.h
-rp_first\rifle.o: ../USER/RP_DRIVERS/type.h
 rp_first\rifle.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 rp_first\rifle.o: ../USER/RP_DEVICES/rc.h
 rp_first\rifle.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
@@ -87,4 +88,4 @@ rp_first\rifle.o: ../USER/RP_DEVICES/master.h
 rp_first\rifle.o: ../USER/RP_FUNCTION/RP_FUNCTION.h
 rp_first\rifle.o: ../USER/RP_FUNCTION/rp_math.h
 rp_first\rifle.o: ../USER/RP_FUNCTION/GimbalRotationOutput.h
-rp_first\rifle.o: ..\USER\RP_MODULES\rifle.h
+rp_first\rifle.o: ../USER/RP_CONFI/RP_CONFIG.h

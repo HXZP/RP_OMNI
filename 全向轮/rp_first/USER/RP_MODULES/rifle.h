@@ -121,7 +121,10 @@ typedef struct rifle_data_struct{
 	
 	float BoxNumSet;
 	float BoxSpeedSet;
-	float BoxPositionSet;	
+	float BoxPositionSet;
+	
+	float BoxSpeedErr;
+	float BoxPositionErr;
 	
 	int16_t SpeedLimit;
 	int16_t SpeedLimitPre;
@@ -143,6 +146,8 @@ typedef struct rifle_data_struct{
 	uint16_t HeatEnableNum;
 
 	float MagazineCCR;
+	
+	uint16_t SpeedDistribute[35];
 	
 }rifle_data;
 

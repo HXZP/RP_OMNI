@@ -63,7 +63,7 @@ uint32_t bmi2_micros(void)
   btick = bms*1000 + bus;
     
 	return btick;
-} 
+}
 
 
 void bmi2_delay_us(uint32_t period, void *intf_ptr)
@@ -147,6 +147,7 @@ BMI2_INTF_RETURN_TYPE bmi2_spi_read(uint8_t reg_addr, uint8_t *reg_data, uint32_
 	HAL_SPI_Transmit(&hspi2, &reg_addr, 1, 1000);
 	res = HAL_SPI_Receive(&hspi2, reg_data, len, 1000);
 	SPI_CS_HIG();
+	
 	return res;
 	
 }
@@ -162,6 +163,7 @@ BMI2_INTF_RETURN_TYPE bmi2_spi_write(uint8_t reg_addr, const uint8_t *reg_data, 
 	HAL_SPI_Transmit(&hspi2, &reg_addr, 1, 1000);
 	res = HAL_SPI_Transmit(&hspi2, (uint8_t *)reg_data, len, 1000);
 	SPI_CS_HIG();
+	
 	return res;
 
 }

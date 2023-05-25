@@ -66,6 +66,7 @@ void master_updata(struct master_struct *self,uint8_t *buff,uint32_t canId)
 		judge.data.game_robot_status.shooter_id1_17mm_cooling_limit = self->data.judge1.coolingLimit;
 		judge.data.game_robot_status.shooter_id1_17mm_speed_limit = self->data.judge1.speedLimit;
 		judge.data.game_robot_status.robot_id = self->data.judge1.robot_id;
+		judge.data.game_robot_status.chassis_power_limit = self->data.judge1.powerLimit;
 		
 		judge.info.offline_cnt = 0;
 		self->info.offline_cnt = 0;
@@ -77,11 +78,13 @@ void master_updata(struct master_struct *self,uint8_t *buff,uint32_t canId)
 		
 		judge.data.power_heat_data.chassis_power_buffer = self->data.judge2.buffer;
 		judge.data.power_heat_data.shooter_id1_17mm_cooling_heat = self->data.judge2.cooling_heat;
-		judge.data.game_robot_status.chassis_power_limit = self->data.judge2.powerLimit;
-		
+		judge.data.shoot_data.bullet_speed = self->data.judge2.bulletSpeed;		
+
 		judge.info.offline_cnt = 0;
 		self->info.offline_cnt = 0;
 	}
+	
+
 	
 #endif
 
@@ -95,37 +98,37 @@ void MASTER_sendBuff(void)
 #if (MASTER == 1)
 	
 	uint8_t buff[8];
-	
+
 	master[M1].data.imuRPY.x = imu.data.rpy.roll*8.f;
 	master[M1].data.imuRPY.y = imu.data.rpy.pitch*8.f;
 	master[M1].data.imuRPY.z = imu.data.rpy.yaw*8.f;
-	
+
 	memcpy(buff,&master[M1].data.imuRPY,sizeof(master[M1].data.imuRPY));
-	
+
 	CAN_SendUint8(0x100,buff,2,6);
 
 	if(judge.info.state == JUDGE_ONLINE){
-	
+
 		master[M1].data.judge1.coolingLimit = judge.data.game_robot_status.shooter_id1_17mm_cooling_limit;
 		master[M1].data.judge1.speedLimit   = judge.data.game_robot_status.shooter_id1_17mm_speed_limit;
-		master[M1].data.judge1.robot_id     = judge.data.game_robot_status.robot_id;
-		
+    master[M1].data.judge1.powerLimit   = judge.data.game_robot_status.chassis_power_limit;
+  	master[M1].data.judge1.robot_id     = judge.data.game_robot_status.robot_id;
+
 		memcpy(buff,&master[M1].data.judge1,sizeof(master[M1].data.judge1));
-		
-		CAN_SendUint8(0x101,buff,2,5);
-		
+
+		CAN_SendUint8(0x101,buff,2,7);
+
 		master[M1].data.judge2.cooling_heat = judge.data.power_heat_data.shooter_id1_17mm_cooling_heat;
 		master[M1].data.judge2.buffer       = judge.data.power_heat_data.chassis_power_buffer;
-    master[M1].data.judge2.powerLimit   = judge.data.game_robot_status.chassis_power_limit;
+    master[M1].data.judge2.bulletSpeed  = judge.data.shoot_data.bullet_speed;
 
 		memcpy(buff,&master[M1].data.judge2,sizeof(master[M1].data.judge2));
-		
-		CAN_SendUint8(0x102,buff,2,6);		
-	
+
+		CAN_SendUint8(0x102,buff,2,8);		
+
 	}
+
 #endif
-
-
 
 }
 

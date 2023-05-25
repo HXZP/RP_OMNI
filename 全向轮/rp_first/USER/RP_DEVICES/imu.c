@@ -79,12 +79,12 @@ y z  |
 #endif 
 
 #if !defined  (IMU_POSE_AZ)
-  #define IMU_POSE_AZ    ((float)0) 
+  #define IMU_POSE_AZ    ((float)0)
 #endif 
 
 #if !defined  (IMU_PID_KP)
   #define IMU_PID_KP    ((float)5) 
-#endif 
+#endif
 	
 extern SPI_HandleTypeDef hspi2;
 
@@ -214,7 +214,6 @@ float imu_half_cycle(float angle,float max)
 
 void imu_init(struct imu_struct *self)
 {
-	int8_t rslt;
 
 	float q0_init,q1_init,q2_init,q3_init;
 	float d2r,norm;
@@ -235,18 +234,20 @@ void imu_init(struct imu_struct *self)
 		
 	}
 	
-	rslt = self->bmi->init(self->bmi->dev,self->bmi->drive_type);
+	self->info.init_rslt = self->bmi->init(self->bmi->dev,self->bmi->drive_type);
 
-	while(rslt)
+	while(self->info.init_rslt)
 	{
 			self->info.init_cycle++;
+		
 			self->info.state = IMU_INIT_ERR;
-			rslt = self->bmi->init(self->bmi->dev,self->bmi->drive_type);
+		
+			self->info.init_rslt = self->bmi->init(self->bmi->dev,self->bmi->drive_type);
 		
 			if(self->info.init_cycle > 250)return;
 	}
 	
-	if(!rslt){
+	if(!self->info.init_rslt){
 	
 		self->info.state = IMU_ONLINE;
 		self->info.init_flag = 1;	

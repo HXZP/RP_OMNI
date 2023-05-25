@@ -4,9 +4,12 @@
 
 
 */
+
+#include "rifle.h"
 #include "DEVICES.h"
 #include "RP_FUNCTION.h"
-#include "rifle.h"
+#include "RP_CONFIG.h"
+
 
 #define MAGAZINE_CCR_CLOSE 48
 #define MAGAZINE_CCR_OPEN  127
@@ -175,6 +178,9 @@ void Rifle_Updata(rifle *self)
 	self->data.BoxSpeed    = motor[BOX].rx_info.speed;
 	self->data.BoxPosition = motor[BOX].rx_info.angle_sum;
 
+	self->data.BoxSpeedErr = self->data.BoxSpeedSet - self->data.BoxSpeed;
+	self->data.BoxPositionErr = self->data.BoxPositionSet - self->data.BoxPosition;	
+	
 	self->data.SpeedLimitPre = self->data.SpeedLimit;
 	self->data.SpeedPre = self->data.Speed;
 	
@@ -243,6 +249,12 @@ void Rifle_Updata(rifle *self)
 			self->data.SpeedUpNum = 0;
 			self->data.SpeedDownNum++;
 		}
+		
+		//统计
+		self->data.SpeedDistribute[(uint16_t)(self->data.Speed)]++;
+		
+		
+		
 	}
 	
 	//判断摩擦轮速度是否达到 摩擦轮是否达堵住
@@ -289,17 +301,14 @@ void Rifle_Updata(rifle *self)
 			if(HAL_GetTick() - self->time.StuckJudegStart > 400){
 			
 				self->info.BoxStucking = RIFLE_OK;
+				
+				self->time.StuckJudegStart = HAL_GetTick();
 			}
-		}
-		else{
-
-			self->time.StuckJudegStart = HAL_GetTick();
 		}
 	}
 	else{
 	
-	
-	
+		self->time.StuckJudegStart = HAL_GetTick();
 	}
 	
 	//堵转过久处理
@@ -309,7 +318,7 @@ void Rifle_Updata(rifle *self)
 	}
 	else{
 	
-		if(HAL_GetTick() - self->time.StuckStart > 3000){
+		if(HAL_GetTick() - self->time.StuckStart > 1000){
 		
 			self->info.BoxStucking = RIFLE_NO;
 		}
@@ -412,7 +421,7 @@ void Rifle_BoxCtrl(rifle *self)
 			
 		  self->data.BoxSpeedSet = 0;
 		
-		  self->info.Shooting = RIFLE_NO;
+//		  self->info.Shooting = RIFLE_NO;
 		
 		  self->info.BoxType = RIFLE_SPEED;			
 		}
@@ -438,6 +447,8 @@ void Rifle_BoxCtrl(rifle *self)
 		
 		self->info.BoxType = RIFLE_POSITION;
 		
+//		self->time.StuckJudegStart = HAL_GetTick();
+		
 		return;
 	}
 	
@@ -454,18 +465,18 @@ void Rifle_BoxCtrl(rifle *self)
 	else if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_ING){
 		
 		err = abs(set - mes);
-		
-		if(err < 100){
-		
+
+		if(err < 1000){
+
 			self->info.Shooting = RIFLE_OK;
 		}		
 		else if(err < 8192*4.5f*2){
-		
+
 			self->info.BoxType = RIFLE_POSITION;
 		}
 
-		if(HAL_GetTick() - self->time.ShootSetTime > 4000){
-			
+		if(HAL_GetTick() - self->time.ShootSetTime > 500){
+
 			self->info.Shooting = RIFLE_OK;
 		}
 		
@@ -479,7 +490,8 @@ void Rifle_BoxCtrl(rifle *self)
 	else if(self->info.ShootType == RIFLE_SHOOT_SET && self->info.Shooting == RIFLE_OK){
 	
 		self->info.ShootType = RIFLE_SHOOT_STOP;
-//		self->info.Shooting  = RIFLE_NO;
+		
+		self->info.Shooting  = RIFLE_NO;
 		return;
 
 	}
@@ -605,7 +617,7 @@ void Rifle_Ctrl(rifle *self)
 			
 			Rifle_CANBuff[motor[BOX].id.buff_p] = motor[BOX].c_speed(&motor[BOX],0);		
 
-			motor[FRI_R].tx(&motor[FRI_R],Rifle_CANBuff);	
+			if(RIFLE_GLOBAL)motor[FRI_R].tx(&motor[FRI_R],Rifle_CANBuff);	
 		}
 		else{
 		
@@ -633,7 +645,7 @@ void Rifle_Ctrl(rifle *self)
 			Rifle_CANBuff[motor[BOX].id.buff_p] = motor[BOX].c_posit(&motor[BOX],self->data.BoxPositionSet);	
 		}
 
-		motor[FRI_R].tx(&motor[FRI_R],Rifle_CANBuff);	
+		if(RIFLE_GLOBAL)motor[FRI_R].tx(&motor[FRI_R],Rifle_CANBuff);	
 		
 
 	}

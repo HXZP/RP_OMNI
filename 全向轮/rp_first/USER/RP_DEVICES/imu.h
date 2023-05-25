@@ -162,6 +162,8 @@ typedef struct imu_algo_struct {
 typedef struct imu_info_struct {
 	
 	uint8_t		   init_flag;
+	int8_t		   init_rslt;
+	
 	uint32_t     init_time;
 	uint16_t     init_cycle;
 	

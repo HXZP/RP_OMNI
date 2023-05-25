@@ -320,7 +320,7 @@ void Chassis_Updata(chassis *chas)
 //	chas->data.VelocityReal.x = chas->data.WheelReal[0]-chas->data.WheelReal[2]+chas->data.WheelReal[1]-chas->data.WheelReal[3];
 //	chas->data.VelocityReal.y =-chas->data.WheelReal[0]-chas->data.WheelReal[2]+chas->data.WheelReal[1]+chas->data.WheelReal[3];
 //	chas->data.VelocityReal.z =-chas->data.WheelReal[0]-chas->data.WheelReal[2]-chas->data.WheelReal[1]-chas->data.WheelReal[3];
-//	
+//
 }
 
 
@@ -377,7 +377,7 @@ void Chassis_Ctrl(chassis *chas)
 			
 			Chassis_Power_Limit(chas,Chassis_CANBuff);
 			
-			motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
+			if(CHASSIS_GLOBAL)motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
 		}
 	}
 	else if(chas->info.Lock == CHAS_UNLOCK){
@@ -389,7 +389,7 @@ void Chassis_Ctrl(chassis *chas)
 		
 		Chassis_Power_Limit(chas,Chassis_CANBuff);
 		
-		motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
+		if(CHASSIS_GLOBAL)motor[CHAS_1].tx(&motor[CHAS_1],Chassis_CANBuff);	
 	}
 	
 }

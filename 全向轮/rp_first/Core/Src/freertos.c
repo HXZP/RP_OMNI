@@ -45,7 +45,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+osThreadId CenterTaskHandle;
 /* USER CODE END Variables */
 osThreadId MonitorTaskHandle;
 osThreadId CommunityTaskHandle;
@@ -53,6 +53,7 @@ osThreadId ControlTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+void StartCenterTask(void const * argument);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -106,7 +107,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of MonitorTask */
-  osThreadDef(MonitorTask, StartMonitorTask, osPriorityRealtime, 0, 512);
+  osThreadDef(MonitorTask, StartMonitorTask, osPriorityRealtime, 0, 128);
   MonitorTaskHandle = osThreadCreate(osThread(MonitorTask), NULL);
 
   /* definition and creation of CommunityTask */
@@ -118,6 +119,8 @@ void MX_FREERTOS_Init(void) {
   ControlTaskHandle = osThreadCreate(osThread(ControlTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
+  osThreadDef(CenterTask, StartCenterTask, osPriorityNormal, 0, 512);
+  CenterTaskHandle = osThreadCreate(osThread(CenterTask), NULL);	
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
@@ -129,6 +132,17 @@ void MX_FREERTOS_Init(void) {
   * @param  argument: Not used
   * @retval None
   */
+__weak void StartCenterTask(void const * argument)
+{
+  /* USER CODE BEGIN StartMonitorTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartMonitorTask */
+}
+
 /* USER CODE END Header_StartMonitorTask */
 __weak void StartMonitorTask(void const * argument)
 {

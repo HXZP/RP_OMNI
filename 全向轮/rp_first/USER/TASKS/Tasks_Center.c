@@ -77,11 +77,11 @@ void StartCommunityTask(void const * argument)
 		
 		imu.updata(&imu);
 		
-		if(!(communityCnt%3)){
+		if(!(communityCnt%4)){
 		
 			MASTER_sendBuff();
 		}
-		
+
 #if (MASTER == 1U)
 		
 		/*电容数据通信 5ms */
@@ -125,9 +125,18 @@ void StartControlTask(void const * argument)
 		
 #endif		
 
-		
-		
-		
+    osDelay(1);
+  }
+  /* USER CODE END StartControlTask */
+}
+
+
+void StartCenterTask(void const * argument)
+{
+  /* USER CODE BEGIN StartMonitorTask */
+  /* Infinite loop */
+  for(;;)
+  {
 #if (RM_MOTOR_TEST == 0U)		
 		
 	#if (MASTER == 0U)	
@@ -139,11 +148,12 @@ void StartControlTask(void const * argument)
   #endif
 		
 #endif		
-		
+
     osDelay(1);
   }
-  /* USER CODE END StartControlTask */
+  /* USER CODE END StartMonitorTask */
 }
+
 
 
 
