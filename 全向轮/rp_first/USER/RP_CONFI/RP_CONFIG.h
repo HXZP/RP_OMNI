@@ -100,7 +100,7 @@ power为主控电源位置，按下图摆放找坐标系
 
 /*开启中心控制*/
 #define CENTER_GLOBAL  1U 
-#define CHASSIS_GLOBAL 0U 
+#define CHASSIS_GLOBAL 1U 
 #define GIMBAL_GLOBAL  1U 
 #define RIFLE_GLOBAL   1U 
 

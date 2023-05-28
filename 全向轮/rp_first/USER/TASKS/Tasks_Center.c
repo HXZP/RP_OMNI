@@ -26,6 +26,8 @@ void StartMonitorTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {	
+
+		led.Shine(1,200);
 		
 		rc.heart_beat(&rc);
 		
@@ -49,12 +51,7 @@ void StartMonitorTask(void const * argument)
 
 	#endif		
 
-	#if (CENTER_GLOBAL == 1)		
-			
-			Center.Switch(&Center);
-			Center.Updata(&Center);
-			
-	#endif
+
 	
 #endif
     osDelay(1);
@@ -73,6 +70,8 @@ void StartCommunityTask(void const * argument)
   for(;;)
   {
 
+		led.Shine(2,200);
+		
 		communityCnt++;
 		
 		imu.updata(&imu);
@@ -116,6 +115,8 @@ void StartControlTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+		
+		led.Shine(3,200);
 
 		HAL_IWDG_Refresh(&hiwdg);
 		
@@ -125,6 +126,22 @@ void StartControlTask(void const * argument)
 		
 #endif		
 
+	
+		
+#if (RM_MOTOR_TEST == 0U)		
+	#if (MASTER == 0U)	
+		#if (CENTER_GLOBAL == 1)		
+		
+				Center.Switch(&Center);
+		    Center.ModeInit(&Center);
+				Center.Updata(&Center);
+				Center.Ctrl(&Center);
+				
+				
+		#endif				
+  #endif
+#endif		
+		
     osDelay(1);
   }
   /* USER CODE END StartControlTask */
@@ -137,17 +154,6 @@ void StartCenterTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-#if (RM_MOTOR_TEST == 0U)		
-		
-	#if (MASTER == 0U)	
-		#if (CENTER_GLOBAL == 1)		
-				
-				Center.Ctrl(&Center);
-				
-		#endif				
-  #endif
-		
-#endif		
 
     osDelay(1);
   }

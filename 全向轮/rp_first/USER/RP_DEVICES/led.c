@@ -4,6 +4,7 @@
 #include "gpio_drv.h"
 
 void Led_All_Light(void);
+void Led_All_DeLight(void);
 void Led_All_Shine(uint16_t time);
 void Led_Running(uint16_t time);
 void Led_Breath(uint16_t time);
@@ -17,6 +18,7 @@ void Led_Shine(char num,uint16_t time);
 led_t led = {
 
 	.allLight = &Led_All_Light,
+	.allDelight = &Led_All_DeLight,
 	.allShine = &Led_All_Shine,
   .running  = &Led_Running,
 	
@@ -29,6 +31,12 @@ void Led_All_Light(void)
 {
 	HAL_GPIO_WritePin(GPIOC, LED1_Pin|LED2_Pin|LED3_Pin, GPIO_PIN_RESET);
 }
+
+void Led_All_DeLight(void)
+{
+	HAL_GPIO_WritePin(GPIOC, LED1_Pin|LED2_Pin|LED3_Pin, GPIO_PIN_SET);
+}
+
 
 void Led_Light(char num)
 {
@@ -68,7 +76,7 @@ void Led_Shine(char num,uint16_t time)
 	
 	shine_cnt++;
 
-	if(shine_cnt == time){
+	if(!(shine_cnt%time)){
 			
 		switch(num){
 		
@@ -82,7 +90,6 @@ void Led_Shine(char num,uint16_t time)
 				HAL_GPIO_TogglePin(GPIOC, LED3_Pin);
 				break;	
 		}
-		shine_cnt = 0;
   }
 }
 

@@ -14,9 +14,11 @@ void RP_INIT(void)
 {
 	
 #if (BMI_ENABLE == 1U)		
+	led.allLight();
 	
 	RP_IMU_INIT();//must first
 	
+	led.allDelight();
 #endif
 	
 	

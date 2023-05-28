@@ -9,6 +9,7 @@
 typedef struct led_struct {
 	
 	void (*allLight)(void);
+	void (*allDelight)(void);
 	void (*allShine)(uint16_t time);	
 	
 	void (*Light)(char num);

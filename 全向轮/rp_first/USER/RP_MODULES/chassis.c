@@ -210,7 +210,7 @@ void Chassis_ModifyXYZSet(chassis *chas,float setX,float setY,float setZ)
 	
 		xyTotal = RP_GetAbsoluteTotal(vel,2);
 		
-		velRemain = 100 - vel[2];
+		velRemain = 100 - abs(vel[2]);
 		
 		//有剩余速度 速度看剩余情况
 		if(velRemain > 0){

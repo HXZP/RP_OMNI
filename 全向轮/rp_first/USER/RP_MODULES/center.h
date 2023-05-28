@@ -82,6 +82,11 @@ typedef struct center_info_struct{
 	Center_MoveMode   MoveMode;
 	Center_RifleMode  RifleMode;
   Center_VisionMode VisionMode;	
+
+	Center_CtrlMode   CtrlModeTar;	
+	Center_MoveMode   MoveModeTar;
+	Center_RifleMode  RifleModeTar;
+  Center_VisionMode VisionModeTar;	
 	
 	char ErrDevices;
 	
@@ -129,6 +134,7 @@ typedef struct center_struct{
 	void (*modifyVisionMode)(struct center_struct *self,Center_VisionMode state);
 	
 	void (*Switch)(struct center_struct *self);
+	void (*ModeInit)(struct center_struct *self);
 	void (*Updata)(struct center_struct *self);
 	void (*Ctrl)(struct center_struct *self);
 	

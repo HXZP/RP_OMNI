@@ -146,7 +146,7 @@ static void Center_ModifiyVisionMode(center *self,Center_VisionMode state);
 static void Center_Switch(center *self);
    static void Remote_Ctrl(center *self);
    static void KeyMouse_Ctrl(center *self);
-
+static void Center_ModeInit(center *self);
 static void Center_Updata(center *self);
 static void Center_Ctrl(center *self);
 
@@ -190,9 +190,10 @@ center Center = {
   .modifyRifleMode  = Center_ModifiyRifleMode,
 	.modifyVisionMode = Center_ModifiyVisionMode,
 
-	.Switch = Center_Switch,
-	.Updata = Center_Updata,
-	.Ctrl   = Center_Ctrl,
+	.Switch   = Center_Switch,
+	.ModeInit = Center_ModeInit,
+	.Updata   = Center_Updata,
+	.Ctrl     = Center_Ctrl,
 };
 
 
@@ -207,13 +208,13 @@ void Center_SysInit(center *self)
 	if(HAL_GetTick() < 400){
 	
 		imu.algo.KP = 50;
-//		return;
+		return;
 	}
 	else{
 	
 	  imu.algo.KP = 0.1f;
 
-	
+	}
 //	imu.algo.KP = IMU_PID_KP_CONTROL;
 	
 	gun.ModifyShootType(&gun,RIFLE_SHOOT_STOP,0);
@@ -223,8 +224,8 @@ void Center_SysInit(center *self)
 	//Í·²¿¸´Î»
 	head.ModifyLock(&head,GIMB_UNLOCK);
 
-	self->info.MoveMode = MOVE_FOLLOW;
-//	self->modifyMoveMode(self,MOVE_FOLLOW);
+//	self->info.MoveMode = MOVE_FOLLOW;
+	self->modifyMoveMode(self,MOVE_FOLLOW);
 
 	head.Updata(&head,0,
 							head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.755f,
@@ -265,7 +266,6 @@ void Center_SysInit(center *self)
 		
 		self->modifyMoveMode(self,MOVE_NULL);
 
-	}
 	}
 }
 
@@ -405,6 +405,55 @@ void Center_VisionModeInit(center *self,Center_VisionMode state)
 	
 	self->info.VisionInit = RP_OK;
 }
+
+
+
+void Center_ModeInit(center *self)
+{
+
+	if(self->info.CtrlInit == RP_ING){
+	
+		Center_CtrlModeInit(self,self->info.CtrlModeTar);
+		
+		if(self->info.CtrlInit == RP_OK){
+		
+			self->info.CtrlMode = self->info.CtrlModeTar;
+		}
+	}	
+
+	if(self->info.MoveInit == RP_ING){
+	
+		Center_MoveModeInit(self,self->info.MoveModeTar);
+
+		if(self->info.MoveInit == RP_OK){
+		
+			self->info.MoveMode = self->info.MoveModeTar;
+		}		
+	}
+	
+	if(self->info.RifleInit == RP_ING){
+	
+		Center_RifleModeInit(self,self->info.RifleModeTar);
+
+		if(self->info.RifleInit == RP_OK){
+		
+			self->info.RifleMode = self->info.RifleModeTar;
+		}				
+	}			
+	
+	if(self->info.VisionInit == RP_ING){
+	
+		Center_VisionModeInit(self,self->info.VisionModeTar);
+
+		if(self->info.VisionInit == RP_OK){
+		
+			self->info.VisionMode = self->info.VisionModeTar;
+		}
+	}		
+}
+
+
+
 
 /*============================================================================*/
 
@@ -687,7 +736,7 @@ void Center_StateUpdata(center *self)
 		self->info.MoveCommand = RP_NO;
 	}
 	
-	if(abs(self->data.Channel[2]) > 10 || abs(self->data.Channel[3]) > 10){
+	if(abs(self->data.Channel[2]) > 40 || abs(self->data.Channel[3]) > 40){
 	
 		self->info.MoveXYCommand = RP_OK;
 	}
@@ -717,6 +766,8 @@ void Center_StateUpdata(center *self)
 		cap.modifyLimit(&cap,75,cap.data.tx.input_power_limit);
 	}
 }
+
+
 
 void Center_GimbalStrategy(center *self)
 {
@@ -914,45 +965,45 @@ void Center_Updata(center *self)
 void Center_Ctrl(center *self)
 {
 
-	uint16_t ledtime = 0;
-	
-	if(omni.info.MotorState == CHAS_ERR){
-	
-		ledtime++;
-	}
-	if(head.info.MotorState == GIMB_MOTOR_ERR){
-	
-		ledtime++;
-	}
-	if(gun.info.MotorState == RIFLE_MOTOR_ERR){
-	
-		ledtime++;
-	}
-	if(judge.info.state == JUDGE_OFFLINE){
-	
-		ledtime++;
-	}
-	if(vision.info.state == VISION_OFFLINE){
-	
-		ledtime++;
-	}
-	if(cap.info.state == CAP_OFFLINE){
-	
-		ledtime++;
-	}
-	
-	self->info.ErrDevices = ledtime;
-	
-	
-	
-	if(ledtime == 0){
-		
-		led.running(50);
-	}
-	else{
-		
-		led.allShine(ledtime * 100);
-	}
+//	uint16_t ledtime = 0;
+//	
+//	if(omni.info.MotorState == CHAS_ERR){
+//	
+//		ledtime++;
+//	}
+//	if(head.info.MotorState == GIMB_MOTOR_ERR){
+//	
+//		ledtime++;
+//	}
+//	if(gun.info.MotorState == RIFLE_MOTOR_ERR){
+//	
+//		ledtime++;
+//	}
+//	if(judge.info.state == JUDGE_OFFLINE){
+//	
+//		ledtime++;
+//	}
+//	if(vision.info.state == VISION_OFFLINE){
+//	
+//		ledtime++;
+//	}
+//	if(cap.info.state == CAP_OFFLINE){
+//	
+//		ledtime++;
+//	}
+//	
+//	self->info.ErrDevices = ledtime;
+//	
+//	
+//	
+//	if(ledtime == 0){
+//		
+//		led.running(50);
+//	}
+//	else{
+//		
+//		led.allShine(ledtime * 100);
+//	}
 
 /*-------------------------------------------*/	
 //	
@@ -1044,19 +1095,19 @@ void Center_ModifiyState(Center_State *self,Center_State state)
 
 void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state)
 {
-	if(self->info.CtrlInit == RP_ING){
-	
-		Center_CtrlModeInit(self,state);
-		
-		if(self->info.CtrlInit == RP_OK){
-		
-			self->info.CtrlMode = state;
-		}
-	}	
+//	if(self->info.CtrlInit == RP_ING){
+//	
+//		Center_CtrlModeInit(self,state);
+//		
+//		if(self->info.CtrlInit == RP_OK){
+//		
+//			self->info.CtrlMode = state;
+//		}
+//	}	
 	
 	if(self->info.CtrlMode == state)return;	
 	
-	if(self->info.CtrlMode != state){
+	else if(self->info.CtrlMode != state){
 	
 		self->info.CtrlMode = CTRL_NULL;
 		self->modifyState(&Center.info.CtrlInit, RP_ING);
@@ -1065,19 +1116,19 @@ void Center_ModifiyCtrlMode(center *self,Center_CtrlMode state)
 
 void Center_ModifiyMoveMode(center *self,Center_MoveMode state)
 {
-	if(self->info.MoveInit == RP_ING){
-	
-		Center_MoveModeInit(self,state);
+//	if(self->info.MoveInit == RP_ING){
+//	
+//		Center_MoveModeInit(self,state);
 
-		if(self->info.MoveInit == RP_OK){
-		
-			self->info.MoveMode = state;
-		}		
-	}
+//		if(self->info.MoveInit == RP_OK){
+//		
+//			self->info.MoveMode = state;
+//		}		
+//	}
 	
 	if(self->info.MoveMode == state)return;	
 	
-	if(self->info.MoveMode != state){
+	else if(self->info.MoveMode != state){
 	
 		self->info.MoveMode = MOVE_NULL;
 		self->modifyState(&Center.info.MoveInit, RP_ING);		
@@ -1086,19 +1137,19 @@ void Center_ModifiyMoveMode(center *self,Center_MoveMode state)
 
 void Center_ModifiyRifleMode(center *self,Center_RifleMode state)
 {
-	if(self->info.RifleInit == RP_ING){
-	
-		Center_RifleModeInit(self,state);
+//	if(self->info.RifleInit == RP_ING){
+//	
+//		Center_RifleModeInit(self,state);
 
-		if(self->info.RifleInit == RP_OK){
-		
-			self->info.RifleMode = state;
-		}				
-	}		
+//		if(self->info.RifleInit == RP_OK){
+//		
+//			self->info.RifleMode = state;
+//		}				
+//	}		
 	
 	if(self->info.RifleMode == state)return;	
 	
-	if(self->info.RifleMode != state){
+	else if(self->info.RifleMode != state){
 	
 		self->info.RifleMode = RIFLE_NULL;
 		self->modifyState(&Center.info.RifleInit, RP_ING);		
@@ -1107,24 +1158,40 @@ void Center_ModifiyRifleMode(center *self,Center_RifleMode state)
 
 void Center_ModifiyVisionMode(center *self,Center_VisionMode state)
 {
-	if(self->info.VisionInit == RP_ING){
-	
-		Center_VisionModeInit(self,state);
+//	if(self->info.VisionInit == RP_ING){
+//	
+//		Center_VisionModeInit(self,state);
 
-		if(self->info.VisionInit == RP_OK){
-		
-			self->info.VisionMode = state;
-		}
-	}		
+//		if(self->info.VisionInit == RP_OK){
+//		
+//			self->info.VisionMode = state;
+//		}
+//	}		
 	
 	if(self->info.VisionMode == state)return;	
 	
-	if(self->info.VisionMode != state){
+	else if(self->info.VisionMode != state){
 	
 		self->info.VisionMode = VISION_NULL;
 		self->modifyState(&Center.info.VisionInit, RP_ING);		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
