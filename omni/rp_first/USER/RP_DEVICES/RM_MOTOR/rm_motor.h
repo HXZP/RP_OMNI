@@ -17,6 +17,7 @@ typedef struct motor_class_t
   motor_mec_info_t       mec_info;
 	motor_pid_all_t        pid;
 	
+
 	void (*init)(struct motor_class_t *motor);
 	void (*heartbeat)(struct motor_class_t *motor);
   void (*pid_init)(motor_pid_t *pid, float *buff);	
@@ -52,7 +53,10 @@ typedef struct motor_class_t
 	*/
 	float (*c_pid2)(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas2, float tar, char err_cal_mode);	
 	float (*c_pid1)(motor_pid_t *out, float meas1, float tar);	
-	
+
+  void  (*initFuzzyPid)(motor_pid_fuzzy *fuzzy, float *buff);
+	float (*c_pidfuzzy)(motor_pid_fuzzy *fuzzy, motor_pid_t *inn, float meas1, float meas2, float tar);	
+
 	void  (*c_judge_dir)(struct motor_class_t *motor,uint16_t range);	
   float (*c_offset)(struct motor_class_t *motor);	
 	
@@ -88,7 +92,8 @@ float motor_pid_speed(struct motor_class_t *motor,float target);
 float motor_pid_double(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas2, float tar, char err_cal_mode);
 float motor_pid_single(motor_pid_t *out, float meas1, float tar);
 
-
+void motor_fuzzy_pid_init(motor_pid_fuzzy *fuzzy, float *buff);
+float motor_fuzzy_pid_ctrl(motor_pid_fuzzy *fuzzy, motor_pid_t *inn, float meas1, float meas2, float tar);
 
 #endif
 

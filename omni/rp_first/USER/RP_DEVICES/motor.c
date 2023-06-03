@@ -162,6 +162,13 @@ motor_t motor[MOTOR_LIST] =
 
 /*--------------------------------------------------------------------------*/
 
+/*自定义模糊pid*/
+	
+motor_pid_fuzzy        fuzzyPidYaw;
+	
+
+
+
 /*pid参数列表*/
 
 /*
@@ -180,7 +187,7 @@ float  test_speed_pid_param[7] = {5,0,0,0,0,15000,20000};
 float chassis_speed_pid_param[7] = {8,0.6,0,0,5000,5000,8000};
 
 float yaw_imu_out_pid_param[7] = {10,0,0,0,0,15000,20000};
-float yaw_imu_inn_pid_param[7] = {300,4,0,0,7000,7000,20000};
+float yaw_imu_inn_pid_param[7] = {350,1,0,0,5000,10000,28000};
 
 float pit_imu_out_pid_param[7] = {30,0,0,0,0,15000,20000};
 float pit_imu_inn_pid_param[7] = {220,10,0,0,5000,10000,20000};
@@ -201,6 +208,7 @@ float box_speed_pid_param[7] = {5,0.3,0,0,5000,5000,10000};
 float box_posit_out_pid_param[7] = {0.28,0,0,0,1000,10000,10000};
 float box_posit_inn_pid_param[7] = {5,0.3,0,0,500,500,10000};
 
+float yaw_imu_out_fuzzypid_param[18] = {30,0,0,0,0,15000,20000, 28,12,10,8,8, 8,4,4,3,2, 180};
 
 void RM_MotorInit(void)
 {
@@ -222,7 +230,7 @@ void RM_MotorInit(void)
 	
 	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_imu_out_pid_param);
 	motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle_in,yaw_imu_inn_pid_param);	
-	
+
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.speed,   pit_imu_out_pid_param);
 	
 	motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_imu_out_pid_param);
@@ -234,6 +242,10 @@ void RM_MotorInit(void)
 	motor[BOX].pid_init(&motor[BOX].pid.speed,      box_speed_pid_param);
 	motor[BOX].pid_init(&motor[BOX].pid.position,   box_posit_out_pid_param);
 	motor[BOX].pid_init(&motor[BOX].pid.position_in,box_posit_inn_pid_param);	
+	
+	motor[GIMB_Y].initFuzzyPid(&fuzzyPidYaw,yaw_imu_out_fuzzypid_param);
+		
+	
 }
 
 

@@ -61,7 +61,7 @@ power为主控电源位置，按下图摆放找坐标系
 	#define IMU_POSE_AX    0
 	#define IMU_POSE_AY    0
 	#define IMU_POSE_AZ    1
-	#define IMU_PID_KP     10.f
+	#define IMU_PID_KP     0.1f
 	
 	#define IMU_PID_KP_CONTROL     0.1f
 	#define IMU_PID_KP_NORMAL     10.f

@@ -21,8 +21,9 @@
 static void Gimbal_ModifyLock(gimbal *gimb,gimbal_Lock type);
 static void Gimbal_ModifyXYZSet(gimbal *gimb,float setX,float setY,float setZ);
 static float Gimbal_ModifyDataRange360(float data,float min,float max);
+static void Gimbal_ModifyXYZUpdata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz);
 
-static void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz);
+static void Gimbal_Updata(gimbal *gimb);
 static void Gimbal_Resolving(gimbal* gimb);
 static void Gimbal_Translation(gimbal* gimb,float chasX,float chasY,float chasZ);
 static void Gimbal_Ctrl(gimbal *gimb);
@@ -43,9 +44,10 @@ gimbal head = {
 	.info.AssemblyVector.Y =-1,
 	.info.AssemblyVector.Z = 1,
 	
-	.ModifyLock  = Gimbal_ModifyLock,
-	.ModifyXYZSet= Gimbal_ModifyXYZSet,
-	.ModifyRange = Gimbal_ModifyDataRange360,
+	.ModifyLock      = Gimbal_ModifyLock,
+	.ModifyXYZSet    = Gimbal_ModifyXYZSet,
+	.ModifyXYZUpdata = Gimbal_ModifyXYZUpdata,
+	.ModifyRange     = Gimbal_ModifyDataRange360,
 	
 	.Updata      = Gimbal_Updata,
 	.Resolving   = Gimbal_Resolving,
@@ -110,6 +112,21 @@ void Gimbal_ModifyXYZSet(gimbal *gimb,float setX,float setY,float setZ)
 
 }
 
+/** @FUN  修改云台目标
+  * @xyz  0~360
+  */
+void Gimbal_ModifyXYZUpdata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz)
+{
+	
+	gimb->data.Angle.X = ax;
+	gimb->data.Angle.Y = ay;
+  gimb->data.Angle.Z = az;
+
+	gimb->data.Speed.X = rx;
+	gimb->data.Speed.Y = ry;
+  gimb->data.Speed.Z = rz;
+
+}
 
 
 
@@ -118,7 +135,7 @@ void Gimbal_ModifyXYZSet(gimbal *gimb,float setX,float setY,float setZ)
   * @ax   角度 0~360
   * @rx   速度 不限单位
   */
-void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,float rz)
+void Gimbal_Updata(gimbal *gimb)
 {
 	//云台电机失联判断
 	if(motor[GIMB_Y].state.work_state == M_ONLINE && motor[GIMB_P].state.work_state == M_ONLINE){
@@ -129,14 +146,6 @@ void Gimbal_Updata(gimbal *gimb,float ax,float ay,float az,float rx,float ry,flo
 	
 		gimb->info.MotorState = GIMB_MOTOR_ERR;
 	}
-
-	gimb->data.Angle.X = ax;
-	gimb->data.Angle.Y = ay;
-  gimb->data.Angle.Z = az;
-
-	gimb->data.Speed.X = rx;
-	gimb->data.Speed.Y = ry;
-  gimb->data.Speed.Z = rz;
 
 	gimb->data.AngleErr.X = RP_HalfTurn(gimb->data.AngleSet.X - gimb->data.Angle.X,360);
 	gimb->data.AngleErr.Y = RP_HalfTurn(gimb->data.AngleSet.Y - gimb->data.Angle.Y,360);
@@ -189,6 +198,14 @@ void Gimbal_Resolving(gimbal* gimb)
 											 gimb->data.Speed.Z,
 											 gimb->data.AngleSet.Z,1);
 
+//	gimb->data.Torque.Z = 
+//	gimb->info.AssemblyVector.Z*
+//	motor[GIMB_Y].c_pidfuzzy(&fuzzyPidYaw,
+//													 &motor[GIMB_Y].pid.angle_in,
+//													 gimb->data.Angle.Z,
+//													 gimb->data.Speed.Z,
+//													 gimb->data.AngleSet.Z);
+//
 	gimb->data.Torque.Y = gimb->data.Torque.Y - 3000;
 
 }

@@ -126,7 +126,43 @@ void motor_class_pid_init(struct motor_pid *pid, float *buff)
 	}
 	
 	pid->info.init_flag = M_INIT;
+
+}	
+
+/**
+ *	@brief	电机fuzzypid初始化
+ */
+void motor_fuzzy_pid_init(motor_pid_fuzzy *fuzzy, float *buff)
+{
+	if(fuzzy == NULL)
+	{
+		return;
+	}
 	
+	memset(&fuzzy->pid.info,0,sizeof(fuzzy->pid.info));
+	
+	if(buff != NULL){
+		
+		memcpy(&fuzzy->pid.set,buff,sizeof(fuzzy->pid.set));
+
+	}
+
+	fuzzy->table[0] = buff[7];
+	fuzzy->table[1] = buff[8];
+	fuzzy->table[2] = buff[9];
+	fuzzy->table[3] = buff[10];
+	fuzzy->table[4] = buff[11];
+
+	fuzzy->table[5] = buff[12];
+	fuzzy->table[6] = buff[13];
+	fuzzy->table[7] = buff[14];
+	fuzzy->table[8] = buff[15];
+	fuzzy->table[9] = buff[16];	
+	
+	fuzzy->errMax = buff[17];
+	
+	fuzzy->pid.info.init_flag = M_INIT;
+
 }	
 
 /**
@@ -164,6 +200,9 @@ void motor_class_init(struct motor_class_t *motor)
 	
 	motor->c_pid1 = motor_pid_single;
 	motor->c_pid2 = motor_pid_double;		
+	
+	motor->initFuzzyPid = motor_fuzzy_pid_init;
+	motor->c_pidfuzzy = motor_fuzzy_pid_ctrl;		
 	
 	motor->state.init_flag = M_INIT;
 }
@@ -291,19 +330,7 @@ float motor_offset(struct motor_class_t *motor)
 	info->angle_offset = angle;
 	
 	return angle;
-	
-//	if(info->angle < motor->mec_info.mec_mid)
-//		 angle = info->angle - motor->mec_info.mec_mid + range;
-//	else
-//	   angle = info->angle - motor->mec_info.mec_mid;
-//	
-//  angle = -angle + range + range/4;
-//	
-//	if(angle > range)angle = angle - range;
 
-//	angle = motor_cycle(angle - range/4,range);
-//	
-//	info->angle_offset = angle;			
 }
 
 
@@ -328,9 +355,33 @@ float motor_pid_err(motor_pid_t *pid,float measure)
 	
 	pid_info->measure = measure;
 	pid_info->err = pid_info->target - pid_info->measure;
+	
 	return pid_info->err;
 
 }
+
+/**
+ *	@brief	chuli误差 tar - mea
+ */
+float motor_pid_err_handle(motor_pid_t *pid,char err_cal_mode)
+{
+	if(err_cal_mode > 0){
+		
+		while(m_abs(pid->info.err) >= 360){
+		
+			pid->info.err = motor_cycle(pid->info.err,360);		
+		}
+		
+		for(char i = 1;i < err_cal_mode+1; i++){
+		
+			pid->info.err = motor_half_cycle(pid->info.err, 360/err_cal_mode);
+		}
+	}
+	
+	return pid->info.err;
+}
+
+
 
 /**
  *	@brief	pid计算 不包含err计算
@@ -384,39 +435,8 @@ float motor_pid_ctrl(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas
 	if(inn == NULL)
 	{
 		motor_pid_err(out , meas1);	
-//		switch(err_cal_mode)
-//		{
-//			case 0:			
-//				break;
-//			
-//			case 1:
-//				while(m_abs(out->info.err) >= 360) 
-//					out->info.err = motor_cycle(out->info.err,360);
-//				
-//				out->info.err = motor_half_cycle(out->info.err, 360);
-//				break;				
-//			
-//			case 2:
-//				while(m_abs(out->info.err) >= 360) 
-//					out->info.err = motor_cycle(out->info.err,360);
-//				
-//				out->info.err = motor_half_cycle(out->info.err, 360);
-//				out->info.err = motor_half_cycle(out->info.err, 180);
-//				break;			
-//		}
 
-		if(err_cal_mode > 0){
-			
-			while(m_abs(out->info.err) >= 360){
-			
-				out->info.err = motor_cycle(out->info.err,360);		
-			}
-			
-			for(char i = 1;i < err_cal_mode+1; i++){
-			
-				out->info.err = motor_half_cycle(out->info.err, 360/err_cal_mode);
-			}
-		}
+		motor_pid_err_handle(out,err_cal_mode);
 
 		motor_pid_cal(out);
 		
@@ -426,41 +446,9 @@ float motor_pid_ctrl(motor_pid_t *out, motor_pid_t *inn, float meas1, float meas
 	{
 		/*--外环计算--*/
 		motor_pid_err(out , meas1);	
-		
-//		switch(err_cal_mode)
-//		{
-//			case 0:			
-//				break;
-//			
-//			case 1:
-//				while(m_abs(out->info.err) >= 360) 
-//					out->info.err = motor_cycle(out->info.err,360);
-//				
-//				out->info.err = motor_half_cycle(out->info.err, 360);
-//				break;				
-//			
-//			case 2:
-//				while(m_abs(out->info.err) >= 360) 
-//					out->info.err = motor_cycle(out->info.err,360);
-//				
-//				out->info.err = motor_half_cycle(out->info.err, 360);
-//				out->info.err = motor_half_cycle(out->info.err, 180);
-//				break;		
-//		}
-		if(err_cal_mode > 0){
-			
-			while(m_abs(out->info.err) >= 360){
-			
-				out->info.err = motor_cycle(out->info.err,360);		
-			}
-			
-			for(char i = 1;i < err_cal_mode+1; i++){
-			
-				out->info.err = motor_half_cycle(out->info.err, 360/err_cal_mode);
-			}
-		}
-		
-		
+
+    motor_pid_err_handle(out,err_cal_mode);
+
 		motor_pid_cal(out);
 		
 		inn->info.target = out->info.out;	//目标值转移到速度环
@@ -599,6 +587,86 @@ float motor_pid_speed(struct motor_class_t *motor,float target)//rpm
 
 
 
+/**
+ *	@brief	模糊pid总控制 参数：外环 内环 外环观测值 内环观测值 err处理方式
+ *          err_cal_mode：err处理方式 半圈还是四分之一圈 0，1，2 速度环使用0 yaw轴使用1
+ *          当内环为NULL则只计算外环，外环不能为NULL
+ *
+ *  @return 返回计算结果
+ */
+float motor_fuzzy_pid_ctrl(motor_pid_fuzzy *fuzzy, motor_pid_t *inn, float meas1, float meas2,float tar)
+{
+	motor_pid_t *out = &fuzzy->pid;
+	
+	float pro;
+	int pos;
+	
+	fuzzy->pid.info.target = tar;
+	
+	/*--外环计算--*/
+	motor_pid_err(out , meas1);	
+
+	motor_pid_err_handle(out,1);
+
+	if(m_abs(out->info.err) > m_abs(fuzzy->errMax)){
+	
+		if(out->info.err > 0){
+		
+		  out->info.err = m_abs(fuzzy->errMax);
+		}
+	  else if(out->info.err < 0){
+		
+		  out->info.err = -m_abs(fuzzy->errMax);		
+		}
+	}
+	
+	pro = m_abs(out->info.err) / m_abs(fuzzy->errMax) * 10;
+	
+	pos = (int16_t)pro;
+	
+	if(pos == 10)pos = 9;
+	
+	out->set.kp = fuzzy->table[pos];
+	
+	motor_pid_cal(out);
+	
+	inn->info.target = out->info.out;	//目标值转移到速度环
+	
+	/*--内环计算--*/
+	motor_pid_err(inn , meas2);  
+	motor_pid_cal(inn);	
+	
+	return inn->info.out;	
+
+}
+
+//void motor_fuzzy_pid_modifyKp(motor_pid_fuzzy *fuzzy, motor_pid_t *pid)
+//{
+//	motor_pid_t *out = &fuzzy->pid;
+//	
+//	float pro;
+//	int pos;
+//	
+//	if(m_abs(pid->info.err) > m_abs(fuzzy->errMax)){
+//	
+//		if(pid->info.err > 0){
+//		
+//		  pid->info.err = m_abs(fuzzy->errMax);
+//		}
+//	  else if(pid->info.err < 0){
+//		
+//		  pid->info.err = -m_abs(fuzzy->errMax);		
+//		}
+//	}
+//	
+//	pro = m_abs(out->info.err) / m_abs(fuzzy->errMax) * 10;
+//	
+//	pos = (int16_t)pro;
+//	
+//	if(pos == 10)pos = 9;
+//	
+//	out->set.kp = fuzzy->table[pos];
+//}
 
 /*-----------------------------------------------------------------
 *大疆电机接收

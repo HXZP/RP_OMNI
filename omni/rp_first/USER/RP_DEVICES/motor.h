@@ -35,7 +35,7 @@ char RM_MotorHeartBeat(void);
 void RM_MotorControl_Test(void);
 
 extern motor_t motor[MOTOR_LIST];
-
+extern motor_pid_fuzzy fuzzyPidYaw;
 #endif
 
 

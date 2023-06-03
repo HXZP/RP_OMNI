@@ -209,19 +209,20 @@ center Center = {
 **/
 Center_State Center_SysInit(center *self)
 {
-	if(HAL_GetTick() < 1000){
-	
-		imu.algo.KP = 5;
-		
-		return RP_ING;
-	}
-	else{
-	
-		imu.algo.KP = 0.1f;
-	  
-	}
-
-	
+	/*imu初始化*/
+//	if(HAL_GetTick() < 1000){
+//	
+//		imu.algo.KP = 5;
+//		
+//		return RP_ING;
+//	}
+//	else{
+//	
+//		imu.algo.KP = 0.1f;
+//	  
+//	}
+  imu.algo.KP = 0.1f;
+	/*解锁云台*/
 	if(head.info.Lock == GIMB_LOCK){
 	
 		self->time.GimbalReachTime = HAL_GetTick();
@@ -230,21 +231,23 @@ Center_State Center_SysInit(center *self)
 		
 	}
 
+	/*修改控制方式*/
 	self->modifyMoveMode(self,MOVE_FOLLOW);
 	
-	//头部复位
-	head.Updata(&head,0,
-							head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.755f,
-							head.info.AssemblyVector.Z*motor[GIMB_Y].rx_info.angle_offset/22.755f,
-							imu.data.acc_gyr.gyr_x,
-							imu.data.acc_gyr.gyr_y,
-							imu.data.acc_gyr.gyr_z);
+	/*头部复位*/
+	head.ModifyXYZUpdata(&head,0,
+												head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.755f,
+												head.info.AssemblyVector.Z*motor[GIMB_Y].rx_info.angle_offset/22.755f,
+												imu.data.acc_gyr.gyr_x,
+												imu.data.acc_gyr.gyr_y,
+												imu.data.acc_gyr.gyr_z);
 	
 	self->data.GimbYawTarget = 0;
 	self->data.GimbPitTarget = 0;
 	
 	head.ModifyXYZSet(&head,0,self->data.GimbPitTarget,self->data.GimbYawTarget);
 	
+	/*等待复位成功*/
 	if(head.info.YReach == GIMB_OK && head.info.ZReach == GIMB_OK){
 
 		if(HAL_GetTick() - self->time.GimbalReachTime > 500){
@@ -257,13 +260,13 @@ Center_State Center_SysInit(center *self)
 		self->time.GimbalReachTime = HAL_GetTick();
 	}
 	
-	//超时强制复位云台
+	/*超时强制复位云台*/
 	if(HAL_GetTick() - self->time.InitTimeStart > CENTER_INIT_OUT_TIME){
 		
 		self->info.SysInit  = RP_OK;
 	}
 	
-	//复位成功 进行下一步解锁
+	/*复位成功 进行下一步解锁*/
 	if(self->info.SysInit == RP_OK){
 	
 		gun.ModifyLock(&gun,RIFLE_UNLOCK);
@@ -272,9 +275,10 @@ Center_State Center_SysInit(center *self)
 		
 		self->modifyMoveMode(self,MOVE_NULL);
 
+		
 	}
 	
-	return RP_OK;
+	return self->info.SysInit;
 }
 
 
@@ -287,22 +291,22 @@ void Center_CtrlModeInit(center *self,Center_CtrlMode state)
   rc.data.tw_step[3] = 0;
 
 	self->modifyMoveMode(self,MOVE_MASTER);
-	
-	self->modifyRifleMode(self,RIFLE_NULL);	
-	
-	self->modifyVisionMode(self,VISION_NULL);
-	
-	self->info.RifleLock      = RP_NO;	
-	
-	self->info.FrictionSwitch = RP_NO;
-	
-	self->info.RotateSwitch   = RP_NO;
-	
-	self->info.MagazineSwitch = RP_NO;
-	
-	self->info.MoveCrazzy = RP_OK;
 
-	self->info.CtrlInit = RP_OK;
+	self->modifyRifleMode(self,RIFLE_NULL);	
+
+	self->modifyVisionMode(self,VISION_NULL);
+
+	self->info.RifleLock      = RP_NO;	
+
+	self->info.FrictionSwitch = RP_NO;
+
+	self->info.RotateSwitch   = RP_NO;
+
+	self->info.MagazineSwitch = RP_NO;
+
+	self->info.MoveCrazzy     = RP_OK;
+
+	self->info.CtrlInit       = RP_OK;
 }
 
 
@@ -360,13 +364,13 @@ void Center_MoveModeInit(center *self,Center_MoveMode state)
 	
 	omni.ModifyDistribute(&omni,CHAS_FAIR);
 	
-	self->modifyVisionMode(self,VISION_NULL);
+//	self->modifyVisionMode(self,VISION_NULL);
 	
 	self->info.RotateSwitch = RP_NO;
 	
-	self->info.FastTurn = RP_NO;
+	self->info.FastTurn     = RP_NO;
 
-	self->info.MoveInit = RP_OK;
+	self->info.MoveInit     = RP_OK;
 	
 }
 
@@ -380,26 +384,10 @@ void Center_RifleModeInit(center *self,Center_RifleMode state)
 
 void Center_VisionModeInit(center *self,Center_VisionMode state)
 {
-	if(state == MOVE_MASTER){
-	
-		self->data.GimbPitTarget = RP_Limit(imu.data.rpy.pitch,360);
-		self->data.GimbYawTarget = RP_Limit(imu.data.rpy.yaw,360);
-		
-	}
-	else if(state == MOVE_FOLLOW){
-	
-		self->data.GimbPitTarget = head.info.AssemblyVector.Y * motor[GIMB_P].rx_info.angle_offset/22.755f;
-		
-		if(omni.info.Direction == CHAS_FORWARD){
 
-			self->data.GimbYawTarget = 0;
-		}
-		else if(omni.info.Direction == CHAS_BACKWARD){
-		
-			self->data.GimbYawTarget = 180;
-		}
-	}
-	
+	self->data.GimbPitTarget = RP_Limit(imu.data.rpy.pitch,360);
+	self->data.GimbYawTarget = RP_Limit(imu.data.rpy.yaw,360);
+
 	if(omni.info.Direction == CHAS_FORWARD){
 
 		omni.ModifyOriginAngle(&omni,0);
@@ -490,11 +478,6 @@ Center_State Center_Switch(center *self)
 		
 		self->time.InitTimeStart = HAL_GetTick();
 		
-//		memset(&self->info,0,sizeof(self->info));
-//		gun.ModifyLock(&gun,RIFLE_LOCK);
-//		head.ModifyLock(&head,GIMB_LOCK);
-//		omni.ModifyLock(&omni,CHAS_LOCK);
-
 		self->info.SysInit    = RP_NO;
 		self->info.CtrlInit   = RP_NO;
 		self->info.MoveInit   = RP_NO;		
@@ -909,6 +892,7 @@ Center_State KeyMouse_Ctrl(center *self)
 
 /* ---------------------------Center_Updata子-------------------------- */
 
+
 void Center_StateUpdata(center *self)
 {
 	/* 移动命令 */
@@ -957,11 +941,19 @@ void Center_StateUpdata(center *self)
 
 
 
-
 void Center_GimbalStrategy(center *self)
 {
-	//云台跟随
+	/*云台跟随*/
 	if(self->info.MoveMode == MOVE_MASTER){
+
+		//更新数据
+		head.ModifyXYZUpdata(&head,
+													imu.data.rpy.roll,
+													imu.data.rpy.pitch,
+													imu.data.rpy.yaw,
+													imu.data.worldGyr.x,
+													imu.data.worldGyr.y,
+													imu.data.worldGyr.z);	
 		
     //快速转向赋值
 		if(self->info.FastTurn == RP_OK){
@@ -1010,7 +1002,7 @@ void Center_GimbalStrategy(center *self)
 				self->info.FastTurnType = FT_NULL;
 			}
 		}
-		//正常转向
+		//常规运动目标值
 		else{
 		
 			if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360),head.info.depression,360 - head.info.elevation)){
@@ -1024,17 +1016,28 @@ void Center_GimbalStrategy(center *self)
 			}
 		}
 	}
-	//底盘跟随
+	/*底盘跟随*/
 	else if(self->info.MoveMode == MOVE_FOLLOW){
 
+		//更新数据
+		head.ModifyXYZUpdata(&head,
+													0,
+													head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.755f,
+													head.info.AssemblyVector.Z*motor[GIMB_Y].rx_info.angle_offset/22.755f,
+													imu.data.acc_gyr.gyr_x,
+													imu.data.acc_gyr.gyr_y,
+													imu.data.acc_gyr.gyr_z);	
+		
+		//常规运动目标值
 		if(anti_constrain(RP_Limit(self->data.GimbPitTarget + (float)self->data.Channel[1]/100,360),head.info.depression,360 - head.info.elevation)){
 		
 			self->data.GimbPitTarget  = RP_Limit(self->data.GimbPitTarget+(float)self->data.Channel[1]/100,360);
 		}
 	}
 	
+	/* 调整目标值 */
 	
-	//强制云台持平
+	//弹仓打开 强制云台持平
 	if(self->info.MagazineSwitch == RP_OK){
 	
 		self->data.GimbPitTarget = 0;
@@ -1050,7 +1053,7 @@ void Center_GimbalStrategy(center *self)
 		self->data.GimbPitTarget = (self->data.GimbPitTarget < 360 - head.info.elevation ? 360 - head.info.elevation : self->data.GimbPitTarget);
 	}
 
-	//赋值
+	/*目标值赋值*/
 	head.ModifyXYZSet(&head,0,self->data.GimbPitTarget,self->data.GimbYawTarget);
 }
 
@@ -1060,7 +1063,7 @@ void Center_MoveStrategy(center *self)
 {	
 	float angle;	
 	
-	//移动策略
+	/*移动速度分配策略*/
 	if(self->info.MoveXYCommand == RP_OK){
 	
 		omni.ModifyDistribute(&omni,CHAS_LINEAR);
@@ -1070,7 +1073,7 @@ void Center_MoveStrategy(center *self)
 		omni.ModifyDistribute(&omni,CHAS_ROTATE);
 	}
 	
-	//云台模式赋值
+	/*云台模式赋值*/
 	if(self->info.MoveMode == MOVE_MASTER){
 
 		if(self->info.RotateSwitch == RP_OK){
@@ -1099,7 +1102,7 @@ void Center_MoveStrategy(center *self)
 		  self->data.VelocityZ =  angle/(180)*80;
 		}
 	}
-	//底盘模式赋值
+	/*底盘模式赋值*/
 	else if(self->info.MoveMode == MOVE_FOLLOW){
 	
 		self->data.VelocityX = (float)self->data.Channel[3];
@@ -1110,6 +1113,7 @@ void Center_MoveStrategy(center *self)
 		omni.ModifyOriginAngle(&omni,((float)motor[GIMB_Y].rx_info.angle_offset)/22.755f);
 	}
 	
+	/*目标值赋值*/
 	omni.ModifyXYZSet(&omni,self->data.VelocityX,self->data.VelocityY,self->data.VelocityZ);
 		
 }
@@ -1242,28 +1246,8 @@ Center_State Center_Ctrl(center *self)
 
 /*-------------------------------------------*/	
 //	
-	if(self->info.MoveMode == MOVE_MASTER){
-	
-		head.Updata(&head,
-		            imu.data.rpy.roll,
-		            imu.data.rpy.pitch,
-		            imu.data.rpy.yaw,
-		            imu.data.worldGyr.x,
-		            imu.data.worldGyr.y,
-		            imu.data.worldGyr.z);	
-	}
-	else if(self->info.MoveMode == MOVE_FOLLOW){
 
-		head.Updata(&head,
-								0,
-								head.info.AssemblyVector.Y*motor[GIMB_P].rx_info.angle_offset/22.755f,
-								head.info.AssemblyVector.Z*motor[GIMB_Y].rx_info.angle_offset/22.755f,
-								imu.data.acc_gyr.gyr_x,
-								imu.data.acc_gyr.gyr_y,
-								imu.data.acc_gyr.gyr_z);		
-		
-	}
-	
+	head.Updata(&head);
 	omni.Updata(&omni);
 	gun.Updata(&gun);
 

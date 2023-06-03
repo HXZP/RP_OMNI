@@ -67,6 +67,12 @@ typedef enum {
 	MOTOR_B
 } motor_dir_t;//电机方向
 
+typedef enum {
+	PID_NORMAL,
+	PID_FUZZY,
+	
+} pid_type;//pid类型
+
 
 /*-----------------------------------------------------------------*/
 
@@ -112,6 +118,7 @@ typedef struct
 	motor_state_e work_state;	
 	
 }motor_state_info_t;//电机的ID信息
+
 /*-----------------------------------------------------------------*/
 
 typedef struct 
@@ -170,6 +177,27 @@ typedef struct
 	motor_pid_t   user_define;
 	
 }motor_pid_all_t; //pid总汇
+
+
+/*-----------------------------------------------------------------*/
+
+
+
+typedef struct
+{
+  motor_pid_t pid;
+//	motor_pid_t pidCopy;
+	
+	float table[10];
+
+	float errMax;
+	
+//	motor_init_e copy;
+	
+}motor_pid_fuzzy; //pid总汇
+
+
+
 
 
 #endif
