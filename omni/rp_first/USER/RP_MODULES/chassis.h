@@ -12,6 +12,7 @@ typedef enum {
 	CHAS_OMNI,
 	CHAS_MECA,
 	CHAS_HELM,
+	CHAS_BALANCE,	
 	
 } chassis_Type;
 
@@ -41,6 +42,7 @@ typedef enum {
 	CHAS_FAIR,
 	CHAS_LINEAR,
 	CHAS_ROTATE,
+	CHAS_SET,
 	
 } chassis_Distribute;
 
@@ -52,6 +54,14 @@ typedef struct {
 	
 }chassis_xyz;
 
+typedef struct {
+
+	float a;
+	float b;
+	float c;
+	float d;
+	
+}chassis_helm;
 
 typedef struct chassis_info_struct{
 
@@ -93,6 +103,9 @@ typedef struct chassis_data_struct{
 	float       WheelSet[4];
 	float       WheelReal[4];
 
+	float       HelmSet[4];
+	float       HelmReal[4];	
+	
 	float       WheelPowerMax;		
 	float       PowerLimit;
 	float       PowerBuff;

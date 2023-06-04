@@ -306,12 +306,32 @@ void Chassis_Updata(chassis *chas)
 	//底盘轮子最大速度计算
 	chas->data.VelocityMax = chas->data.WheelrpmMax/chas->info.ReductionRatio/60.0f
 	                         *2.0f*pi*chas->info.WheelRadius;
+
+	if(chas->info.Type == CHAS_MECA || chas->info.Type == CHAS_OMNI){
+		
+		//底盘电机速度更新
+		chas->data.WheelReal[0] = motor[CHAS_1].rx_info.speed;
+		chas->data.WheelReal[1] = motor[CHAS_2].rx_info.speed;
+		chas->data.WheelReal[2] = motor[CHAS_3].rx_info.speed;
+		chas->data.WheelReal[3] = motor[CHAS_4].rx_info.speed;
+	}
 	
-	//底盘电机速度更新
-	chas->data.WheelReal[0] = motor[CHAS_1].rx_info.speed;
-  chas->data.WheelReal[1] = motor[CHAS_2].rx_info.speed;
-	chas->data.WheelReal[2] = motor[CHAS_3].rx_info.speed;
-	chas->data.WheelReal[3] = motor[CHAS_4].rx_info.speed;
+	if(chas->info.Type == CHAS_HELM){
+	
+//		chas->data.HelmReal[0] = 
+//	  chas->data.HelmReal[1] = 
+//		chas->data.HelmReal[2] = 
+//		chas->data.HelmReal[3] = 
+	
+	}
+	
+	if(chas->info.Type == CHAS_BALANCE){
+	
+		//0:left  1:right
+//		chas->data.WheelReal[0] = 
+//	  chas->data.WheelReal[1] = 
+
+	}	
 	
 //	//瞎写的
 //	chas->data.VelocityReal.x = chas->data.WheelReal[0]-chas->data.WheelReal[2]+chas->data.WheelReal[1]-chas->data.WheelReal[3];
@@ -327,6 +347,10 @@ void Chassis_Updata(chassis *chas)
 void Chassis_Resolving(chassis *chas)
 {
 	float velocity[4];//velocityAbsoluteMax;
+	float angle_xy,speed_xy,angle_z,speed_z,angle,speed;
+	float err_real,err_image;
+	
+	int   table[4] = {-1,-3,1,+3};
 	
 	if(chas->info.Type == CHAS_OMNI){
     
@@ -344,21 +368,81 @@ void Chassis_Resolving(chassis *chas)
 	}
 	else if(chas->info.Type == CHAS_HELM){
     
-	}	
+		for(char i = 0; i < 4; i++){
+		
+			/*获取xy合成速度*/
+			arm_sqrt_f32(chas->data.VelocitySet.x * chas->data.VelocitySet.x
+			            +chas->data.VelocitySet.y * chas->data.VelocitySet.y,&speed_xy);
+			
+			/*获取xy合成角度*/
+			arm_atan2_f32(chas->data.VelocitySet.y,chas->data.VelocitySet.x,&angle_xy);
+			
+			/*获取z速度*/
+			speed_z = chas->data.VelocitySet.z;
+			
+			/*获取z角度,根据z的目标速度的正负*/
+			switch((int)(speed_z/abs(speed_z)))
+			{
+				case  1:
+					angle_z = PI * table[3-i]/4;			
+					break;
+				
+				case -1:
+					angle_z = PI * table[i]/4;			
+					break;
+				
+				case  0:
+					angle_z = 0;			
+					break;		
+			}
+
+			/*获取合成速度*/
+			speed = speed_xy * speed_xy + speed_z * speed_z
+     			  + 2*speed_xy * speed_z * arm_cos_f32(angle_xy - angle_z);
+			
+			arm_sqrt_f32(speed, &velocity[i]);			
+						
+			/*获取xyz合成角度*/
+			arm_atan2_f32(speed_xy * arm_sin_f32(angle_xy) + speed_z * arm_sin_f32(angle_z),
+			              speed_xy * arm_cos_f32(angle_xy) + speed_z * arm_cos_f32(angle_z),
+			              &angle);
+			
+			chas->data.HelmSet[i] = RP_Limit(360.f*angle/PI,360);
+			
+			/*获取误差，两种误差，一种用于快速转向*/
+			err_real = RP_HalfTurn(chas->data.HelmSet[i] - chas->data.HelmReal[i],360);
+			err_image= RP_HalfTurn(err_real,180);
+			
+			/*-通过半圈判断函数后的误差比较，得出是否转换速度方向-*/
+			if(err_real != err_image){
+			
+				chas->data.WheelSet[i] = -velocity[i];
+			}
+			else{
+			
+				chas->data.WheelSet[i] = velocity[i];
+			}
+		}			
+	}
+  else if(chas->info.Type == CHAS_BALANCE){
 	
+	
+	
+	
+	}
+	
+	
+	/*最终速度赋值*/
 	for(char i = 0 ; i < 4 ; i++)
 	{
 		chas->data.WheelSet[i] = velocity[i]/100 * chas->data.WheelrpmMax;
-	}	
-	
-	
+	}
 }
 
 
 /**
   * 解算轮子的扭矩 功率控制
   */
-
 void Chassis_Ctrl(chassis *chas)
 {
   int16_t Chassis_CANBuff[4] = {0,0,0,0};
