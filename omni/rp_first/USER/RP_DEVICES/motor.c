@@ -209,6 +209,8 @@ float box_posit_out_pid_param[7] = {0.28,0,0,0,1000,10000,10000};
 float box_posit_inn_pid_param[7] = {5,0.3,0,0,500,500,10000};
 
 float yaw_imu_out_fuzzypid_param[18] = {30,0,0,0,0,15000,20000, 28,12,10,8,8, 8,4,4,3,2, 180};
+float yaw_mec_out_fuzzypid_param[18] = {0.2,0,0,0,0,15000,20000, 0.2,0.2,0.2,0.2,0.2, 0.2,0.2,0.2,0.2,0.2, 180};
+
 
 void RM_MotorInit(void)
 {

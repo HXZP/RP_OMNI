@@ -327,7 +327,8 @@ void Center_MoveModeInit(center *self,Center_MoveMode state)
 
 	if(state == MOVE_MASTER){
 		
-		motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_imu_out_pid_param);
+		motor[GIMB_Y].initFuzzyPid(&fuzzyPidYaw,yaw_imu_out_fuzzypid_param);	
+//		motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_imu_out_pid_param);
 		motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle_in,yaw_imu_inn_pid_param);	
 
 		motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_imu_out_pid_param);
@@ -339,7 +340,8 @@ void Center_MoveModeInit(center *self,Center_MoveMode state)
 	}
 	else if(state == MOVE_FOLLOW){
 
-		motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_mec_out_pid_param);
+		motor[GIMB_Y].initFuzzyPid(&fuzzyPidYaw,yaw_mec_out_fuzzypid_param);
+//		motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle,   yaw_mec_out_pid_param);
 		motor[GIMB_Y].pid_init(&motor[GIMB_Y].pid.angle_in,yaw_mec_inn_pid_param);	
 
 		motor[GIMB_P].pid_init(&motor[GIMB_P].pid.angle,   pit_mec_out_pid_param);
@@ -1204,46 +1206,6 @@ Center_State Center_Updata(center *self)
 Center_State Center_Ctrl(center *self)
 {
 
-//	uint16_t ledtime = 0;
-//	
-//	if(omni.info.MotorState == CHAS_ERR){
-//	
-//		ledtime++;
-//	}
-//	if(head.info.MotorState == GIMB_MOTOR_ERR){
-//	
-//		ledtime++;
-//	}
-//	if(gun.info.MotorState == RIFLE_MOTOR_ERR){
-//	
-//		ledtime++;
-//	}
-//	if(judge.info.state == JUDGE_OFFLINE){
-//	
-//		ledtime++;
-//	}
-//	if(vision.info.state == VISION_OFFLINE){
-//	
-//		ledtime++;
-//	}
-//	if(cap.info.state == CAP_OFFLINE){
-//	
-//		ledtime++;
-//	}
-//	
-//	self->info.ErrDevices = ledtime;
-//	
-//	
-//	
-//	if(ledtime == 0){
-//		
-//		led.running(50);
-//	}
-//	else{
-//		
-//		led.allShine(ledtime * 100);
-//	}
-
 /*-------------------------------------------*/	
 //	
 
@@ -1257,7 +1219,7 @@ Center_State Center_Ctrl(center *self)
 	omni.Resolving(&omni);
 	gun.Resolving(&gun);
 	
-	//姿态重分配
+//	//姿态重分配
 //	if(self->info.MoveMode == MOVE_MASTER){
 //		
 //		head.Translation(&head,

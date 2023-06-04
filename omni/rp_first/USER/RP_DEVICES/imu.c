@@ -438,8 +438,8 @@ void imu_spi_get_data(struct imu_struct *self)
 	uint8_t data[len + 1];
 	
 	BMI_CS_LOW();	
-	HAL_SPI_Transmit(&hspi2, &reg,  1, 1000);
-	HAL_SPI_Receive(&hspi2, data, len+1, 1000);
+	HAL_SPI_Transmit(&hspi2, &reg,  1, 1);
+	HAL_SPI_Receive(&hspi2, data, len+1, 1);
 	BMI_CS_HIG();
 	
 	for(uint8_t i=0;i<len+1;i++){

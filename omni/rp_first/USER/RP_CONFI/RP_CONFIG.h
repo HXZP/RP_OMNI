@@ -66,7 +66,7 @@ power为主控电源位置，按下图摆放找坐标系
 	#define IMU_PID_KP_CONTROL     0.1f
 	#define IMU_PID_KP_NORMAL     10.f
 	
-	#define IMU_POTOCAL_TYPE IMU_IIC
+	#define IMU_POTOCAL_TYPE IMU_SPI
 	
 #endif
 

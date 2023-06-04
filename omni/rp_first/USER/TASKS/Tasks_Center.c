@@ -23,11 +23,15 @@ extern IWDG_HandleTypeDef hiwdg;
 void StartMonitorTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
+	static uint32_t monitorCnt = 0;
+	
   /* Infinite loop */
   for(;;)
   {	
-		led.Shine(1,200);
+		monitorCnt++;
 		
+		led.Shine(1,(!(monitorCnt%100)));
+
 		rc.heart_beat(&rc);
 		
 		cap.heart_beat(&cap);		
@@ -43,14 +47,6 @@ void StartMonitorTask(void const * argument)
 		MASTER_HeartBeat();
 		
 #if (MASTER == 0)
-		
-	#if (RC_KEY_MONITOR == 1)		
-			
-			rc.key(&rc);
-
-	#endif		
-
-
 	
 	if(rc.data.tw_step[0] && rc.data.s1 == SW_UP){
 	
@@ -66,7 +62,7 @@ void StartMonitorTask(void const * argument)
 	
 
 #endif
-    osDelay(1);
+    osDelay(5);
   }
   /* USER CODE END 5 */
 }
@@ -82,17 +78,23 @@ void StartCommunityTask(void const * argument)
   for(;;)
   {
 
-		led.Shine(2,200);
-		
-		communityCnt++;
+  	communityCnt++;
 		
 		imu.updata(&imu);
+
+    led.Shine(2,(!(communityCnt%100)));		
 		
 		if(!(communityCnt%4)){
 		
 			MASTER_sendBuff();
 		}
 
+#if (RC_KEY_MONITOR == 1)		
+		
+		rc.key(&rc);
+
+#endif			
+		
 #if (MASTER == 1U)
 		
 		/*电容数据通信 5ms */
@@ -126,12 +128,13 @@ void StartCommunityTask(void const * argument)
 void StartControlTask(void const * argument)
 {
   /* USER CODE BEGIN StartControlTask */
-
+	static uint32_t controlCnt = 0;
   /* Infinite loop */
   for(;;)
   {
+    controlCnt++;
 
-		led.Shine(3,100);
+		led.Shine(3,(!(controlCnt%100)));		
 		
 		HAL_IWDG_Refresh(&hiwdg);
 		

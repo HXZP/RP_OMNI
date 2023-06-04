@@ -11,7 +11,7 @@ void Led_Breath(uint16_t time);
 
 void Led_Light(char num);
 void Led_DeLight(char num);
-void Led_Shine(char num,uint16_t time);
+void Led_Shine(char num,uint16_t sw);
 
 
 
@@ -71,14 +71,10 @@ void Led_DeLight(char num)
 }
 
 
-void Led_Shine(char num,uint16_t time)
+void Led_Shine(char num,uint16_t sw)
 {
-	static uint32_t shine_cnt = 0;
-	
-	shine_cnt++;
-
-	if(!(shine_cnt%time)){
-			
+	if(sw){
+		
 		switch(num){
 		
 			case 1:
@@ -91,7 +87,10 @@ void Led_Shine(char num,uint16_t time)
 				HAL_GPIO_TogglePin(GPIOC, LED3_Pin);
 				break;	
 		}
-  }
+	}
+	
+	
+
 }
 
 void Led_All_Shine(uint16_t time)

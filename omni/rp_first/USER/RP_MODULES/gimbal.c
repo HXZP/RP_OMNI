@@ -190,22 +190,22 @@ void Gimbal_Resolving(gimbal* gimb)
 											 gimb->data.Speed.Y,
 											 gimb->data.AngleSet.Y,1);
 	
-	gimb->data.Torque.Z = 
-	gimb->info.AssemblyVector.Z*
-	motor[GIMB_Y].c_pid2(&motor[GIMB_Y].pid.angle,
-											 &motor[GIMB_Y].pid.angle_in,
-											 gimb->data.Angle.Z,
-											 gimb->data.Speed.Z,
-											 gimb->data.AngleSet.Z,1);
-
 //	gimb->data.Torque.Z = 
 //	gimb->info.AssemblyVector.Z*
-//	motor[GIMB_Y].c_pidfuzzy(&fuzzyPidYaw,
-//													 &motor[GIMB_Y].pid.angle_in,
-//													 gimb->data.Angle.Z,
-//													 gimb->data.Speed.Z,
-//													 gimb->data.AngleSet.Z);
-//
+//	motor[GIMB_Y].c_pid2(&motor[GIMB_Y].pid.angle,
+//											 &motor[GIMB_Y].pid.angle_in,
+//											 gimb->data.Angle.Z,
+//											 gimb->data.Speed.Z,
+//											 gimb->data.AngleSet.Z,1);
+
+	gimb->data.Torque.Z = 
+	gimb->info.AssemblyVector.Z*
+	motor[GIMB_Y].c_pidfuzzy(&fuzzyPidYaw,
+													 &motor[GIMB_Y].pid.angle_in,
+													 gimb->data.Angle.Z,
+													 gimb->data.Speed.Z,
+													 gimb->data.AngleSet.Z);
+
 	gimb->data.Torque.Y = gimb->data.Torque.Y - 3000;
 
 }

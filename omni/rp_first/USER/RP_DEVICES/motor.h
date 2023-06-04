@@ -36,6 +36,10 @@ void RM_MotorControl_Test(void);
 
 extern motor_t motor[MOTOR_LIST];
 extern motor_pid_fuzzy fuzzyPidYaw;
+
+extern float yaw_imu_out_fuzzypid_param[18];
+extern float yaw_mec_out_fuzzypid_param[18];
+
 #endif
 
 

@@ -15,7 +15,7 @@ typedef struct led_struct {
 	
 	void (*Light)(char num);
 	void (*DeLight)(char num);	
-	void (*Shine)(char num,uint16_t time);
+	void (*Shine)(char num,uint16_t sw);
 
 	void (*running)(uint16_t time);
 

@@ -99,6 +99,8 @@ void RP_RotationOutput_Chassis2Gimb(float chasRoll,float chasPitch,float chasYaw
 		                                float *outRoll,float *outPitch,float *outYaw)
 {
     fun_quaternion_t motorQ,c2gQ;
+	  
+//	  float chasRoll,float chasPitch,float chasYaw
 	
     RP_EulerAngle_2_Quaternion(&motorQ.q0,&motorQ.q1,&motorQ.q2,&motorQ.q3,gimbRoll,gimbPitch,gimbYaw);
 
@@ -107,11 +109,12 @@ void RP_RotationOutput_Chassis2Gimb(float chasRoll,float chasPitch,float chasYaw
 		RP_QuaternionMartix_RightMult(motorQ.q0,
 																  motorQ.q1,
 																  motorQ.q2,
-																  motorQ.q3,	
+																  motorQ.q3,
 															 
 																 chasRoll, chasPitch, chasYaw,
 																 &chasRoll,&chasPitch,&chasYaw); 
-		//获取云台底盘相对四元数			  														 
+		//获取云台底盘相对四元数
+//	  chasYaw = 0;
 		RP_EulerAngle_2_Quaternion(&c2gQ.q0,
 															 &c2gQ.q1,
 															 &c2gQ.q2,
